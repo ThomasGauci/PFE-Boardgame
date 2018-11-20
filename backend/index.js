@@ -1,9 +1,19 @@
 const io = require('socket.io')();
 
 io.on('connection', (client) => {
-	client.emit('news', { hello: 'world' });
-    client.on('my other event', (data) => {
-        console.log(data);
+    client.on('newGame', (data) => {
+        console.log("Starting new game.");
+        //Create game
+        client.emit('newGame', 'OK');
+    });
+
+    client.on('newPlayer', (data) => {
+        if(/*GameStarted && GameHasVacantPlace*/true) {
+            console.log('Creating player');
+            //Create player
+            client.broadcast.emit('playerJoined', /*InfosDuJoueur*/data);
+            client.emit('newPlayer', 'OK');
+        }
     });
 });
 
