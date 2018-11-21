@@ -1,23 +1,25 @@
 import React, { Component } from 'react';
-import  QRCode from 'qrcode.react';
 import {Button, Col, Row, Modal} from "react-bootstrap";
 import {Maximize, Settings} from "react-feather";
+import openSocket from 'socket.io-client';
 
-import {ServerIp} from "../../ServerIp";
 import ServerConfigModal from "../../modals/ServerConfigModal";
 import './startScreen.css'
+import PlayerConnection from "../../components/playerConnection/playerConnection";
 
 class StartScreen extends Component {
 
-    static contextType = ServerIp;
-
     state={
         showConfigModal: false,
-        showFullScreenButton: true
+        showFullScreenButton: true,
+        connecting: false,
+        players: []
     }
     toggleConfigModal = this.toggleConfigModal.bind(this);
     toggleFullScreen = this.toggleFullScreen.bind(this);
     toggleFullScreenButton = this.toggleFullScreenButton.bind(this);
+    setupSockets = this.setupSockets.bind(this);
+    getPlayerOn = this.getPlayerOn.bind(this);
 
     constructor(){
         super();
@@ -29,11 +31,19 @@ class StartScreen extends Component {
         }
     }
 
+    componentDidMount(){
+        this.setupSockets(this.props.serverIp);
+    }
+
+    componentWillReceiveProps(nextProps){
+        this.setupSockets(nextProps.serverIp);
+    }
+
     render() {
         return (
             <div className='startScreen'>
                 {this.state.showConfigModal ?
-                    <ServerConfigModal serverIp={this.context}
+                    <ServerConfigModal serverIp={this.props.serverIp}
                                        validate={newValue => {
                                            this.toggleConfigModal();
                                            this.props.changeServerIp(newValue);
@@ -43,12 +53,32 @@ class StartScreen extends Component {
                 }
                 <div className='territoryBackground'>
                     <Row className='territoryRow'>
-                        <Col md={6} className='territory territory1'></Col>
-                        <Col md={6} className='territory territory2'></Col>
+                        <Col md={6} className='territory territory1 upsideDown'>
+                            <PlayerConnection
+                                position={1}
+                                player={this.getPlayerOn(1)}
+                                serverIp={this.props.serverIp}/>
+                        </Col>
+                        <Col md={6} className='territory territory2 upsideDown'>
+                            <PlayerConnection
+                                position={2}
+                                player={this.getPlayerOn(2)}
+                                serverIp={this.props.serverIp}/>
+                        </Col>
                     </Row>
                     <Row className='territoryRow'>
-                        <Col md={6} className='territory territory3'></Col>
-                        <Col md={6} className='territory territory4'></Col>
+                        <Col md={6} className='territory territory3'>
+                            <PlayerConnection
+                                position={3}
+                                player={this.getPlayerOn(3)}
+                                serverIp={this.props.serverIp}/>
+                        </Col>
+                        <Col md={6} className='territory territory4'>
+                            <PlayerConnection
+                                position={4}
+                                player={this.getPlayerOn(4)}
+                                serverIp={this.props.serverIp}/>
+                        </Col>
                     </Row>
                 </div>
                 <div className='startScreenContent'>
@@ -62,17 +92,13 @@ class StartScreen extends Component {
                         : null
                     }
                     <div>
-                        <Modal.Dialog className='qrCodeModal'>
-                            <span className='qrCodeInstruction upsideDown'>Scannez le QRCode pour vous connecter à la partie</span>
-                            <span>
-                                <QRCode className='qrCode'
-                                        value={this.context}
-                                        size={400}
-                                        bgColor='#0000'
-                                        fgColor='#000' />
-                            </span>
-                            <span className='qrCodeInstruction'>Scannez le QRCode pour vous connecter à la partie</span>
-                        </Modal.Dialog>
+                        {!this.state.connecting ?
+                            null :
+                            <Modal.Dialog className='qrCodeModal'>
+                                <span className='qrCodeInstruction upsideDown'>Connection au serveur en cours...</span>
+                                <span className='qrCodeInstruction'>Connection au serveur en cours...</span>
+                            </Modal.Dialog>
+                        }
                     </div>
                 </div>
             </div>
@@ -98,6 +124,34 @@ class StartScreen extends Component {
 
     toggleFullScreenButton(){
         this.setState({showFullScreenButton: !this.state.showFullScreenButton});
+    }
+
+    setupSockets(serverIp){
+        this.setState({connecting: true});
+        const socket = openSocket(serverIp, {transports: ['websocket', 'polling', 'flashsocket']});
+        socket.on('connect', () => {
+            this.setState({connecting: false});
+            socket.emit('newGame', response => {
+                if (response.error)
+                    console.error(response.error);
+                else
+                    console.log(response.data);
+            });
+            socket.on('playerJoined', data => {
+                console.log(data);
+                let players = this.state.players;
+                players.push(data);
+                this.setState({players: players});
+            });
+        });
+    }
+
+    getPlayerOn(position){
+        for(let player of this.state.players){
+            if(player.position === position)
+                return player;
+        }
+        return null;
     }
 }
 

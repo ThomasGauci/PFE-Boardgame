@@ -1,0 +1,13 @@
+.playerReady{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    color: white;
+    padding: 5px;
+}
+
+.connectionInstruction{
+    margin-bottom: 20px;
+}
