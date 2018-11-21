@@ -1,37 +1,28 @@
 import React, { Component } from 'react';
-import { getIPs } from './Ip-helper.js';
-import logo from './logo.svg';
 import './App.css';
-import  QRCode from 'qrcode.react';
+import StartScreen from "./screens/startScreen/startScreen";
+import {ServerIp} from "./ServerIp";
 
 class App extends Component {
-  render() {
 
-    getIPs((ip)=> document.getElementById("holder").innerHTML=ip);
-    return (
-        <div className="App">
-          <header className="App-header">
-            <img src={logo} className="App-logo" alt="logo" />
-            <p id="holder">
-            </p>
-            <a
-                className="App-link"
-                href="https://reactjs.org"
-                target="_blank"
-                rel="noopener noreferrer"
-            >
-              Learn React
-            </a>
-          </header>
-          <body>
-            <QRCode value="http://facebook.github.io/react/" />
-            <input id="text" type="text" value="http://jindo.dev.naver.com/collie" />
-            <div id="qrcode">
-            </div>
-          </body>
-        </div>
-    );
-  }
+    state={
+        serverIp: '192.168.1.6:3000'
+    }
+    changeServerIp = this.changeServerIp.bind(this);
+
+    render() {
+        return (
+            <ServerIp.Provider value={this.state.serverIp}>
+                <div className="App">
+                    <StartScreen changeServerIp={this.changeServerIp}/>
+                </div>
+            </ServerIp.Provider>
+        );
+    }
+
+    changeServerIp(newIp){
+        this.setState({serverIp: newIp});
+    }
 }
 
 export default App;
