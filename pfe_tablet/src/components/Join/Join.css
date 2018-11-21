@@ -1,0 +1,29 @@
+#imageIcon {
+    display: block;
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 25vh; /* poussé de la moitié de hauteur de viewport */
+    transform: translateY(-25%); /* tiré de la moitié de sa propre hauteur */
+}
+#inputPseudo {
+    display: flex;
+    flex-direction: column;
+    height: 100px;
+    position: absolute;
+    width: 100%;
+    bottom: 0;
+}
+#validateButton {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 90%;
+}
+#formControlPseudo {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 90%;
+    margin-bottom: 10px;
+}
