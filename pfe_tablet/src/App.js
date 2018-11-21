@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
-import Home from "./components/home/home";
+import Join from "./components/Join/Join";
 import QRView from "./components/qrView/qrView";
 import * as Icon from 'react-feather';
 import Modal from "react-bootstrap/es/Modal";
@@ -10,7 +10,7 @@ class App extends Component {
 
   //declared components
   components = {
-      Home : Home,
+      Join : Join,
       QRView: QRView
   };
 

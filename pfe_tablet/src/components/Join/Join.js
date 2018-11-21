@@ -1,9 +1,9 @@
 import React, {Component} from "react";
 import { Button, Modal, Image, FormControl } from 'react-bootstrap';
 import icon from "../../assets/icon.jpg";
-import "./home.css";
+import "./Join.css";
 
-class Home extends Component{
+class Join extends Component{
 
     constructor(){
         super();
@@ -71,4 +71,4 @@ class Home extends Component{
     }
 }
 
-export default Home;
+export default Join;

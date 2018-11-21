@@ -3,6 +3,7 @@ import {Button, Label} from 'react-bootstrap';
 import "./qrView.css";
 import QrReader from "react-qr-reader";
 import Modal from "react-bootstrap/es/Modal";
+import * as utils from "../../utils"
 
 class Home extends Component{
 
@@ -16,6 +17,7 @@ class Home extends Component{
 
     handleScan(data) {
         if (data) {
+            console.log(utils.getParty(data));
             this.props.changeData({data});
         }
     }
