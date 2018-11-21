@@ -1,14 +1,26 @@
 class Board {
     constructor(){
         this.players = [];
-        this.places = [1,2,3,4];
+        this.freePlaces = [1,2,3,4];
     }
 
     addPlayer(player){
-        let i = this.places.indexOf(player.position);
-        this.places.slice(i,1);
+        let i = this.freePlaces.indexOf(player.position);
+        this.freePlaces.slice(i,1);
         this.players.push(player);
     }
-}
 
-export { Board };
+    getTookPlaces(){
+        let tookPlaces = [];
+        let pos;
+        let n;
+        for (let i = 0; i < this.players.length; i++) {
+            pos = this.players[i].position;
+            n = this.players[i].name;
+            tookPlaces.push({"name":n.toString(),
+                "position":pos.toString()});
+        }
+        return tookPlaces;
+    }
+}
+module.exports = Board;
