@@ -14,23 +14,7 @@ class Home extends Component{
         }
     }
 
-    toggleFullScreen() {
-        var doc = window.document;
-        var docEl = doc.documentElement;
-        var requestFullScreen = docEl.requestFullscreen || docEl.mozRequestFullScreen || docEl.webkitRequestFullScreen || docEl.msRequestFullscreen;
-        var cancelFullScreen = doc.exitFullscreen || doc.mozCancelFullScreen || doc.webkitExitFullscreen || doc.msExitFullscreen;
-        if(!doc.fullscreenElement && !doc.mozFullScreenElement && !doc.webkitFullscreenElement && !doc.msFullscreenElement) {
-            requestFullScreen.call(docEl);
-        }
-        else {
-            cancelFullScreen.call(doc);
-        }
-        this.setState({showModal: false});
-    }
 
-    handleDismiss() {
-        this.setState({ showModal: false });
-    }
 
     handleDismissEmptyPseudo() {
         this.setState({ emptyPseudo: false });
@@ -43,6 +27,10 @@ class Home extends Component{
 
     handleValidate(){
         if(this.state.pseudo !== ""){
+            let data = {
+                pseudo: this.state.pseudo
+            };
+            this.props.changeData(data);
             this.props.changeComponent("QRView");
         }
         else {
@@ -55,16 +43,6 @@ class Home extends Component{
     render(){
         return (
             <div>
-                {this.state.showModal ?
-                    <Modal.Dialog>
-                        <Modal.Body>Pour plus de confort nous vous conseillons de passer en plein écran</Modal.Body>
-                        <Modal.Footer>
-                            <Button onClick={this.toggleFullScreen.bind(this)}>Accepter</Button>
-                            <Button bsStyle="primary" onClick={this.handleDismiss.bind(this)}>Refuser</Button>
-                        </Modal.Footer>
-                    </Modal.Dialog>
-                    : null
-                }
                 {
                     this.state.emptyPseudo ?
                      <Modal.Dialog>
