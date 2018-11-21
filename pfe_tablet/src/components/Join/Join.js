@@ -1,6 +1,5 @@
 import React, {Component} from "react";
-import { Button, Modal, Image, FormControl } from 'react-bootstrap';
-import icon from "../../assets/icon.jpg";
+import { Button, Modal, FormControl } from 'react-bootstrap';
 import "./Join.css";
 
 class Join extends Component{
@@ -10,11 +9,27 @@ class Join extends Component{
         this.state = {
             showModal: false,
             pseudo: "",
-            emptyPseudo: false
-        }
+            emptyPseudo: false,
+            data: {
+                ip: "",
+                position: 8
+            }
+        };
+        this.intToColor = this.intToColor.bind(this);
     }
 
-
+    componentDidMount(){
+        let ipAdress = this.props.data.ipAdress;
+        let ip = ipAdress.split(";")[0];
+        let position = parseInt(ipAdress.split(";")[1]);
+        let data = {
+            position: position,
+            ip: ip
+        };
+        this.setState({
+            data: data
+        });
+    }
 
     handleDismissEmptyPseudo() {
         this.setState({ emptyPseudo: false });
@@ -25,13 +40,26 @@ class Join extends Component{
         this.setState({pseudo: e.target.value});
     }
 
+    intToColor(){
+        switch (this.state.data.position) {
+            case 1:
+                return "dodgerblue";
+            case 2:
+                return "forestgreen";
+            case 3:
+                return "indianred";
+            case 4:
+                return "orange";
+            default:
+                return "white"
+        }
+    }
+
     handleValidate(){
         if(this.state.pseudo !== ""){
-            let data = {
-                pseudo: this.state.pseudo
-            };
-            this.props.changeData(data);
-            this.props.changeComponent("QRView");
+            var io = require('socket.io-client');
+            const socket = io.connect(this.state.data.ip, { transports: ['websocket'], rejectUnauthorized: false });
+            socket.emit('newPlayer',{name: this.state.pseudo, position: this.state.data.position});
         }
         else {
             this.setState({
@@ -41,6 +69,9 @@ class Join extends Component{
     }
 
     render(){
+        var divStyle = {
+            background: this.intToColor()
+        };
         return (
             <div>
                 {
@@ -53,19 +84,16 @@ class Join extends Component{
                      </Modal.Dialog>
                         : null
                 }
-                <div id="container">
-                   <Image id="imageIcon" responsive rounded src={icon}/>
-                   <div id="inputPseudo">
-                     <FormControl
-                         id="formControlPseudo"
-                         type="text"
-                         placeholder="Entrez votre pseudo"
-                         value={this.state.pseudo}
-                         onChange={this.handleChange.bind(this)}
-                     />
-                       <Button onClick={this.handleValidate.bind(this)} id="validateButton">Valider</Button>
-                   </div>
-                </div>
+                    <div id="inputPseudo" style={divStyle}>
+                        <FormControl
+                            id="formControlPseudo"
+                            type="text"
+                            placeholder="Entrez votre pseudo"
+                            value={this.state.pseudo}
+                            onChange={this.handleChange.bind(this)}
+                        />
+                        <Button onClick={this.handleValidate.bind(this)} id="validateButton">Valider</Button>
+                    </div>
             </div>
         );
     }

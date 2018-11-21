@@ -9,7 +9,7 @@
 #inputPseudo {
     display: flex;
     flex-direction: column;
-    height: 100px;
+    height: 100%;
     position: absolute;
     width: 100%;
     bottom: 0;
@@ -18,12 +18,13 @@
     display: block;
     margin-left: auto;
     margin-right: auto;
-    width: 90%;
+    width: 30%;
 }
 #formControlPseudo {
     display: block;
     margin-left: auto;
     margin-right: auto;
-    width: 90%;
+    margin-top: 45vh;
+    width: 30%;
     margin-bottom: 10px;
 }

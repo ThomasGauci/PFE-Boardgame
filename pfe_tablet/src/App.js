@@ -82,7 +82,7 @@ class App extends Component {
   render() {
     let ComponentName = this.components[this.state.componentName];
     return (
-       <div>
+       <div id="mainDiv">
            {this.state.showModal ?
                <Modal.Dialog>
                    <Modal.Body>Pour plus de confort nous vous conseillons de passer en plein écran</Modal.Body>
@@ -95,8 +95,8 @@ class App extends Component {
            }
            {
                (!window.document.fullscreenElement && !window.document.mozFullScreenElement && !window.document.webkitFullscreenElement && !window.document.msFullscreenElement) ?
-               <Icon.Maximize2 id="maximize" onClick={this.toggleFullScreen.bind(this)}/>
-               :null
+                   <Icon.Maximize2 id="maximize" onClick={this.toggleFullScreen.bind(this)}/>
+                   :null
            }
            <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossOrigin="anonymous"/>
            <ComponentName data={this.state.data} changeData={this.changeData.bind(this)} changeComponent={this.changeComponent.bind(this)}/>

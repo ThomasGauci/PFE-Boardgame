@@ -1,9 +1,8 @@
-import openSocket from 'socket.io-client';
-
 export function getParty(ipAdress) {
-    console.log(ipAdress);
-    const socket = openSocket(ipAdress, {transports: ['websocket', 'polling', 'flashsocket']});
-    return socket.emit('getPositions', "", function (data) {
+    var io = require('socket.io-client');
+    const socket = io.connect(ipAdress, { transports: ['websocket'], rejectUnauthorized: false });
+    socket.emit('getPositions', "");
+    socket.on("getPositions",(data) => {
         return data;
-    });
+    })
 }
