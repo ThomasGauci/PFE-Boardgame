@@ -13,9 +13,21 @@
     top: 0;
     bottom: 0;
     margin: auto;
-    width: 50px;
-    height: 50px;
+    width: 60px;
+    height: 60px;
     z-index: 9999999;
+    color: #fff;
+    background: #979797;
+    text-decoration: none;
+    transition: all 0.4s;
+    line-height: normal;
+    border: 5px solid black!important;
+    border-radius: 30px!important;
+    padding: 0!important;
+}
+
+.configButton *{
+    margin-top: -3px;
 }
 
 .fullScreenButton{
@@ -62,10 +74,39 @@
     background: orange;
 }
 
-.qrCodeModal{
+.errorModal{
     position: relative!important;
 }
 
-.qrCodeInstruction{
+.errorText{
     font-size: 25pt;
+}
+
+.errorBody{
+    background: #e85e6c;
+    height: 150px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.errorContent{
+    display: flex;
+    flex-direction: column;
+    align-items: center!important;
+    border-bottom: 0!important;
+}
+
+.errorButton {
+    color: #fff;
+    background: #eeb711;
+    text-decoration: none;
+    transition: all 0.4s;
+    line-height: normal;
+    border-radius: 30px!important;
+    margin-top: 10px;
+    padding: 6px 20px;
+    min-width: 150px;
+    border: none;
 }

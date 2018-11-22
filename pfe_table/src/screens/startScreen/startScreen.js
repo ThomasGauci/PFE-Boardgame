@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {Button, Col, Row, Modal} from "react-bootstrap";
-import {Maximize, Settings} from "react-feather";
+import {Check, Maximize, Settings, XCircle} from "react-feather";
 import openSocket from 'socket.io-client';
 
 import ServerConfigModal from "../../modals/ServerConfigModal";
@@ -12,7 +12,7 @@ class StartScreen extends Component {
     state={
         showConfigModal: false,
         showFullScreenButton: true,
-        connecting: false,
+        connectionError: false,
         players: []
     }
     toggleConfigModal = this.toggleConfigModal.bind(this);
@@ -82,9 +82,6 @@ class StartScreen extends Component {
                     </Row>
                 </div>
                 <div className='startScreenContent'>
-                    <Button className='configButton' onClick={this.toggleConfigModal}>
-                        <Settings/>
-                    </Button>
                     {this.state.showFullScreenButton ?
                         <Button className='fullScreenButton' onClick={this.toggleFullScreen}>
                             <Maximize/>
@@ -92,12 +89,24 @@ class StartScreen extends Component {
                         : null
                     }
                     <div>
-                        {!this.state.connecting ?
-                            null :
-                            <Modal.Dialog className='qrCodeModal'>
-                                <span className='qrCodeInstruction upsideDown'>Connection au serveur en cours...</span>
-                                <span className='qrCodeInstruction'>Connection au serveur en cours...</span>
+                        {this.state.connectionError ?
+                            <Modal.Dialog className='errorModal'>
+                                <Modal.Header className='errorContent upsideDown'>
+                                    <span className='errorText'>Connection au serveur impossible</span>
+                                    <Button className='errorButton' onClick={this.toggleConfigModal}>Changer l'adresse du serveur</Button>
+                                </Modal.Header>
+                                <Modal.Body className='errorBody'>
+                                    <XCircle size={100} color={'white'}/>
+                                </Modal.Body>
+                                <Modal.Footer className='errorContent'>
+                                    <span className='errorText'>Connection au serveur impossible</span>
+                                    <Button className='errorButton' onClick={this.toggleConfigModal}>Changer l'adresse du serveur</Button>
+                                </Modal.Footer>
                             </Modal.Dialog>
+                            :
+                            <Button className='configButton' onClick={this.toggleConfigModal}>
+                                <Settings/>
+                            </Button>
                         }
                     </div>
                 </div>
@@ -127,10 +136,9 @@ class StartScreen extends Component {
     }
 
     setupSockets(serverIp){
-        this.setState({connecting: true});
+        this.setState({connectionError: false});
         const socket = openSocket(serverIp, {transports: ['websocket', 'polling', 'flashsocket']});
         socket.on('connect', () => {
-            this.setState({connecting: false});
             socket.emit('newGame', response => {
                 if (response.error)
                     console.error(response.error);
@@ -144,6 +152,9 @@ class StartScreen extends Component {
                 this.setState({players: players});
             });
         });
+        socket.on('connect_error', () => {
+            this.setState({connectionError: true});
+        })
     }
 
     getPlayerOn(position){
