@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import {Button, Col, Row, Modal} from "react-bootstrap";
-import {Check, Maximize, Settings, XCircle} from "react-feather";
-import openSocket from 'socket.io-client';
+import {Maximize, Settings, XCircle} from "react-feather";
 
 import ServerConfigModal from "../../modals/ServerConfigModal";
 import './startScreen.css'
@@ -11,14 +10,12 @@ class StartScreen extends Component {
 
     state={
         showConfigModal: false,
-        showFullScreenButton: true,
-        connectionError: false,
-        players: []
+        showFullScreenButton: true
     }
     toggleConfigModal = this.toggleConfigModal.bind(this);
     toggleFullScreen = this.toggleFullScreen.bind(this);
     toggleFullScreenButton = this.toggleFullScreenButton.bind(this);
-    setupSockets = this.setupSockets.bind(this);
+    setupSocketBehaviour = this.setupSocketBehaviour.bind(this);
     getPlayerOn = this.getPlayerOn.bind(this);
 
     constructor(){
@@ -32,11 +29,11 @@ class StartScreen extends Component {
     }
 
     componentDidMount(){
-        this.setupSockets(this.props.serverIp);
+        this.setupSocketBehaviour(this.props.socket);
     }
 
-    componentWillReceiveProps(nextProps){
-        this.setupSockets(nextProps.serverIp);
+    componentWillReceiveProps(newProps){
+        this.setupSocketBehaviour(newProps.socket);
     }
 
     render() {
@@ -89,7 +86,7 @@ class StartScreen extends Component {
                         : null
                     }
                     <div>
-                        {this.state.connectionError ?
+                        {this.props.connectionError ?
                             <Modal.Dialog className='errorModal'>
                                 <Modal.Header className='errorContent upsideDown'>
                                     <span className='errorText'>Connection au serveur impossible</span>
@@ -135,10 +132,8 @@ class StartScreen extends Component {
         this.setState({showFullScreenButton: !this.state.showFullScreenButton});
     }
 
-    setupSockets(serverIp){
-        this.setState({connectionError: false});
-        const socket = openSocket(serverIp, {transports: ['websocket', 'polling', 'flashsocket']});
-        socket.on('connect', () => {
+    setupSocketBehaviour(socket){
+        if(socket) {
             socket.emit('newGame', response => {
                 if (response.error)
                     console.error(response.error);
@@ -147,18 +142,15 @@ class StartScreen extends Component {
             });
             socket.on('playerJoined', data => {
                 console.log(data);
-                let players = this.state.players;
+                let players = this.props.players;
                 players.push(data);
-                this.setState({players: players});
+                this.props.setPlayers(players);
             });
-        });
-        socket.on('connect_error', () => {
-            this.setState({connectionError: true});
-        })
+        }
     }
 
     getPlayerOn(position){
-        for(let player of this.state.players){
+        for(let player of this.props.players){
             if(player.position === position)
                 return player;
         }
