@@ -1,0 +1,17 @@
+#container {
+    height: 100%;
+    position: absolute;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+#clockIcon {
+    color: white;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+    margin-top: 5%;
+}
+#waitLabel {
+    font-size: 20px;
+}

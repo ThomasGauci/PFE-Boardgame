@@ -3,7 +3,6 @@ import {Button, Label} from 'react-bootstrap';
 import "./qrView.css";
 import QrReader from "react-qr-reader";
 import Modal from "react-bootstrap/es/Modal";
-import * as utils from "../../utils"
 
 class Home extends Component{
 
@@ -13,12 +12,14 @@ class Home extends Component{
             delay: 300
         };
         this.handleScan = this.handleScan.bind(this);
+        this.props.changeData({ipAdress: "192.168.1.8:8000;1"});
+        this.props.changeComponent("Join");
     }
 
     handleScan(data) {
         if (data) {
-            console.log(utils.getParty(data));
-            this.props.changeData({data});
+            this.props.changeData({ipAdress: data});
+            this.props.changeComponent("Join");
         }
     }
 
@@ -40,13 +41,6 @@ class Home extends Component{
                     : null
                 }
                 <Label id="label">Bienvenue scannez le QRCode affiché sur la table pour rejoindre la partie</Label>
-                <div id="QRDiv">
-                    <QrReader
-                        delay={this.state.delay}
-                        onError={this.handleError}
-                        onScan={this.handleScan}
-                    />
-                </div>
             </div>
         );
     }

@@ -8,5 +8,4 @@ class Player {
         this.wardPoint = 0;
     }
 }
-
-export { Player };
+module.exports = Player;

@@ -1,43 +1,53 @@
-import {Player} from 'model/player';
+const Player = require('./model/player');
+const Board = require('./model/board');
+//const io = require('socket.io')();
 
-let board;
+let fs = require( 'fs' );
+let app = require('express')();
+let https = require('https');
+let server = https.createServer({
+    key: fs.readFileSync('./key.pem', 'utf8'),
+    cert: fs.readFileSync('./server.crt', 'utf8'),
+    requestCert: false,
+    rejectUnauthorized: false
+},app);
+server.listen(8000);
+let io = require('socket.io').listen(server);
+
+let board = new Board();
+board.addPlayer(new Player("jean",3));
+
 let numConnection;
-const io = require('socket.io')();
 
 io.on('connection', (client) => {
-    client.on('newGame', (data) => {
+    client.on('newGame', (callback) => {
         console.log("Starting new game.");
         //Create game
-        board = new board();
+        board = new Board();
         numConnection = 0;
-        client.emit('newGame', 'OK');
+        callback({"data":"OK"});
     });
 
-    client.on('getPositions', () => {
-        console.log("on client want free positions");
-        client.emit('getPositions', board.places);
+    client.on('getPositions', (callback) => {
+        console.log("on client want took positions");
+        console.log(board.getTookPlaces());
+        callback({"data":board.getTookPlaces()});
     });
 
     client.on('newPlayer', (data) => {
+        console.log(data);
+        console.log(data.name);
+        console.log(data.position);
         if(numConnection < 4) {
             console.log('Creating player');
-            //Create player
-            let position;
-            if(board.places.includes(data.position)){
-                position = data.position;
-            }else{
-                position = board.places[0];
-            }
-            let player = new Player(data.name,position);
-            board.add(player);
+            let player = new Player(data.name,data.position);
+            board.addPlayer(player);
             numConnection++;
 
-            client.broadcast.emit('playerJoined', /*InfosDuJoueur*/data);
+            client.broadcast.emit('playerJoined', data);
             client.emit('newPlayer', 'OK');
+        }else{
+            client.emit('newPlayer', 'Rejected');
         }
     });
 });
-
-const port = 8000;
-io.listen(port);
-console.log('listening on port ', port);

@@ -1,17 +1,21 @@
 import React, { Component } from 'react';
 import './App.css';
-import Join from "./components/Join/Join";
-import QRView from "./components/qrView/qrView";
+import Join from "./components/Join/join";
+import QRView from "./components/QRView/qrView";
 import * as Icon from 'react-feather';
 import Modal from "react-bootstrap/es/Modal";
 import {Button} from "react-bootstrap";
+import WaitScreen from "./components/WaitScreen/waitScreen";
+import HandView from "./components/HandView/handView"
 
 class App extends Component {
 
   //declared components
   components = {
       Join : Join,
-      QRView: QRView
+      QRView: QRView,
+      WaitScreen: WaitScreen,
+      HandView: HandView
   };
 
   constructor(){
@@ -95,8 +99,8 @@ class App extends Component {
            }
            {
                (!window.document.fullscreenElement && !window.document.mozFullScreenElement && !window.document.webkitFullscreenElement && !window.document.msFullscreenElement) ?
-               <Icon.Maximize2 id="maximize" onClick={this.toggleFullScreen.bind(this)}/>
-               :null
+                   <Icon.Maximize2 id="maximize" onClick={this.toggleFullScreen.bind(this)}/>
+                   :null
            }
            <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossOrigin="anonymous"/>
            <ComponentName data={this.state.data} changeData={this.changeData.bind(this)} changeComponent={this.changeComponent.bind(this)}/>
