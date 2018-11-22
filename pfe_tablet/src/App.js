@@ -1,17 +1,21 @@
 import React, { Component } from 'react';
 import './App.css';
-import Join from "./components/Join/Join";
-import QRView from "./components/qrView/qrView";
+import Join from "./components/Join/join";
+import QRView from "./components/QRView/qrView";
 import * as Icon from 'react-feather';
 import Modal from "react-bootstrap/es/Modal";
 import {Button} from "react-bootstrap";
+import WaitScreen from "./components/WaitScreen/waitScreen";
+import HandView from "./components/HandView/handView"
 
 class App extends Component {
 
   //declared components
   components = {
       Join : Join,
-      QRView: QRView
+      QRView: QRView,
+      WaitScreen: WaitScreen,
+      HandView: HandView
   };
 
   constructor(){
@@ -82,7 +86,7 @@ class App extends Component {
   render() {
     let ComponentName = this.components[this.state.componentName];
     return (
-       <div id="mainDiv">
+       <div>
            {this.state.showModal ?
                <Modal.Dialog>
                    <Modal.Body>Pour plus de confort nous vous conseillons de passer en plein écran</Modal.Body>
