@@ -11,11 +11,11 @@ class PlayerZone extends Component {
             return (
                 <div className='playerZone'>
                     <h1 className='playerName'>{this.props.player.name}</h1>
-                    <div className='playerMoney'>
+                    <div className='playerMoney shadow'>
                         <div>{this.props.player.money}</div>
                     </div>
                     <div className='playerBoard'>
-                        <img src={require(`../../assets/boards/${this.props.player.city}A.jpg`)}/>
+                        <img className='boardImage shadow' src={require(`../../assets/boards/${this.props.player.city}A.jpg`)}/>
                     </div>
                     <div className='playedCards'>
                         <p>Cartes jouées :</p>
@@ -23,7 +23,7 @@ class PlayerZone extends Component {
                             <div>
                                 {this.props.player.playedCards.map(card => {
                                     return (
-                                        <img src={this.getCardImage(card)}/>
+                                        <img className='shadow' src={this.getCardImage(card)}/>
                                     );
                                 })}
                             </div>
@@ -36,14 +36,14 @@ class PlayerZone extends Component {
     }
 
     getCardImage(card){
-        const cardType = card.charAt(0);
-        const cardAge = card.charAt(1);
+        const cardType = card.id.charAt(0);
+        const cardAge = card.id.charAt(1);
         if (cardType === 'A'){
             return require(`../../assets/cards/${cardType}${cardAge}.jpg`);
         } else if(cardType === 'E' || cardType === 'G'){
             return require(`../../assets/cards/${cardType}.jpg`);
         } else
-            return require(`../../assets/cards/${card}_min.jpg`);
+            return require(`../../assets/cards/${card.id}_min.jpg`);
 
     }
 }
