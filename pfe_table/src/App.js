@@ -69,7 +69,7 @@ class App extends Component {
             });
             socket.on('endTurn', data => {
                 console.log("endTurn", data);
-                this.setState({players: data.gameState.players});
+                this.setState({players: data.gameState.players, latestActions: data.latestActions});
             });
             this.setState({socket: socket, connectionError: false});
         });

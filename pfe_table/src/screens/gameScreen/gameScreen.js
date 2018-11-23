@@ -1,29 +1,16 @@
 import React, { Component } from 'react';
-import {Button, Col, Row} from "react-bootstrap";
+import {Col, Row, Modal} from "react-bootstrap";
 
-import {Maximize} from "react-feather";
 import PlayerZone from "../../components/playerZone/playerZone";
+import './gameScreen.css';
 
 class GameScreen extends Component {
 
     state={
-        showFullScreenButton: true,
         currentAction: null
     }
-    toggleFullScreen = this.toggleFullScreen.bind(this);
-    toggleFullScreenButton = this.toggleFullScreenButton.bind(this);
     getPlayerOn = this.getPlayerOn.bind(this);
     sleep = this.sleep.bind(this);
-
-    constructor(){
-        super();
-        if (document.addEventListener) {
-            document.addEventListener('webkitfullscreenchange', this.toggleFullScreenButton, false);
-            document.addEventListener('mozfullscreenchange', this.toggleFullScreenButton, false);
-            document.addEventListener('fullscreenchange', this.toggleFullScreenButton, false);
-            document.addEventListener('MSFullscreenChange', this.toggleFullScreenButton, false);
-        }
-    }
 
     async componentWillReceiveProps(nextProps) {
         if(nextProps.latestActions) {
@@ -38,13 +25,7 @@ class GameScreen extends Component {
 
     render() {
         return (
-            <div className='startScreen'>
-                {this.state.showFullScreenButton ?
-                    <Button className='fullScreenButton' onClick={this.toggleFullScreen}>
-                        <Maximize/>
-                    </Button>
-                    : null
-                }
+            <div className='gameScreen'>
                 <div className='territoryBackground'>
                     <Row className='territoryRow'>
                         <Col md={6} className='territory territory1 upsideDown'>
@@ -75,9 +56,18 @@ class GameScreen extends Component {
                         </Col>
                     </Row>
                 </div>
-                <div style={{zIndex: 9999999, background: 'white'}}>
-                    {this.state.currentAction ? `${this.state.currentAction.player} ${this.state.currentAction.action} ${this.state.currentAction.card}` : null}
-                </div>
+                { this.state.currentAction ?
+                    <div>
+                        <Modal.Dialog className='actionModal'>
+                            <h1 className='actionText upsideDown'>{`${this.state.currentAction.player} a ${this.getActionLabel(this.state.currentAction.action)}`}</h1>
+                            <div>
+                                <img src={this.getActionImage(this.state.currentAction.action, this.state.currentAction.cardId)}/>
+                            </div>
+                            <h1 className='actionText'>{`${this.state.currentAction.player} a ${this.getActionLabel(this.state.currentAction.action)}`}</h1>
+                        </Modal.Dialog>
+                    </div>
+                    : null
+                }
             </div>
         );
     }
@@ -86,29 +76,34 @@ class GameScreen extends Component {
         return new Promise((resolve) => setTimeout(resolve, time));
     }
 
-    toggleFullScreen() {
-        var doc = window.document;
-        var docEl = doc.documentElement;
-        var requestFullScreen = docEl.requestFullscreen || docEl.mozRequestFullScreen || docEl.webkitRequestFullScreen || docEl.msRequestFullscreen;
-        var cancelFullScreen = doc.exitFullscreen || doc.mozCancelFullScreen || doc.webkitExitFullscreen || doc.msExitFullscreen;
-        if(!doc.fullscreenElement && !doc.mozFullScreenElement && !doc.webkitFullscreenElement && !doc.msFullscreenElement) {
-            requestFullScreen.call(docEl);
-        }
-        else {
-            cancelFullScreen.call(doc);
-        }
-    }
-
-    toggleFullScreenButton(){
-        this.setState({showFullScreenButton: !this.state.showFullScreenButton});
-    }
-
     getPlayerOn(position){
         for(let player of this.props.players){
             if(player.position === position)
                 return player;
         }
         return null;
+    }
+
+    getActionLabel(action){
+        switch (action) {
+            case 'building':
+                return 'construit';
+            case 'wonderStep':
+                return 'amélioré sa merveille';
+            case 'discarding':
+                return 'vendu une carte';
+            default:
+                return "utilisé une technique secrète qui n'est pas sensé exister";
+        }
+    }
+
+    getActionImage(action, cardId){
+        if(action === 'building')
+            return require(`../../assets/cards/${this.state.currentAction.cardId}.jpg`);
+        else{
+            const age = cardId.charAt(1);
+            return require(`../../assets/cards/back${age}.jpg`);
+        }
     }
 }
 

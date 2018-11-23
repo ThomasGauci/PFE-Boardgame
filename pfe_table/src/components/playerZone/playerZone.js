@@ -18,7 +18,7 @@ class PlayerZone extends Component {
                         <img src={require(`../../assets/boards/${this.props.player.city}A.jpg`)}/>
                     </div>
                     <div className='playedCards'>
-                        <p>Cartes jouées:</p>
+                        <p>Cartes jouées :</p>
                         {this.props.player.playedCards ?
                             <div>
                                 {this.props.player.playedCards.map(card => {

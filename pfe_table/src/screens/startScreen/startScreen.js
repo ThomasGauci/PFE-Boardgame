@@ -80,14 +80,14 @@ class StartScreen extends Component {
                         {this.props.connectionError ?
                             <Modal.Dialog className='errorModal'>
                                 <Modal.Header className='errorContent upsideDown'>
-                                    <span className='errorText'>Connection au serveur impossible</span>
+                                    <span className='errorText'>Connexion au serveur impossible</span>
                                     <Button className='errorButton' onClick={this.toggleConfigModal}>Changer l'adresse du serveur</Button>
                                 </Modal.Header>
                                 <Modal.Body className='errorBody'>
                                     <XCircle size={100} color={'white'}/>
                                 </Modal.Body>
                                 <Modal.Footer className='errorContent'>
-                                    <span className='errorText'>Connection au serveur impossible</span>
+                                    <span className='errorText'>Connexion au serveur impossible</span>
                                     <Button className='errorButton' onClick={this.toggleConfigModal}>Changer l'adresse du serveur</Button>
                                 </Modal.Footer>
                             </Modal.Dialog>

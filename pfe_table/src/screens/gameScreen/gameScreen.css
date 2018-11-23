@@ -1,0 +1,16 @@
+.gameScreen{
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background: black;
+}
+
+.actionModal{
+    position: relative!important;
+}
+
+.actionText{
+    margin-top: 8px;
+    margin-bottom: 8px;
+}
