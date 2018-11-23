@@ -25,9 +25,9 @@ let fsm = new StateMachine({
             board.distributeCities(selectedCities);
             let data = [];
             for(let i = 0; i<4;i++){
-                data.push({"name":board.players[i].name, "city":board.players[i].city.id, "position":board.players[i].position});
+                data.push(board.players[i].getState());
             }
-            console.log(data);
+            //console.log(data);
             client.broadcast.emit('gameStart', data);
         },
         onStartAge: function(lifecycle,client,board){
@@ -46,18 +46,17 @@ let fsm = new StateMachine({
                 };
                 //console.log(data);
                 board.players[i].socket.emit('newTurn',data);
-                console.log(board.players[i].socket);
             }
         },
         onEndTurn: function (lifecycle,table,board) {
             console.log("End turn");
             let latestActions = [];
             for(let i = 0; i<4;i++){
-                latestActions.push(board.players.actions[board.players.actions.length - 1].getData());
+                latestActions.push(board.players[i].actions[board.players[i].actions.length - 1]);
             }
             let players = [];
             for(let i = 0; i<4;i++){
-                players.push(board.players.getState());
+                players.push(board.players[i].getState());
             }
             let data= {
                 "latestActions":latestActions,

@@ -21,11 +21,15 @@ class Player {
     }
 
     addCard(card){
-
+        this.cards.push(card);
     }
 
-    addAction(action){
-        this.actions.push(action);
+    findCardFromId(id){
+        for(let i =0;i < this.hand.length; i++){
+            if(this.hand[i].id === id)
+                return this.hand[i];
+        }
+        return -1;
     }
 
     getCardsId(){
@@ -42,6 +46,8 @@ class Player {
             "position": this.position,
             "money": this.gold,
             "warPoints": this.wardPoint,
+            "city": this.city.id,
+            "army": this.army,
             "playedCards": this.cards
         };
     }
