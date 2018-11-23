@@ -1,21 +1,18 @@
 import React, { Component } from 'react';
-import {Button, Col, Row, Modal} from "react-bootstrap";
-import {Maximize, Settings, XCircle} from "react-feather";
+import {Button, Col, Row} from "react-bootstrap";
 
-import ServerConfigModal from "../../modals/ServerConfigModal";
-import './startScreen.css'
-import PlayerConnection from "../../components/playerConnection/playerConnection";
+import {Maximize} from "react-feather";
+import PlayerZone from "../../components/playerZone/playerZone";
 
-class StartScreen extends Component {
+class GameScreen extends Component {
 
     state={
-        showConfigModal: false,
-        showFullScreenButton: true
+        currentAction: null
     }
-    toggleConfigModal = this.toggleConfigModal.bind(this);
     toggleFullScreen = this.toggleFullScreen.bind(this);
     toggleFullScreenButton = this.toggleFullScreenButton.bind(this);
     getPlayerOn = this.getPlayerOn.bind(this);
+    sleep = this.sleep.bind(this);
 
     constructor(){
         super();
@@ -27,28 +24,34 @@ class StartScreen extends Component {
         }
     }
 
+    async componentWillReceiveProps(nextProps) {
+        for (let action of nextProps.latestActions) {
+            this.setState({currentAction: action});
+            await this.sleep(3000);
+        }
+        this.setState({currentAction: null});
+        this.props.socket.emit('readyTurn', '');
+    }
+
     render() {
         return (
             <div className='startScreen'>
-                {this.state.showConfigModal ?
-                    <ServerConfigModal serverIp={this.props.serverIp}
-                                       validate={newValue => {
-                                           this.toggleConfigModal();
-                                           this.props.changeServerIp(newValue);
-                                       }}
-                                       close={this.toggleConfigModal}/>
+                {this.state.showFullScreenButton ?
+                    <Button className='fullScreenButton' onClick={this.toggleFullScreen}>
+                        <Maximize/>
+                    </Button>
                     : null
                 }
                 <div className='territoryBackground'>
                     <Row className='territoryRow'>
                         <Col md={6} className='territory territory1 upsideDown'>
-                            <PlayerConnection
+                            <PlayerZone
                                 position={1}
                                 player={this.getPlayerOn(1)}
                                 serverIp={this.props.serverIp}/>
                         </Col>
                         <Col md={6} className='territory territory2 upsideDown'>
-                            <PlayerConnection
+                            <PlayerZone
                                 position={2}
                                 player={this.getPlayerOn(2)}
                                 serverIp={this.props.serverIp}/>
@@ -56,54 +59,28 @@ class StartScreen extends Component {
                     </Row>
                     <Row className='territoryRow'>
                         <Col md={6} className='territory territory3'>
-                            <PlayerConnection
+                            <PlayerZone
                                 position={3}
                                 player={this.getPlayerOn(3)}
                                 serverIp={this.props.serverIp}/>
                         </Col>
                         <Col md={6} className='territory territory4'>
-                            <PlayerConnection
+                            <PlayerZone
                                 position={4}
                                 player={this.getPlayerOn(4)}
                                 serverIp={this.props.serverIp}/>
                         </Col>
                     </Row>
                 </div>
-                <div className='startScreenContent'>
-                    {this.state.showFullScreenButton ?
-                        <Button className='fullScreenButton' onClick={this.toggleFullScreen}>
-                            <Maximize/>
-                        </Button>
-                        : null
-                    }
-                    <div>
-                        {this.props.connectionError ?
-                            <Modal.Dialog className='errorModal'>
-                                <Modal.Header className='errorContent upsideDown'>
-                                    <span className='errorText'>Connection au serveur impossible</span>
-                                    <Button className='errorButton' onClick={this.toggleConfigModal}>Changer l'adresse du serveur</Button>
-                                </Modal.Header>
-                                <Modal.Body className='errorBody'>
-                                    <XCircle size={100} color={'white'}/>
-                                </Modal.Body>
-                                <Modal.Footer className='errorContent'>
-                                    <span className='errorText'>Connection au serveur impossible</span>
-                                    <Button className='errorButton' onClick={this.toggleConfigModal}>Changer l'adresse du serveur</Button>
-                                </Modal.Footer>
-                            </Modal.Dialog>
-                            :
-                            <Button className='configButton' onClick={this.toggleConfigModal}>
-                                <Settings/>
-                            </Button>
-                        }
-                    </div>
+                <div style={{zIndex: 9999999, background: 'white'}}>
+                    {this.state.currentAction ? `${this.state.currentAction.player} ${this.state.currentAction.action} ${this.state.currentAction.card}` : null}
                 </div>
             </div>
         );
     }
 
-    toggleConfigModal(){
-        this.setState({showConfigModal: !this.state.showConfigModal});
+    sleep (time) {
+        return new Promise((resolve) => setTimeout(resolve, time));
     }
 
     toggleFullScreen() {
@@ -132,4 +109,4 @@ class StartScreen extends Component {
     }
 }
 
-export default StartScreen;
+export default GameScreen;

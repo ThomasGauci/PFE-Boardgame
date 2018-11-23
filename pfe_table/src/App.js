@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './App.css';
 import StartScreen from "./screens/startScreen/startScreen";
 import openSocket from "socket.io-client";
+import GameScreen from "./screens/gameScreen/gameScreen";
 
 class App extends Component {
 
@@ -10,11 +11,11 @@ class App extends Component {
         socket: null,
         connectionError: false,
         gamePhase: 0,
-        players: []
+        players: [],
+        latestActions: []
     }
     changeServerIp = this.changeServerIp.bind(this);
     setupSocket = this.setupSocket.bind(this);
-    setPlayers = this.setPlayers.bind(this);
 
     componentDidMount(){
         this.setupSocket();
@@ -26,12 +27,15 @@ class App extends Component {
                 {this.state.gamePhase === 0 ?
                     <StartScreen
                         serverIp={this.state.serverIp}
-                        socket={this.state.socket}
                         connectionError={this.state.connectionError}
                         players={this.state.players}
-                        setPlayers={this.setPlayers}
                         changeServerIp={this.changeServerIp}/>
-                    : null
+                    : this.state.gamePhase === 1 ?
+                        <GameScreen
+                            players={this.state.players}
+                            latestActions={this.state.latestActions}
+                            socket={this.state.socket}/>
+                        : null
                 }
             </div>
         );
@@ -46,8 +50,22 @@ class App extends Component {
     setupSocket(){
         const socket = openSocket(this.state.serverIp, {transports: ['websocket', 'polling', 'flashsocket']});
         socket.on('connect', () => {
-            socket.on('gameStarted', () => {
-                this.setState({gamePhase: 1});
+            socket.emit('newGame', response => {
+                if (response.error)
+                    console.error(response.error);
+                else
+                    console.log(response.data);
+            });
+            socket.on('playerJoined', data => {
+                let players = this.state.players;
+                players.push(data);
+                this.setState({players: players});
+            });
+            socket.on('gameStarted', data => {
+                this.setState({gamePhase: 1, players: data});
+            });
+            socket.on('newTurn', data => {
+                this.setState({players: data.gameState.players});
             });
             this.setState({socket: socket, connectionError: false});
         });
@@ -56,10 +74,68 @@ class App extends Component {
             this.setState({connectionError: true});
         });
     }
-
-    setPlayers(players){
-        this.setState({players: players});
-    }
 }
 
 export default App;
+/*
+{
+    latestActions: [
+        {
+            player: {...},
+            action: '...',
+            cardId: '...'
+        },
+        {
+            player: {...},
+            action: '...',
+            cardId: '...'
+        },
+        {
+            player: {...},
+            action: '...',
+            cardId: '...'
+        },
+        {
+            player: {...},
+            action: '...',
+            cardId: '...'
+        }
+    ],
+    gameState: {
+        players: [
+            {
+                name: '...',
+                position: '...',
+                city: '...',
+                money: '...',
+                warPoints: [...],
+                playedCards: [...]
+            },
+            {
+                name: '...',
+                position: '...',
+                city: '...',
+                money: '...',
+                warPoints: [...],
+                playedCards: [...]
+            },
+            {
+                name: '...',
+                position: '...',
+                city: '...',
+                money: '...',
+                warPoints: [...],
+                playedCards: [...]
+            },
+            {
+                name: '...',
+                position: '...',
+                city: '...',
+                money: '...',
+                warPoints: [...],
+                playedCards: [...]
+            }
+        ]
+    }
+}
+*/
