@@ -11,7 +11,7 @@ class PlayerConnection extends Component {
             return (
                 <div className='playerReady'>
                     <span><Check size={200} color={'white'}/></span>
-                    <h1>{this.props.player.name} is ready</h1>
+                    <h1>{this.props.player.name} est prêt</h1>
                 </div>
             );
         else return (
