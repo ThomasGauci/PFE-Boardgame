@@ -4,7 +4,7 @@ import "./qrView.css";
 import QrReader from "react-qr-reader";
 import Modal from "react-bootstrap/es/Modal";
 
-class Home extends Component{
+class QrView extends Component{
 
     constructor(props){
         super(props);
@@ -12,8 +12,8 @@ class Home extends Component{
             delay: 300
         };
         this.handleScan = this.handleScan.bind(this);
-        this.props.changeData({ipAdress: "192.168.1.8:8000;1"});
-        this.props.changeComponent("Join");
+        /*this.props.changeData({ipAdress: "https://192.168.1.8:8000;4"});
+        this.props.changeComponent("Join");*/
     }
 
     handleScan(data) {
@@ -41,9 +41,16 @@ class Home extends Component{
                     : null
                 }
                 <Label id="label">Bienvenue scannez le QRCode affiché sur la table pour rejoindre la partie</Label>
+                <div id="QRDiv">
+                    <QrReader
+                        delay={this.state.delay}
+                        onError={this.handleError}
+                        onScan={this.handleScan}
+                    />
+                </div>
             </div>
         );
     }
 }
 
-export default Home;
+export default QrView;

@@ -1,6 +1,7 @@
 import React, {Component} from "react";
 import { Button, Modal, FormControl } from 'react-bootstrap';
-import "./Join.css";
+import "./join.css";
+import * as utils from "../../utils"
 
 class Join extends Component{
 
@@ -15,7 +16,6 @@ class Join extends Component{
                 position: 8
             }
         };
-        this.intToColor = this.intToColor.bind(this);
     }
 
     componentDidMount(){
@@ -29,6 +29,11 @@ class Join extends Component{
         this.setState({
             data: data
         });
+        var io = require('socket.io-client');
+        const socket = io.connect(ip, { transports: ['websocket'], rejectUnauthorized: false });
+        socket.on('gameStart',(data)=>{
+            this.props.changeComponent("HandView");
+        });
     }
 
     handleDismissEmptyPseudo() {
@@ -40,26 +45,19 @@ class Join extends Component{
         this.setState({pseudo: e.target.value});
     }
 
-    intToColor(){
-        switch (this.state.data.position) {
-            case 1:
-                return "dodgerblue";
-            case 2:
-                return "forestgreen";
-            case 3:
-                return "indianred";
-            case 4:
-                return "orange";
-            default:
-                return "white"
-        }
-    }
-
     handleValidate(){
         if(this.state.pseudo !== ""){
             var io = require('socket.io-client');
             const socket = io.connect(this.state.data.ip, { transports: ['websocket'], rejectUnauthorized: false });
             socket.emit('newPlayer',{name: this.state.pseudo, position: this.state.data.position});
+            let data = {
+                position: this.state.data.position,
+                ip: this.state.data.ip,
+                pseudo: this.state.pseudo,
+                label: "Bienvenue " + this.state.pseudo + ", en attente des autres joueurs"
+            };
+            this.props.changeData(data);
+            this.props.changeComponent("WaitScreen");
         }
         else {
             this.setState({
@@ -70,7 +68,7 @@ class Join extends Component{
 
     render(){
         var divStyle = {
-            background: this.intToColor()
+            background: utils.intToColor(this.state.data.position)
         };
         return (
             <div>

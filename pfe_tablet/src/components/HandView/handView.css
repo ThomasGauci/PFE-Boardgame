@@ -1,0 +1,79 @@
+#container {
+    height: 100%;
+    position: absolute;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+#handDiv {
+    display: flex;
+    flex-direction: row;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.card {
+    display: block;
+    object-fit: contain;
+    height: 100%;
+    width: 120%;
+    margin-right: 5px;
+}
+.labels {
+    color: white;
+    font-size: 200%!important;
+}
+
+#labelsDiv {
+    display: flex;
+    flex-direction: row;
+    margin-right: auto;
+    margin-left: auto;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.label1 {
+    margin-bottom: 15%;
+}
+
+.modal-dialog {
+    position: absolute;
+    top: 50%;
+    left: 25%;
+    transform: translate(-50%, -50%) !important;
+}
+#modalCard {
+    margin-right: 5px;
+    display: block;
+    object-fit: contain;
+    width: 50%;
+    border-radius: 5px!important;
+    border-style: solid!important;
+}
+
+#modal-footer1 {
+    display: flex;
+    flex-direction: row;
+    height: 40vh;
+}
+
+#buttonsDiv {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.bois {
+    background-image: url("../../assets/bois.jpg");
+    /* Full height */
+    height: 100%;
+
+    /* Center and scale the image nicely */
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+.transparent {
+    background: transparent!important;
+}

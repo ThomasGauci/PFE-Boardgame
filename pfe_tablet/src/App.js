@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import './App.css';
 import Join from "./components/Join/join";
 import QRView from "./components/QRView/qrView";
-import * as Icon from 'react-feather';
 import Modal from "react-bootstrap/es/Modal";
 import {Button} from "react-bootstrap";
 import WaitScreen from "./components/WaitScreen/waitScreen";
@@ -21,9 +20,9 @@ class App extends Component {
   constructor(){
       super();
       this.state = {
-          componentName : "QRView",
+          componentName : "HandView",
           data: {},
-          showModal: false,
+          showModal: true,
           fullScreen: false
       };
       this.exitHandler = this.exitHandler.bind(this);
@@ -96,11 +95,6 @@ class App extends Component {
                    </Modal.Footer>
                </Modal.Dialog>
                : null
-           }
-           {
-               (!window.document.fullscreenElement && !window.document.mozFullScreenElement && !window.document.webkitFullscreenElement && !window.document.msFullscreenElement) ?
-                   <Icon.Maximize2 id="maximize" onClick={this.toggleFullScreen.bind(this)}/>
-                   :null
            }
            <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossOrigin="anonymous"/>
            <ComponentName data={this.state.data} changeData={this.changeData.bind(this)} changeComponent={this.changeComponent.bind(this)}/>
