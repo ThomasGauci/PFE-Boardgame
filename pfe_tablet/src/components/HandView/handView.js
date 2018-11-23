@@ -21,21 +21,19 @@ class HandView extends Component{
 
     componentDidMount(){
         this.setState({
-            cards: this.props.cards,
-            turn: this.props.turn,
-            age: this.props.age
+            cards: this.props.data.cards,
+            turn: this.props.data.turn,
+            age: this.props.data.age
         })
     }
 
     validateTurn(action) {
-        var io = require('socket.io-client');
-        const socket = io.connect(this.props.data.ip, {transports: ['websocket'], rejectUnauthorized: false});
         let dataToSend = {
             cardId: this.state.currentCard,
             action: action,
             pseudo: this.props.data.pseudo
         };
-        socket.emit('turnValidated', dataToSend);
+        this.props.data.socket.emit('turnValidated', dataToSend);
         let newData = this.props.data;
         newData["label"] = "En attente d'un nouveau tour";
         this.props.changeData(newData);
@@ -77,7 +75,7 @@ class HandView extends Component{
                 :null}
                 <div id="container" className="bois">
                     <div id="labelsDiv">
-                        <Label className="labels transparent">Tour {this.state.tour} </Label>
+                        <Label className="labels transparent">Tour {this.state.turn} </Label>
                         <Label className="labels transparent">Âge {this.state.age}</Label>
                     </div>
                     <Label className="labels label1 transparent">Choisissez une carte puis une action</Label>

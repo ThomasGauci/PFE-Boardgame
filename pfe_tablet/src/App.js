@@ -20,7 +20,7 @@ class App extends Component {
   constructor(){
       super();
       this.state = {
-          componentName : "HandView",
+          componentName : "QRView",
           data: {},
           showModal: true,
           fullScreen: false
@@ -81,6 +81,40 @@ class App extends Component {
       this.setState({ showModal: false });
   }
 
+  startSocket(){
+      var io = require('socket.io-client');
+      let ipAdress = this.state.data.ipAdress;
+      let ip = ipAdress.split(";")[0];
+      let position = parseInt(ipAdress.split(";")[1]);
+      const socket = io.connect(ip, { transports: ['websocket'], rejectUnauthorized: false });
+      let newData = {
+          ip: ip,
+          position: position,
+          socket: socket
+      };
+      this.setState({
+          data: newData
+      });
+      socket.on('newTurn',(data) => {
+          let newData = {
+              position: position,
+              pseudo: this.state.data.pseudo,
+              cards: data.cards,
+              turn: data.turn,
+              age: data.age,
+              ip: this.state.data.ip,
+              socket: this.state.data.socket
+          };
+          this.changeData(newData);
+          this.changeComponent("HandView");
+      });
+      socket.on('gameStart',() => {
+          let newData = this.state.data;
+          newData["label"] = "Partie débutée, préparation du prochain tour";
+          this.changeData(newData);
+      });
+  }
+
 
   render() {
     let ComponentName = this.components[this.state.componentName];
@@ -97,7 +131,7 @@ class App extends Component {
                : null
            }
            <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossOrigin="anonymous"/>
-           <ComponentName data={this.state.data} changeData={this.changeData.bind(this)} changeComponent={this.changeComponent.bind(this)}/>
+           <ComponentName startSocket={this.startSocket.bind(this)} data={this.state.data} changeData={this.changeData.bind(this)} changeComponent={this.changeComponent.bind(this)}/>
        </div>
     );
   }
