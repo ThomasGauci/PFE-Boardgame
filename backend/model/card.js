@@ -1,5 +1,10 @@
 class Card {
-    constructor() {
+    constructor(id) {
+        this.id = id;
+    }
+
+    play(action){
+
     }
 }
-export { Card };
+module.exports = Card;
