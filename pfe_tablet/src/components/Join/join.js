@@ -19,20 +19,13 @@ class Join extends Component{
     }
 
     componentDidMount(){
+        this.props.startSocket();
         let ipAdress = this.props.data.ipAdress;
-        let ip = ipAdress.split(";")[0];
         let position = parseInt(ipAdress.split(";")[1]);
-        let data = {
-            position: position,
-            ip: ip
-        };
         this.setState({
-            data: data
-        });
-        var io = require('socket.io-client');
-        const socket = io.connect(ip, { transports: ['websocket'], rejectUnauthorized: false });
-        socket.on('gameStart',(data)=>{
-            this.props.changeComponent("HandView");
+            data: {
+                position: position
+            }
         });
     }
 
@@ -47,14 +40,13 @@ class Join extends Component{
 
     handleValidate(){
         if(this.state.pseudo !== ""){
-            var io = require('socket.io-client');
-            const socket = io.connect(this.state.data.ip, { transports: ['websocket'], rejectUnauthorized: false });
-            socket.emit('newPlayer',{name: this.state.pseudo, position: this.state.data.position});
+            this.props.data.socket.emit('newPlayer',{name: this.state.pseudo, position: this.state.data.position});
             let data = {
-                position: this.state.data.position,
-                ip: this.state.data.ip,
+                position: this.props.data.position,
+                ip: this.props.data.ip,
                 pseudo: this.state.pseudo,
-                label: "Bienvenue " + this.state.pseudo + ", en attente des autres joueurs"
+                label: "Bienvenue " + this.state.pseudo + ", en attente des autres joueurs",
+                socket: this.props.data.socket
             };
             this.props.changeData(data);
             this.props.changeComponent("WaitScreen");
