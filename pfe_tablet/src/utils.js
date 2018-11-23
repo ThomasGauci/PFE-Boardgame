@@ -1,4 +1,3 @@
-let fullScreen = false;
 
 export function intToColor(position){
     switch (position) {
@@ -25,15 +24,10 @@ export function toggleFullScreen(element) {
     }
     else {
         cancelFullScreen.call(doc);
-        fullScreen = false;
     }
-    fullScreen = true;
 }
 
 export function exitHandler()
 {
-    if (document.webkitIsFullScreen || document.mozFullScreen || document.msFullscreenElement !== null)
-    {
-        fullScreen = false;
-    }
+
 }

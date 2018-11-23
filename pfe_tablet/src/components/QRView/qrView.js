@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {Button, Label} from 'react-bootstrap';
+import {Button} from 'react-bootstrap';
 import "./qrView.css";
 import QrReader from "react-qr-reader";
 import Modal from "react-bootstrap/es/Modal";
@@ -40,7 +40,7 @@ class QrView extends Component{
                     </Modal.Dialog>
                     : null
                 }
-                <Label id="label">Bienvenue scannez le QRCode affiché sur la table pour rejoindre la partie</Label>
+                <label id="label">Bienvenue scannez le QRCode affiché sur la table pour rejoindre la partie</label>
                 <div id="QRDiv">
                     <QrReader
                         delay={this.state.delay}

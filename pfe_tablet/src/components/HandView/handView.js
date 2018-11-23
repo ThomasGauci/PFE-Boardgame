@@ -55,6 +55,9 @@ class HandView extends Component{
     }
 
     render(){
+        var divStyle = {
+            background: utils.intToColor(this.props.data.position)
+        };
         const hand = this.state.cards.map((card, index) => <Image key={index} rounded src={require("../../assets/cards/" + card + ".jpg")} id={card} className="card" onClick={() => this.showModal(card)}/>)
         return (
             <div>
@@ -73,7 +76,7 @@ class HandView extends Component{
                         </Modal.Footer>
                     </Modal>
                 :null}
-                <div id="container" className="bois">
+                <div id="container" style={divStyle}>
                     <div id="labelsDiv">
                         <Label className="labels transparent">Tour {this.state.turn} </Label>
                         <Label className="labels transparent">Âge {this.state.age}</Label>
