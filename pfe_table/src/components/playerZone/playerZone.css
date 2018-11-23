@@ -1,9 +1,40 @@
 .playerZone{
     width: 100%;
     height: 100%;
+    color: white;
+    padding: 5px;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    color: white;
-    padding: 5px;
+}
+
+.playerName{
+    position: absolute;
+    top: 5px;
+    left: 5px;
+}
+
+.playedCards{
+    position: absolute;
+    bottom: 5px;
+    left: 5px;
+}
+
+.playerMoney{
+    background: gold;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border-radius: 50%;
+    position: absolute;
+    right: 5px;
+    top: 5px;
+    font-size: 20pt;
+    font-weight: bold;
+    padding-bottom: 1px;
+}
+
+.playerBoard{
 }

@@ -7,6 +7,7 @@ import PlayerZone from "../../components/playerZone/playerZone";
 class GameScreen extends Component {
 
     state={
+        showFullScreenButton: true,
         currentAction: null
     }
     toggleFullScreen = this.toggleFullScreen.bind(this);
@@ -25,12 +26,14 @@ class GameScreen extends Component {
     }
 
     async componentWillReceiveProps(nextProps) {
-        for (let action of nextProps.latestActions) {
-            this.setState({currentAction: action});
-            await this.sleep(3000);
+        if(nextProps.latestActions) {
+            for (let action of nextProps.latestActions) {
+                this.setState({currentAction: action});
+                await this.sleep(3000);
+            }
+            this.setState({currentAction: null});
+            this.props.socket.emit('readyTurn');
         }
-        this.setState({currentAction: null});
-        this.props.socket.emit('readyTurn', '');
     }
 
     render() {

@@ -10,16 +10,25 @@ class PlayerZone extends Component {
         if(this.props.player)
             return (
                 <div className='playerZone'>
-                    <p>{this.props.player.name}</p>
-                    <p>Money: {this.props.player.money}</p>
-                    <img src={require(`../../assets/boards/${this.props.player.city}A.jpg`)}/>
-                    <p>Played Cards:</p>
-                    <div>
-                        {this.props.player.playedCards.map(card => {
-                            return (
-                                <img src={this.getCardImage(card)}/>
-                            );
-                        })}
+                    <h1 className='playerName'>{this.props.player.name}</h1>
+                    <div className='playerMoney'>
+                        <div>{this.props.player.money}</div>
+                    </div>
+                    <div className='playerBoard'>
+                        <img src={require(`../../assets/boards/${this.props.player.city}A.jpg`)}/>
+                    </div>
+                    <div className='playedCards'>
+                        <p>Cartes jouées:</p>
+                        {this.props.player.playedCards ?
+                            <div>
+                                {this.props.player.playedCards.map(card => {
+                                    return (
+                                        <img src={this.getCardImage(card)}/>
+                                    );
+                                })}
+                            </div>
+                            : null
+                        }
                     </div>
                 </div>
             );

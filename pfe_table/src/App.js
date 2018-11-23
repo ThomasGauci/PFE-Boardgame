@@ -12,7 +12,7 @@ class App extends Component {
         connectionError: false,
         gamePhase: 0,
         players: [],
-        latestActions: []
+        latestActions: null
     }
     changeServerIp = this.changeServerIp.bind(this);
     setupSocket = this.setupSocket.bind(this);
@@ -57,14 +57,18 @@ class App extends Component {
                     console.log(response.data);
             });
             socket.on('playerJoined', data => {
+                console.log("playerJoined", data);
                 let players = this.state.players;
                 players.push(data);
                 this.setState({players: players});
             });
-            socket.on('gameStarted', data => {
+            socket.on('gameStart', data => {
+                console.log("gameStart", data);
                 this.setState({gamePhase: 1, players: data});
+                socket.emit('readyAge');
             });
-            socket.on('newTurn', data => {
+            socket.on('endTurn', data => {
+                console.log("endTurn", data);
                 this.setState({players: data.gameState.players});
             });
             this.setState({socket: socket, connectionError: false});
