@@ -10,12 +10,11 @@ class PlayerZone extends Component {
         if(this.props.player)
             return (
                 <div className='playerZone'>
-                    <h1 className='playerName'>{this.props.player.name}</h1>
                     <div className='playerMoney shadow'>
                         <div>{this.props.player.money}</div>
                     </div>
                     <div className='playerBoard'>
-                        <img className='boardImage shadow' src={require(`../../assets/boards/${this.props.player.city}A.jpg`)}/>
+                        <img className='gameBoard shadow' src={require(`../../assets/boards/${this.props.player.city}A.jpg`)}/>
                     </div>
                     <div className='playedCards'>
                         <p>Cartes jouées :</p>

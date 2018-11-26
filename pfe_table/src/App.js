@@ -10,7 +10,7 @@ class App extends Component {
         serverIp: 'wss://192.168.1.8:8000',
         socket: null,
         connectionError: false,
-        gamePhase: 0,
+        gamePhase: 1,
         players: [],
         latestActions: null
     }

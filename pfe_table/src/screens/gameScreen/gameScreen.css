@@ -10,7 +10,15 @@
     position: relative!important;
 }
 
-.actionText{
+.actionTextZone{
     margin-top: 8px;
     margin-bottom: 8px;
+}
+
+.actionCard{
+    margin: 5px;
+}
+
+.actionPlayer{
+    font-weight: bold;
 }

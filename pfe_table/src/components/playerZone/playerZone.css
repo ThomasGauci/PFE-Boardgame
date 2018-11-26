@@ -8,12 +8,6 @@
     justify-content: center;
 }
 
-.playerName{
-    position: absolute;
-    top: 5px;
-    left: 5px;
-}
-
 .playedCards{
     position: absolute;
     bottom: 5px;
@@ -34,8 +28,4 @@
     font-size: 20pt;
     font-weight: bold;
     padding-bottom: 1px;
-}
-
-.boardImage{
-    border-radius: 2px;
 }

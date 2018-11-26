@@ -3,6 +3,7 @@ import {Col, Row, Modal} from "react-bootstrap";
 
 import PlayerZone from "../../components/playerZone/playerZone";
 import './gameScreen.css';
+import {User} from "react-feather";
 
 class GameScreen extends Component {
 
@@ -59,11 +60,16 @@ class GameScreen extends Component {
                 { this.state.currentAction ?
                     <div>
                         <Modal.Dialog className='actionModal'>
-                            <h1 className='actionText upsideDown'>{`${this.state.currentAction.player} a ${this.getActionLabel(this.state.currentAction.action)}`}</h1>
+                            <h1 className='actionTextZone upsideDown'>
+                                <span className='actionPlayer' style={{color: this.getPlayerColor(this.state.currentAction.player.position)}}>{this.state.currentAction.player.name}</span> a {this.getActionLabel(this.state.currentAction.action)}
+                            </h1>
                             <div>
-                                <img src={this.getActionImage(this.state.currentAction.action, this.state.currentAction.cardId)}/>
+                                <img className='gameCard actionCard' src={this.getActionImage(this.state.currentAction.action, this.state.currentAction.cardId)}/>
+                                <img className='gameCard actionCard upsideDown' src={this.getActionImage(this.state.currentAction.action, this.state.currentAction.cardId)}/>
                             </div>
-                            <h1 className='actionText'>{`${this.state.currentAction.player} a ${this.getActionLabel(this.state.currentAction.action)}`}</h1>
+                            <h1 className='actionTextZone'>
+                                <span className='actionPlayer' style={{color: this.getPlayerColor(this.state.currentAction.player.position)}}>{this.state.currentAction.player.name}</span> a {this.getActionLabel(this.state.currentAction.action)}
+                            </h1>
                         </Modal.Dialog>
                     </div>
                     : null
@@ -103,6 +109,21 @@ class GameScreen extends Component {
         else{
             const age = cardId.charAt(1);
             return require(`../../assets/cards/back${age}.jpg`);
+        }
+    }
+
+    getPlayerColor(position){
+        switch (position) {
+            case 1:
+                return 'dodgerblue';
+            case 2:
+                return 'forestgreen';
+            case 3:
+                return 'indianred';
+            case 4:
+                return 'orange';
+            default:
+                return 'gray';
         }
     }
 }
