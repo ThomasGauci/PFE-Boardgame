@@ -45,14 +45,14 @@ class GameScreen extends Component {
                     <Row className='territoryRow'>
                         <Col md={6} className='territory territory3'>
                             <PlayerZone
-                                position={3}
-                                player={this.getPlayerOn(3)}
+                                position={4}
+                                player={this.getPlayerOn(4)}
                                 serverIp={this.props.serverIp}/>
                         </Col>
                         <Col md={6} className='territory territory4'>
                             <PlayerZone
-                                position={4}
-                                player={this.getPlayerOn(4)}
+                                position={3}
+                                player={this.getPlayerOn(3)}
                                 serverIp={this.props.serverIp}/>
                         </Col>
                     </Row>
@@ -119,9 +119,9 @@ class GameScreen extends Component {
             case 2:
                 return 'forestgreen';
             case 3:
-                return 'indianred';
-            case 4:
                 return 'orange';
+            case 4:
+                return 'indianred';
             default:
                 return 'gray';
         }

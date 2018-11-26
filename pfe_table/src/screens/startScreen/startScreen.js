@@ -57,14 +57,14 @@ class StartScreen extends Component {
                     <Row className='territoryRow'>
                         <Col md={6} className='territory territory3'>
                             <PlayerConnection
-                                position={3}
-                                player={this.getPlayerOn(3)}
+                                position={4}
+                                player={this.getPlayerOn(4)}
                                 serverIp={this.props.serverIp}/>
                         </Col>
                         <Col md={6} className='territory territory4'>
                             <PlayerConnection
-                                position={4}
-                                player={this.getPlayerOn(4)}
+                                position={3}
+                                player={this.getPlayerOn(3)}
                                 serverIp={this.props.serverIp}/>
                         </Col>
                     </Row>
