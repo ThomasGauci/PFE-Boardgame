@@ -1,7 +1,8 @@
 import React, {Component} from "react";
 import { Button, Modal, FormControl } from 'react-bootstrap';
 import "./join.css";
-import * as utils from "../../utils"
+import * as utils from "../../utils";
+import * as Icon from 'react-feather';
 
 class Join extends Component{
 
@@ -16,6 +17,12 @@ class Join extends Component{
                 position: 8
             }
         };
+        this.goBack = this.goBack.bind(this);
+    }
+
+    goBack(){
+        this.props.changeData({});
+        this.props.changeComponent("QRView");
     }
 
     componentDidMount(){
@@ -75,14 +82,18 @@ class Join extends Component{
                         : null
                 }
                     <div id="inputPseudo" style={divStyle}>
-                        <FormControl
-                            id="formControlPseudo"
-                            type="text"
-                            placeholder="Entrez votre pseudo"
-                            value={this.state.pseudo}
-                            onChange={this.handleChange.bind(this)}
-                        />
-                        <Button onClick={this.handleValidate.bind(this)} id="validateButton">Valider</Button>
+                        <Icon.ArrowLeftCircle id="iconBack" size={50} onClick={this.goBack}/>
+                        <div id="subDiv">
+                            <label id="bienvenue">Bienvenue, pour jouer, entrez votre pseudo</label>
+                            <FormControl
+                                id="formControlPseudo"
+                                type="text"
+                                placeholder="Entrez votre pseudo"
+                                value={this.state.pseudo}
+                                onChange={this.handleChange.bind(this)}
+                            />
+                            <Button onClick={this.handleValidate.bind(this)} id="validateButton">Valider</Button>
+                        </div>
                     </div>
             </div>
         );

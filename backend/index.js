@@ -76,7 +76,7 @@ io.on('connection', (client) => {
     });
 
     client.on('readyAge', () => {
-        console.log("table ready for a new turn");
+        console.log("table ready for a new age");
         automate.fsm.startAge(client,board);
         automate.fsm.start(client,board);
         played = 0;
@@ -91,11 +91,13 @@ io.on('connection', (client) => {
     client.on('turnValidated', (data) => {
         console.log("Player played");
         played++;
-        let action = new Action(data.action,data.cardId,data.pseudo);
-        board.findPlayer(data.pseudo).addAction(action);
-        if(played === 3){
+        let action = new Action(data.action,data.cardId,data.pseudo,board);
+        action.play();
+        if(played === 4){
             automate.fsm.playTurn(table,board);
         }
     });
+
+    //penser à envoyer un endTurn à la tablette
 });
 
