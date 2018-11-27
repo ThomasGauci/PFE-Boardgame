@@ -48,8 +48,8 @@ let fsm = new StateMachine({
             let data;
             for(let i=0;i<4;i++){
                 data={"age": board.age,
-                    "turn":board.turn,
-                    "cards":board.players[i].getCardsId()
+                    "turn": board.turn,
+                    "cards": board.getPlayerAvailableMoves(i)
                 };
                 if(board.players[i].socket != null)
                     board.players[i].socket.emit('newTurn',data);

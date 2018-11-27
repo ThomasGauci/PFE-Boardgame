@@ -1,11 +1,11 @@
 let Ressources = Object.freeze({
     WOOD:"wood",
     STONE:"stone",
-    BRICK:"brick",
-    IRON:"iron",
+    CLAY:"clay",
+    ORE:"ore",
     LOOM:"loom",
-    GLASSWARE:"glassware",
-    PRESS:"press"
+    GLASS:"glass",
+    PAPYRUS:"papyrus"
 });
 
 exports.fromString = function(string) {
@@ -14,16 +14,16 @@ exports.fromString = function(string) {
             return Ressources.WOOD;
         case("stone"):
             return Ressources.STONE;
-        case("brick"):
-            return Ressources.BRICK;
-        case("iron"):
-            return Ressources.IRON;
+        case("clay"):
+            return Ressources.CLAY;
+        case("ore"):
+            return Ressources.ORE;
         case("loom"):
             return Ressources.LOOM;
-        case("glassware"):
-            return Ressources.GLASSWARE;
-        case("press"):
-            return Ressources.PRESS;
+        case("glass"):
+            return Ressources.GLASS;
+        case("papyrus"):
+            return Ressources.PAPYRUS;
     }
     return null;
 };

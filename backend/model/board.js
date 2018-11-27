@@ -72,5 +72,53 @@ class Board {
         }
         return -1;
     }
+
+    getPlayerNeighbors(playerPosition){
+        let neighbors = [];
+        neighbors.push(this.players[(playerPosition+2)%4]);
+        neighbors.push(this.players[playerPosition%4]);
+        return neighbors;
+    }
+
+    getPlayerAvailableMoves(playerIndex){ //TODO: ici Pierre
+        const playerHand = this.players[playerIndex].getHand();
+        const playerNeighbors = this.getPlayerNeighbors(this.players[playerIndex].position);
+        let availableMoves = [];
+        for(let card of playerHand){
+            let isPlayable = false;
+            let missingResources = card.getMissingResources(this.players[playerIndex].getCurrentResources());
+            let availableResources = [];
+
+            if(missingResources.length > 0) {
+                for (let resource of missingResources) {
+                    for (let neighbor of playerNeighbors) {
+                        let neighborAvailableResources = [];
+                        let neighborResources = neighbor.getCurrentResources();
+                        if (neighborResources.has(resource.name) && neighborResources.get(resource.name) >= resource.quantity) {
+                            neighborAvailableResources.push({
+                                type: resource.name,
+                                quantity: neighborResources.get(resource.name),
+                                price: 2 //TODO: Change price if discount
+                            });
+                        }
+                        if(neighborAvailableResources.length > 0) {
+                            availableResources.push({
+                                player: neighbor.getState(),
+                                resources: neighborAvailableResources
+                            });
+                        }
+                    }
+                }
+            }
+
+            availableMoves.push({
+                card: card.getInfos(),
+                isPlayable: isPlayable,
+                missingResources: missingResources.length > 0 ? missingResources : null,
+                availableResources: availableResources.length > 0 ? availableResources : null
+            });
+        }
+        return availableMoves;
+    }
 }
 module.exports = Board;
