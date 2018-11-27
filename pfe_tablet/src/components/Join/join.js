@@ -86,13 +86,14 @@ class Join extends Component{
                         <div id="subDiv">
                             <label id="bienvenue">Bienvenue, pour jouer, entrez votre pseudo</label>
                             <FormControl
+                                bsSize="lg"
                                 id="formControlPseudo"
                                 type="text"
-                                placeholder="Entrez votre pseudo"
+                                placeholder="Pseudo"
                                 value={this.state.pseudo}
                                 onChange={this.handleChange.bind(this)}
                             />
-                            <Button onClick={this.handleValidate.bind(this)} id="validateButton">Valider</Button>
+                            <Button bsSize="lg" onClick={this.handleValidate.bind(this)} id="validateButton">Valider</Button>
                         </div>
                     </div>
             </div>

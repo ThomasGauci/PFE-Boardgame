@@ -2,17 +2,25 @@ import React, {Component} from "react";
 import "./handView.css";
 import * as utils from "../../utils"
 import {Label, Image, Modal, Button} from 'react-bootstrap';
+import * as Icon from 'react-feather';
 
 class HandView extends Component{
 
     constructor(props){
         super(props);
         this.state = {
-            cards: [],
+            cards: ["R101", "A101", "E101", "S101", "P101", "R103", "S102"],
             currentCard: "R101",
             modal: false,
             turn: 0,
-            age: 0
+            age: 0,
+            modalText: "Veuillez choisir une action",
+            validated: false,
+            buttons: {
+                building: false,
+                wonderStep: false,
+                discarding: false
+            }
         };
         this.handleDismissModal = this.handleDismissModal.bind(this);
         this.showModal = this.showModal.bind(this);
@@ -28,16 +36,30 @@ class HandView extends Component{
     }
 
     validateTurn(action) {
+        let buttons = this.state.buttons;
+        for(let buttonId in buttons) {
+            if(buttonId === action){
+                let newbuttons = {
+                    building: false,
+                    wonderStep: false,
+                    discarding: false
+                };
+                newbuttons[buttonId] = true;
+                this.setState({
+                   buttons: newbuttons
+                });
+            }
+        }
+        this.setState({
+            validated: true,
+            modalText: "Action validée"
+        });
         let dataToSend = {
             cardId: this.state.currentCard,
             action: action,
             pseudo: this.props.data.pseudo
         };
         this.props.data.socket.emit('turnValidated', dataToSend);
-        let newData = this.props.data;
-        newData["label"] = "En attente d'un nouveau tour";
-        this.props.changeData(newData);
-        this.props.changeComponent("WaitScreen");
     }
 
     showModal(cardId){
@@ -48,9 +70,17 @@ class HandView extends Component{
     }
 
     handleDismissModal(){
+        let newbuttons = {
+            building: false,
+            wonderStep: false,
+            discarding: false
+        };
         this.setState({
             currentCard: "",
-            modal: false
+            modal: false,
+            buttons: newbuttons,
+            validated: false,
+            modalText: "Veuillez choisir une action"
         })
     }
 
@@ -58,20 +88,37 @@ class HandView extends Component{
         var divStyle = {
             background: utils.intToColor(this.props.data.position)
         };
+        let imgStyle = this.state.validated ? {
+            filter: "grayscale(100%)",
+            "WebkitFilter": "grayscale(100%)",
+            "MozFilter" : "grayscale(100%)",
+        } : null;
+        let buildingStyle = {
+          background: this.state.buttons["building"] ? "green" : null
+        };
+        let wonderStepStyle = {
+            background: this.state.buttons["wonderStep"] ? "green" : null
+        };
+        let discardingStyle = {
+            background: this.state.buttons["discarding"] ? "green" : null
+        };
         const hand = this.state.cards.map((card, index) => <Image key={index} rounded src={require("../../assets/cards/" + card + ".jpg")} id={card} className="card" onClick={() => this.showModal(card)}/>)
         return (
             <div>
                 {this.state.modal ?
                     <Modal show={this.state.modal} onHide={this.handleDismissModal}>
-                        <Modal.Header closeButton>
-                            <Modal.Title>Veuillez choisir une action</Modal.Title>
+                        <Modal.Header className="modalStyle" closeButton>
+                            <Modal.Title className="modalStyle modalTitle text-center">{this.state.modalText}</Modal.Title>
                         </Modal.Header>
-                        <Modal.Footer id="modal-footer1">
-                            <Image rounded id="modalCard" src={require("../../assets/cards/" + this.state.currentCard + ".jpg")}/>
+                        <Modal.Footer className="modalStyle" id="modal-footer1">
+                            <div className="modalImgDiv">
+                                <Image style={imgStyle} rounded id="modalCard" src={require("../../assets/cards/" + this.state.currentCard + ".jpg")} />
+                                {this.state.validated ? <Icon.Check size={200} id="checkIcon" color="green"/> : null}
+                            </div>
                             <div id="buttonsDiv">
-                                <Button onClick={() => this.validateTurn("building")}>Monter le batiment</Button>
-                                <Button onClick={() => this.validateTurn("wonderStep")}>Monter une étape de merveille</Button>
-                                <Button onClick={() => this.validateTurn("discarding")}>Défausser la carte</Button>
+                                <Button style={buildingStyle} id="building" disabled={this.state.buttons["building"]} bsStyle="primary" onClick={() => this.validateTurn("building")}>Construire le batiment</Button>
+                                <Button style={wonderStepStyle} id="wonderStep" disabled={this.state.buttons["wonderStep"]} bsStyle="primary" onClick={() => this.validateTurn("wonderStep")}>Améliorer sa merveille</Button>
+                                <Button style={discardingStyle} id="discarding" disabled={this.state.buttons["discarding"]} bsStyle="primary" onClick={() => this.validateTurn("discarding")}>Vendre la carte pour <Image className="orImg" src={require("../../assets/or.png")}/> </Button>
                             </div>
                         </Modal.Footer>
                     </Modal>

@@ -45,25 +45,44 @@
     transform: translate(-50%, -50%) !important;
 }
 #modalCard {
+    object-fit: contain;
     margin-right: 5px;
     display: block;
-    object-fit: contain;
-    width: 50%;
-    border-radius: 5px!important;
-    border-style: solid!important;
+    width: 100%;
 }
 
 #modal-footer1 {
     display: flex;
     flex-direction: row;
-    height: 40vh;
 }
 
 #buttonsDiv {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    margin-left: 10px;
 }
 .transparent {
     background: transparent!important;
+}
+
+.modalStyle {
+    border-style: none!important;
+}
+
+.modalTitle {
+    font-weight: bold;
+}
+.orImg {
+  height: 3vh;
+}
+#checkIcon {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+.modalImgDiv {
+    width: 50%;
+    position: relative;
 }

@@ -113,6 +113,13 @@ class App extends Component {
           newData["label"] = "Partie débutée, préparation du prochain tour";
           this.changeData(newData);
       });
+      socket.on('endTurn',() => {
+          console.log("endTurn");
+          let newData = this.state.data;
+          newData["label"] = "En attente d'un nouveau tour";
+          this.changeData(newData);
+          this.changeComponent("WaitScreen");
+      });
   }
 
 
