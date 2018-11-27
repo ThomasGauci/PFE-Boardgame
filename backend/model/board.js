@@ -64,9 +64,9 @@ class Board {
         }
     }
 
-    findPlayer(playerName){
+    findPlayer(position){
         for(let i=0; i<this.players.length;i++){
-            if(playerName === this.players[i].name){
+            if(position === this.players[i].position){
                 return this.players[i];
             }
         }

@@ -1,16 +1,6 @@
 const Player = require('./model/player');
 const Board = require('./model/board');
 const automate = require('./model/gameLogic');
-//test
-/*let board = new Board();
-board.addPlayer(new Player("jean",1,"ccc"));
-board.addPlayer(new Player("pierre",2));
-board.addPlayer(new Player("kader",3));
-board.addPlayer(new Player("pipi",4,"cca"));
-
-automate.fsm.settingUp("",board);
-automate.fsm.startAge("",board);
-automate.fsm.start("",board);*/
 
 let fs = require( 'fs' );
 let app = require('express')();
@@ -49,8 +39,6 @@ io.on('connection', (client) => {
 
     client.on('newPlayer', (data) => {
         console.log(data);
-        console.log(data.name);
-        console.log(data.position);
         if(numConnection <= 2) {
             console.log('Creating player');
             let player = new Player(data.name,data.position,client);

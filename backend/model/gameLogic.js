@@ -32,8 +32,8 @@ let fsm = new StateMachine({
             for(let i = 0; i<4;i++){
                 data.push(board.players[i].getState());
             }
-            //console.log(data);
-            client.broadcast.emit('gameStart', data);
+            if(client != null)
+                client.broadcast.emit('gameStart', data);
         },
         onStartAge: function(lifecycle,client,board){
             console.log("Start new Age");
@@ -51,13 +51,13 @@ let fsm = new StateMachine({
                     "turn":board.turn,
                     "cards":board.players[i].getCardsId()
                 };
-                //console.log(data);
-                board.players[i].socket.emit('newTurn',data);
+                if(board.players[i].socket != null)
+                    board.players[i].socket.emit('newTurn',data);
             }
         },
         onPlayerPlayed: function(lifecycle,board,data){
             console.log("Player played");
-            let player = board.findPlayer(data.pseudo);
+            let player = board.findPlayer(data.position);
             let action = new Action(data.action,data.cardId,player,board);
             action.play();
             num_played++;
@@ -82,8 +82,10 @@ let fsm = new StateMachine({
                 "gameState":
                     {"players":players}
             };
-            client.emit("endTurn",data);
-            client.broadcast.emit("endTurn",data);
+            if(client != null){
+                client.emit("endTurn",data);
+                client.broadcast.emit("endTurn",data);
+            }
         }
     }
 });
