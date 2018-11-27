@@ -2,7 +2,6 @@ class Board {
     constructor(){
         this.players = [];
         this.freePlaces = [1,2,3,4];
-        this.packets = [];
         this.discarded = [];
         this.age = 0;
         this.turn = 0;
@@ -11,7 +10,7 @@ class Board {
     addPlayer(player){
         let i = this.freePlaces.indexOf(player.position);
         this.freePlaces.slice(i,1);
-        this.players.push(player);
+        this.players[i] = player;
     }
 
     getTookPlaces(){
@@ -33,15 +32,35 @@ class Board {
         }
     }
 
+    changeHands(){
+        if(this.age%2 === 1){
+            this.swapHands(0,1);
+            this.swapHands(2,3);
+            this.swapHands(0,2);
+        }else{
+            this.swapHands(0,2);
+            this.swapHands(0,1);
+            this.swapHands(2,3);
+        }
+    }
+
+    swapHands(p1,p2){
+        let tmp = this.players[p1].hand;
+        this.players[p1].hand = this.players[p2].hand;
+        this.players[p2].hand = tmp;
+    }
+
+
     distributeCards(cards){
+        let packets = [];
         let half = cards.splice(cards.length/2);
-        this.packets.push(half.splice(half.length/2));
-        this.packets.push(half);
-        this.packets.push(cards.splice(cards.length/2));
-        this.packets.push(cards);
+        packets.push(half.splice(half.length/2));
+        packets.push(half);
+        packets.push(cards.splice(cards.length/2));
+        packets.push(cards);
 
         for(let i = 0; i<this.players.length;i++){
-            this.players[i].setHand(this.packets[i]);
+            this.players[i].setHand(packets[i]);
         }
     }
 
