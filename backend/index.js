@@ -1,17 +1,6 @@
 const Player = require('./model/player');
 const Board = require('./model/board');
-const Action = require('./model/action');
 const automate = require('./model/gameLogic');
-//test
-/*let board = new Board();
-board.addPlayer(new Player("jean",1,"ccc"));
-board.addPlayer(new Player("pierre",2));
-board.addPlayer(new Player("kader",3));
-board.addPlayer(new Player("pipi",4,"cca"));
-
-automate.fsm.settingUp("",board);
-automate.fsm.startAge("",board);
-automate.fsm.start("",board);*/
 
 let fs = require( 'fs' );
 let app = require('express')();
@@ -50,8 +39,6 @@ io.on('connection', (client) => {
 
     client.on('newPlayer', (data) => {
         console.log(data);
-        console.log(data.name);
-        console.log(data.position);
         if(numConnection <= 2) {
             console.log('Creating player');
             let player = new Player(data.name,data.position,client);
@@ -82,22 +69,21 @@ io.on('connection', (client) => {
         played = 0;
     });
 
-    client.on('readyTurn', () => {
-        console.log("table ready for a new turn");
-        automate.fsm.startTurn(client,board);
-        played = 0;
-    });
 
     client.on('turnValidated', (data) => {
         console.log("Player played");
-        played++;
-        let action = new Action(data.action,data.cardId,data.pseudo,board);
-        action.play();
-        if(played === 4){
-            automate.fsm.playTurn(table,board);
+        automate.fsm.playerPlayed(board,data);
+        if(automate.ifGoNextTurn()){
+            automate.fsm.playTurn(client,board,);
+        }
+
+        if(automate.ifGoNextTurn() && automate.ifGoNextAge(board)){
         }
     });
 
-    //penser à envoyer un endTurn à la tablette
+    client.on('readyTurn', () => {
+        console.log("table ready for a new turn");
+        automate.fsm.startTurn(client,board);
+    });
 });
 

@@ -1,8 +1,13 @@
 import React, { Component } from 'react';
-import './App.css';
-import StartScreen from "./screens/startScreen/startScreen";
 import openSocket from "socket.io-client";
+import TUIOManager from "tuiomanager/core/TUIOManager";
+
 import GameScreen from "./screens/gameScreen/gameScreen";
+import StartScreen from "./screens/startScreen/startScreen";
+import GameWidget from "./GameWidget"
+import './App.css';
+
+const tuioManager = new TUIOManager();
 
 class App extends Component {
 
@@ -18,7 +23,10 @@ class App extends Component {
     setupSocket = this.setupSocket.bind(this);
 
     componentDidMount(){
+        tuioManager.start();
         this.setupSocket();
+        console.log(TUIOManager.getInstance());
+        let gameWidget = new GameWidget();
     }
 
     render() {

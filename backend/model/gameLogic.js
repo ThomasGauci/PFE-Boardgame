@@ -2,6 +2,10 @@ let StateMachine = require('javascript-state-machine');
 //TO DO SA MERE mapage socket : player
 const cities = require('./Data/cities');
 const cards = require('./Data/cards');
+const Action = require('./action');
+
+let num_played = 0;
+let m_board;
 
 let fsm = new StateMachine({
     init: 'wait',
@@ -11,7 +15,7 @@ let fsm = new StateMachine({
         { name: 'settingUp', from: 'wait',  to: 'setUp'},
         { name: 'startAge', from: 'setUp', to: 'newAge'},
         { name: 'start', from: 'newAge', to: 'turn'},
-        /*{ name: 'playTurn', from: 'turn', to: 'turn'}*/
+        { name: 'playerPlayed', from: 'turn', to: 'turn'},
         { name: 'playTurn', from: 'turn', to: 'endTurn'},
         { name: 'startTurn', from: 'endTurn', to: 'turn'},
         { name: 'battle', from: 'endTurn', to: 'endAge'},
@@ -21,14 +25,15 @@ let fsm = new StateMachine({
     methods: {
         onSetUp:  function(lifecycle,client,board) {
             console.log("Setup table");
+            m_board = board;
             let selectedCities = cities.chooseRandomCities();
             board.distributeCities(selectedCities);
             let data = [];
             for(let i = 0; i<4;i++){
                 data.push(board.players[i].getState());
             }
-            //console.log(data);
-            client.broadcast.emit('gameStart', data);
+            if(client != null)
+                client.broadcast.emit('gameStart', data);
         },
         onStartAge: function(lifecycle,client,board){
             console.log("Start new Age");
@@ -38,17 +43,31 @@ let fsm = new StateMachine({
         onTurn: function(lifecycle,client,board){
             console.log("Start turn");
             board.turn++;
+            num_played = 0;
+
             let data;
             for(let i=0;i<4;i++){
                 data={"age": board.age,
-                    "turn":board.turn,
-                    "cards":board.players[i].getCardsId()
+                    "turn": board.turn,
+                    "cards": board.getPlayerAvailableMoves(i)
                 };
-                //console.log(data);
-                board.players[i].socket.emit('newTurn',data);
+                if(board.players[i].socket != null)
+                    board.players[i].socket.emit('newTurn',data);
             }
         },
-        onEndTurn: function (lifecycle,table,board) {
+        onPlayerPlayed: function(lifecycle,board,data){
+            console.log("Player played");
+            let player = board.findPlayer(data.position);
+            let action = new Action(data.action,data.cardId,player,board);
+            action.play();
+            num_played++;
+        },
+        onStartTurn: function(lifecycle,client,board){
+            console.log("Restart turn");
+            num_played = 0;
+            board.changeHands();
+        },
+        onEndTurn: function (lifecycle,client,board) {
             console.log("End turn");
             let latestActions = [];
             for(let i = 0; i<4;i++){
@@ -63,9 +82,23 @@ let fsm = new StateMachine({
                 "gameState":
                     {"players":players}
             };
-            table.emit("endTurn",data);
+            if(client != null){
+                client.emit("endTurn",data);
+                client.broadcast.emit("endTurn",data);
+            }
         }
     }
 });
 
-module.exports = { fsm: fsm };
+ function ifGoNextTurn(){
+    return (num_played === 4);
+}
+
+function ifGoNextAge(board){
+    return (board.turn === 6);
+}
+
+module.exports = { fsm: fsm,
+    ifGoNextTurn : ifGoNextTurn,
+    ifGoNextAge : ifGoNextAge
+ };
