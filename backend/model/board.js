@@ -66,7 +66,7 @@ class Board {
 
     findPlayer(position){
         for(let i=0; i<this.players.length;i++){
-            if(position === this.players[i].position){
+            if(parseInt(position) === this.players[i].position){
                 return this.players[i];
             }
         }

@@ -40,11 +40,10 @@ let fsm = new StateMachine({
             board.distributeCards(cards.age1);
             board.age++;
         },
-        onTurn: function(lifecycle,client,board){
+        onStart: function(lifecycle,client,board){
             console.log("Start turn");
             board.turn++;
             num_played = 0;
-
             let data;
             for(let i=0;i<4;i++){
                 data={"age": board.age,
@@ -58,14 +57,13 @@ let fsm = new StateMachine({
         onPlayerPlayed: function(lifecycle,board,data){
             console.log("Player played");
             let player = board.findPlayer(data.position);
-            let action = new Action(data.action,data.cardId,player,board);
-            action.play();
-            num_played++;
-        },
-        onStartTurn: function(lifecycle,client,board){
-            console.log("Restart turn");
-            num_played = 0;
-            board.changeHands();
+            if(player === -1){
+                console.log("erreur: player not found");
+            }else{
+                let action = new Action(data.action,data.cardId,player,board);
+                action.play();
+                num_played++;
+            }
         },
         onEndTurn: function (lifecycle,client,board) {
             console.log("End turn");
@@ -85,6 +83,20 @@ let fsm = new StateMachine({
             if(client != null){
                 client.emit("endTurn",data);
                 client.broadcast.emit("endTurn",data);
+            }
+        },onStartTurn: function(lifecycle,client,board){
+            console.log("Restart turn");
+            num_played = 0;
+            board.turn++;
+            board.changeHands();
+            let data;
+            for(let i=0;i<4;i++){
+                data={"age": board.age,
+                    "turn":board.turn,
+                    "cards":board.players[i].getCardsId()
+                };
+                if(board.players[i].socket != null)
+                    board.players[i].socket.emit('newTurn',data);
             }
         }
     }
