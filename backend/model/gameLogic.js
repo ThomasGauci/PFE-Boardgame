@@ -19,8 +19,8 @@ let fsm = new StateMachine({
         { name: 'playTurn', from: 'turn', to: 'endTurn'},
         { name: 'startTurn', from: 'endTurn', to: 'turn'},
         { name: 'battle', from: 'endTurn', to: 'endAge'},
-        /*{ name: 'restartAge', from: 'enAge', to: 'newAge'},*/
-        { name: 'findWinner', from: 'enAge', to: 'end'}
+        { name: 'restartAge', from: 'endAge', to: 'newAge'},
+        { name: 'findWinner', from: 'endAge', to: 'end'}
     ],
     methods: {
         onSetUp:  function(lifecycle,client,board) {
@@ -35,16 +35,14 @@ let fsm = new StateMachine({
             if(client != null)
                 client.broadcast.emit('gameStart', data);
         },
-        onStartAge: function(lifecycle,client,board){
+        onNewAge: function(lifecycle,client,board){
             console.log("Start new Age");
-            board.distributeCards(cards.age1);
-            board.age++;
+            board.newAge(cards);
         },
-        onTurn: function(lifecycle,client,board){
+        onStart: function(lifecycle,client,board){
             console.log("Start turn");
             board.turn++;
             num_played = 0;
-
             let data;
             for(let i=0;i<4;i++){
                 data={"age": board.age,
@@ -58,14 +56,13 @@ let fsm = new StateMachine({
         onPlayerPlayed: function(lifecycle,board,data){
             console.log("Player played");
             let player = board.findPlayer(data.position);
-            let action = new Action(data.action,data.cardId,player,board);
-            action.play();
-            num_played++;
-        },
-        onStartTurn: function(lifecycle,client,board){
-            console.log("Restart turn");
-            num_played = 0;
-            board.changeHands();
+            if(player === -1){
+                console.log("erreur: player not found");
+            }else{
+                let action = new Action(data.action,data.cardId,player,board);
+                action.play();
+                num_played++;
+            }
         },
         onEndTurn: function (lifecycle,client,board) {
             console.log("End turn");
@@ -86,6 +83,26 @@ let fsm = new StateMachine({
                 client.emit("endTurn",data);
                 client.broadcast.emit("endTurn",data);
             }
+        },onStartTurn: function(lifecycle,client,board){
+            console.log("Restart turn");
+            num_played = 0;
+            board.turn++;
+            board.changeHands();
+            let data;
+            for(let i=0;i<4;i++){
+                data={"age": board.age,
+                    "turn":board.turn,
+                    "cards":board.players[i].getCardsId()
+                };
+                if(board.players[i].socket != null){
+                    board.players[i].socket.emit('newTurn',data);
+                }
+            }
+        },
+        onBattle: function(lifecycle,client,board){
+            console.log("End of age: battle");
+            let data = board.battle();
+
         }
     }
 });
@@ -95,10 +112,15 @@ let fsm = new StateMachine({
 }
 
 function ifGoNextAge(board){
-    return (board.turn === 6);
+    return (board.turn === 6 && ifGoNextTurn() && board.age < 3);
+}
+
+function ifEndGame(board){
+     return (board.turn ===6 && ifGoNextTurn() && board.age === 3);
 }
 
 module.exports = { fsm: fsm,
     ifGoNextTurn : ifGoNextTurn,
-    ifGoNextAge : ifGoNextAge
+    ifGoNextAge : ifGoNextAge,
+    ifEndGame : ifEndGame
  };

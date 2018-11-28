@@ -5,7 +5,8 @@ import QRView from "./components/QRView/qrView";
 import Modal from "react-bootstrap/es/Modal";
 import {Button} from "react-bootstrap";
 import WaitScreen from "./components/WaitScreen/waitScreen";
-import HandView from "./components/HandView/handView"
+import HandView from "./components/HandView/handView";
+import Ressources from "./components/Ressources/ressources"
 
 class App extends Component {
 
@@ -14,7 +15,8 @@ class App extends Component {
       Join : Join,
       QRView: QRView,
       WaitScreen: WaitScreen,
-      HandView: HandView
+      HandView: HandView,
+      Ressources: Ressources
   };
 
   constructor(){
@@ -96,6 +98,7 @@ class App extends Component {
           data: newData
       });
       socket.on('newTurn',(data) => {
+          console.log(data);
           let newData = {
               position: position,
               pseudo: this.state.data.pseudo,
@@ -103,7 +106,8 @@ class App extends Component {
               turn: data.turn,
               age: data.age,
               ip: this.state.data.ip,
-              socket: this.state.data.socket
+              socket: this.state.data.socket,
+              money: data.money
           };
           this.changeData(newData);
           this.changeComponent("HandView");
@@ -114,7 +118,6 @@ class App extends Component {
           this.changeData(newData);
       });
       socket.on('endTurn',() => {
-          console.log("endTurn");
           let newData = this.state.data;
           newData["label"] = "En attente d'un nouveau tour";
           this.changeData(newData);

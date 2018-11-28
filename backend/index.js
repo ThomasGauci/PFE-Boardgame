@@ -64,20 +64,30 @@ io.on('connection', (client) => {
 
     client.on('readyAge', () => {
         console.log("table ready for a new age");
-        automate.fsm.startAge(client,board);
+        if(board.age === 0){
+            automate.fsm.startAge(client,board);
+        }
+        else if(board.age === 3){
+            automate.fsm.findWinner(client,board);
+            return;
+        }else{
+            automate.fsm.restartAge(client,board);
+        }
         automate.fsm.start(client,board);
         played = 0;
     });
 
 
     client.on('turnValidated', (data) => {
-        console.log("Player played");
+        //console.log("Player played");
         automate.fsm.playerPlayed(board,data);
+
         if(automate.ifGoNextTurn()){
-            automate.fsm.playTurn(client,board,);
+            automate.fsm.playTurn(client,board);
         }
 
-        if(automate.ifGoNextTurn() && automate.ifGoNextAge(board)){
+        if(automate.ifGoNextAge(board)){
+            automate.fsm.battle(client,board);
         }
     });
 

@@ -7,7 +7,8 @@ class Player {
         this.actions = [];
         this.gold = 3;
         this.army = 0;
-        this.wardPoint = 0;
+        this.warPoints = 0;
+        this.lostWars = 0;
         this.city = null;
         this.socket = socket;
     }
@@ -58,7 +59,7 @@ class Player {
 
     getCurrentResources(){
         let resources = new Map();
-        if(this.gold != 0)
+        if(this.gold !== 0)
             resources.set('gold', this.gold);
         for(let card of this.cards){
             if(resources.has(card.effectTarget))
