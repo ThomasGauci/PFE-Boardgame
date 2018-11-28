@@ -36,6 +36,18 @@ addCard(age1, {
 });
 
 addCard(age1, {
+    id: "A103",
+    name: "Tour de garde",
+    age: 1,
+    type: "military",
+    effect: {
+        target: "army",
+        value: 1,
+    },
+    cost: [{name: "clay", quantity: 1}]
+});
+
+addCard(age1, {
     id: "B101",
     name: "Théatre",
     age: 1,
@@ -169,6 +181,18 @@ addCard(age1, {
         value: 1,
     }
 });
+
+addCard(age1, {
+    id: "R103",
+    name: "Filon",
+    age: 1,
+    type: "resource",
+    effect: {
+        target: "ore",
+        value: 1,
+    }
+});
+
 addCard(age1, {
     id: "R104",
     name: "Chantier",
@@ -179,7 +203,19 @@ addCard(age1, {
         value: 1,
     }
 });
+
 addCard(age1, {
+    id: "R104",
+    name: "Chantier",
+    age: 1,
+    type: "resource",
+    effect: {
+        target: "wood",
+        value: 1,
+    }
+});
+
+/*addCard(age1, {
     id: "R105",
     name: "Friche",
     age: 1,
@@ -189,7 +225,7 @@ addCard(age1, {
         value: 1,
     },
     cost: [{name: "gold", quantity: 1}]
-});
+});*/
 addCard(age1, {
     id: "R106",
     name: "Excavation",
@@ -223,7 +259,7 @@ addCard(age1, {
     },
     cost: [{name: "gold", quantity: 1}]
 });
-addCard(age1, {
+/*addCard(age1, {
     id: "R109",
     name: "Gisement",
     age: 1,
@@ -233,8 +269,8 @@ addCard(age1, {
         value: 1,
     },
     cost: [{name: "gold", quantity: 1}]
-});
-addCard(age1, {
+});*/
+/*addCard(age1, {
     id: "R110",
     name: "Mine",
     age: 1,
@@ -244,7 +280,7 @@ addCard(age1, {
         value: 1,
     },
     cost: [{name: "gold", quantity: 1}]
-});
+});*/
 
 addCard(age1, {
     id: "S101",
@@ -257,6 +293,18 @@ addCard(age1, {
     },
     cost: [{name: "loom", quantity: 1}],
     offer: ["A201", "S203"]
+});
+addCard(age1, {
+    id: "S102",
+    name: "Scriptorium",
+    age: 1,
+    type: "science",
+    effect: {
+        target: "tablet",
+        value: 1,
+    },
+    cost: [{name: "papyrus", quantity: 1}],
+    offer: ["B201", "S204"]
 });
 addCard(age1, {
     id: "S102",
