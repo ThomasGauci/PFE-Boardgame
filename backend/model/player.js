@@ -59,7 +59,7 @@ class Player {
 
     getCurrentResources(){
         let resources = new Map();
-        if(this.gold != 0)
+        if(this.gold !== 0)
             resources.set('gold', this.gold);
         for(let card of this.cards){
             if(resources.has(card.effectTarget))

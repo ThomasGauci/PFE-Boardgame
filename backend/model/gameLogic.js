@@ -101,8 +101,8 @@ let fsm = new StateMachine({
         },
         onBattle: function(lifecycle,client,board){
             console.log("End of age: battle");
-            board.battle();
-            let data = [];
+            let data = board.battle();
+
         }
     }
 });
