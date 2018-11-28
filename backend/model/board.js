@@ -140,37 +140,14 @@ class Board {
         const playerNeighbors = this.getPlayerNeighbors(this.players[playerIndex].position);
         let availableMoves = [];
         for(let card of playerHand){
-            let isPlayable = false;
-            let missingResources = card.getMissingResources(this.players[playerIndex].getCurrentResources());
-            let availableResources = [];
-
-            if(missingResources.length > 0) {
-                for (let resource of missingResources) {
-                    for (let neighbor of playerNeighbors) {
-                        let neighborAvailableResources = [];
-                        let neighborResources = neighbor.getCurrentResources();
-                        if (neighborResources.has(resource.name) && neighborResources.get(resource.name) >= resource.quantity) {
-                            neighborAvailableResources.push({
-                                type: resource.name,
-                                quantity: neighborResources.get(resource.name),
-                                price: 2 //TODO: Change price if discount
-                            });
-                        }
-                        if(neighborAvailableResources.length > 0) {
-                            availableResources.push({
-                                player: neighbor.getState(),
-                                resources: neighborAvailableResources
-                            });
-                        }
-                    }
-                }
-            }
-
+            let resources = card.getCardResources(card, this.players[playerIndex].getCurrentResources(), playerNeighbors);
             availableMoves.push({
                 card: card.getInfos(),
-                isPlayable: isPlayable,
-                missingResources: missingResources.length > 0 ? missingResources : null,
-                availableResources: availableResources.length > 0 ? availableResources : null
+                isPlayable: resources.isPlayable,
+                missingResources: resources.missingRessources,
+                usefullResources: resources.usefullResources,
+                stayingResources: resources.stayingResources
+
             });
         }
         return availableMoves;
