@@ -3,15 +3,7 @@
     height: 100%;
     color: white;
     padding: 5px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-}
-
-.playedCards{
-    position: absolute;
-    bottom: 5px;
-    left: 5px;
+    position: relative;
 }
 
 .playerMoney{
@@ -28,4 +20,86 @@
     font-size: 20pt;
     font-weight: bold;
     padding-bottom: 1px;
+}
+
+.playerCardMin{
+    margin: 2px;
+}
+
+.playerBoard{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: row;
+}
+
+.playerBoardContent{
+    position: relative;
+}
+
+.playedResources{
+    height: 48px;
+    --background: brown;
+    text-align: left;
+}
+
+.playedEconomics{
+    height: 48px;
+    --background: yellow;
+    text-align: left;
+}
+
+.playedSciences{
+    --background: green;
+    text-align: left;
+}
+
+.playedProducts{
+    height: 48px;
+    width: 326px;
+    --background: gray;
+    text-align: left;
+    position: absolute;
+    left: 118px;
+    z-index: 2;
+}
+
+.playedGuilds{
+    width: 96px;
+    --background: purple;
+    text-align: right;
+    position: absolute;
+    right: 0px;
+    z-index: 2;
+}
+
+.playedBuildings{
+    width: 444px;
+    --background: blue;
+    text-align: left;
+    position: absolute;
+    z-index: 2;
+    top: 48px;
+}
+
+.playerBoardImage{
+    position: relative;
+}
+
+.boardZone{
+    position: relative;
+}
+
+.playerBoardContentRight{
+    width: 96px;
+}
+
+.playedMilitarys{
+    width: 96px;
+    --background: red;
+    position: absolute;
+    top: 96px;
+    text-align: left;
 }
