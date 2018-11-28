@@ -105,3 +105,5 @@ automate.fsm.start(null,board);
 console.log(board.age);
 console.log(board.turn);
 automate.fsm.playTurn(null,board);
+
+console.log(board);
