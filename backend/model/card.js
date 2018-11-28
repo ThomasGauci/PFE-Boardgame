@@ -33,26 +33,31 @@ class Card {
         combInit.push(new Map());
         let combinations = getCombinations(playerResources, combInit);
         //finding working combinations with player's ressources only
-        let solutions = getSolutions(combinations, card.cost);
         let cardResources = {};
-        if(solutions.length > 0) {
-            cardResources["isPlayable"] = true;
-        }
-        else {
-            let allCombinations = getAllCombinations(combinations, neighbors);
-            let allSolutions = getSolutions(allCombinations, cost);
-            if(solutions.length === 0){
-                cardResources["isPlayable"] = false;
-                return cardResources;
+        if(card.cost){
+            let solutions = getSolutions(combinations, card.cost);
+            if(solutions.length > 0) {
+                cardResources["isPlayable"] = true;
             }
             else {
-                cardResources["isPlayable"] = true;
-                cardResources["playerResources"] = getUsefullPersonalResources(playerResources, card.cost);
-                let result = getUsefullAndMissingPersonalResources(playerResources, cost);
-                cardResources["usefullResources"] = result.usefullResources; //resources used to build card
-                cardResources["missingRessources"] = result.missingRessources;// resources needed but not owned
-                cardResources["stayingResources"] = result.stayingResources; //resources useless + or resources
+                let allCombinations = getAllCombinations(combinations, neighbors);
+                let allSolutions = getSolutions(allCombinations, card.cost);
+                if(solutions.length === 0){
+                    cardResources["isPlayable"] = false;
+                    return cardResources;
+                }
+                else {
+                    cardResources["isPlayable"] = true;
+                    cardResources["playerResources"] = getUsefullPersonalResources(playerResources, card.cost);
+                    let result = getUsefullAndMissingPersonalResources(playerResources, card.cost);
+                    cardResources["usefullResources"] = result.usefullResources; //resources used to build card
+                    cardResources["missingRessources"] = result.missingRessources;// resources needed but not owned
+                    cardResources["stayingResources"] = result.stayingResources; //resources useless + or resources
+                }
             }
+        }
+        else {
+           cardResources["isPlayable"] = true;
         }
         return cardResources;
     }
@@ -120,6 +125,7 @@ function getAllCombinations(playerCombinations, neighbors) {
 }
 
 function getCombinations(resources, combinations) {
+    console.log(resources);
     for(let resourceName of resources.keys()) {
         if(resourceName.includes("/")) {
             let resourcesNames = resourceName.split("/");
@@ -145,5 +151,5 @@ function getCombinations(resources, combinations) {
             }
         }
     }
-    return resources;
+    return combinations;
 }

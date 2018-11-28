@@ -87,7 +87,41 @@ class HandView extends Component{
     validateTurn(action) {
         let cardObject = this.getCardObject(this.state.currentCard);
         console.log(cardObject);
-        if(cardObject.isPlayable && !("availableResources" in cardObject)) {
+        if(action === "building"){
+            if(cardObject.isPlayable && !("availableResources" in cardObject)) {
+                let buttons = this.state.buttons;
+                for(let buttonId in buttons) {
+                    if(buttonId === action){
+                        let newbuttons = {
+                            building: false,
+                            wonderStep: false,
+                            discarding: false
+                        };
+                        newbuttons[buttonId] = true;
+                        this.setState({
+                            buttons: newbuttons
+                        });
+                    }
+                }
+                this.setState({
+                    validated: true,
+                    modalText: "Action validée"
+                });
+                let dataToSend = {
+                    cardId: this.state.currentCard,
+                    action: action,
+                    position: this.props.data.position
+                };
+                this.props.data.socket.emit('turnValidated', dataToSend);
+            }
+            else {
+                this.setState({
+                    trading: true,
+                    modalText: "Vous n'avez pas assez de ressources mais vous pouvez en acheter"
+                });
+            }
+        }
+        else {
             let buttons = this.state.buttons;
             for(let buttonId in buttons) {
                 if(buttonId === action){
@@ -112,12 +146,6 @@ class HandView extends Component{
                 position: this.props.data.position
             };
             this.props.data.socket.emit('turnValidated', dataToSend);
-        }
-        else {
-            this.setState({
-                trading: true,
-                modalText: "Vous n'avez pas assez de ressources mais vous pouvez en acheter"
-            });
         }
 
     }
@@ -147,7 +175,7 @@ class HandView extends Component{
 
     render(){
         var divStyle = {
-            background: utils.intToColor(1)//utils.intToColor(this.props.data.position)
+            background: utils.intToColor(this.props.data.position)
         };
         let imgStyle = this.state.validated ? {
             filter: "grayscale(100%)",

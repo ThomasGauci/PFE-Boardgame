@@ -8,8 +8,7 @@ class Action {
 
     getData(){
         return {
-            "player": this.player.name,
-            "position": this.player.position,
+            "player": this.player.getState(),
             "action": this.type,
             "cardId": this.card
         };
