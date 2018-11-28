@@ -5,9 +5,9 @@ export function intToColor(position){
             return "dodgerblue";
         case 2:
             return "forestgreen";
-        case 3:
-            return "indianred";
         case 4:
+            return "indianred";
+        case 3:
             return "orange";
         default:
             return "white"

@@ -41,6 +41,10 @@ class Player {
         return cardsId;
     }
 
+    getHand(){
+        return this.hand;
+    }
+
     getState(){
         return {
             "name": this.name,
@@ -51,6 +55,23 @@ class Player {
             "army": this.army,
             "playedCards": this.cards
         };
+    }
+
+    getCurrentResources(){
+        let resources = new Map();
+        if(this.gold != 0)
+            resources.set('gold', this.gold);
+        for(let card of this.cards){
+            if(resources.has(card.effectTarget))
+                resources.set(card.effectTarget, resources.get(card.effectTarget) + card.effectValue);
+            else
+                resources.set(card.effectTarget, card.effectValue);
+        }
+        if(resources.has(this.city.baseRessource))
+            resources.set(this.city.baseRessource, resources.get(this.city.baseRessource) + 1);
+        else
+            resources.set(this.city.baseRessource, 1);
+        return resources;
     }
 }
 module.exports = Player;
