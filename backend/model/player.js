@@ -61,12 +61,15 @@ class Player {
         let resources = new Map();
         if(this.gold !== 0)
             resources.set('gold', this.gold);
+        console.log('TEST', resources);
         for(let card of this.cards){
             if(resources.has(card.effectTarget))
                 resources.set(card.effectTarget, resources.get(card.effectTarget) + card.effectValue);
             else
                 resources.set(card.effectTarget, card.effectValue);
         }
+        console.log("PIOU");
+        console.log(resources);
         if(resources.has(this.city.baseRessource))
             resources.set(this.city.baseRessource, resources.get(this.city.baseRessource) + 1);
         else

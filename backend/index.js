@@ -87,7 +87,7 @@ io.on('connection', (client) => {
         }
 
         if(automate.ifGoNextAge(board)){
-            automate.fsm.battle(client,board);
+            automate.fsm.battle(table,board);
         }
     });
 

@@ -107,7 +107,7 @@ class Board {
         let data;
         for(let i = 0; i < this.players.length ; i++){
             neighbor = [this.findNeighbor(i).left,this.findNeighbor(i).right];
-            data.position = i+1;
+            //data.position = i+1;
             for(let j = 0; j < neighbor.length ; j++){
                 if(this.players[i].army > neighbor[j].army){
                     this.players[i].warPoints += gainedPoint;
@@ -126,6 +126,7 @@ class Board {
                 }
             }
         }
+
     }
 
     getPlayerNeighbors(playerPosition){

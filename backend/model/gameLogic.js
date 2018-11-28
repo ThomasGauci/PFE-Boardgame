@@ -92,17 +92,17 @@ let fsm = new StateMachine({
             for(let i=0;i<4;i++){
                 data={"age": board.age,
                     "turn":board.turn,
-                    "cards":board.players[i].getCardsId()
+                    "cards":board.getPlayerAvailableMoves(i)
                 };
                 if(board.players[i].socket != null){
                     board.players[i].socket.emit('newTurn',data);
                 }
             }
         },
-        onBattle: function(lifecycle,client,board){
+        onBattle: function(lifecycle,table,board){
             console.log("End of age: battle");
             let data = board.battle();
-
+            table.emit('battle',"");
         }
     }
 });
