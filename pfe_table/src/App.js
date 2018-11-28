@@ -6,6 +6,7 @@ import GameScreen from "./screens/gameScreen/gameScreen";
 import StartScreen from "./screens/startScreen/startScreen";
 import GameWidget from "./GameWidget"
 import './App.css';
+import ReactDOM from "react-dom";
 
 const tuioManager = new TUIOManager();
 
@@ -17,7 +18,8 @@ class App extends Component {
         connectionError: false,
         gamePhase: 0,
         players: [],
-        latestActions: null
+        latestActions: null,
+        gameWidget: null
     }
     changeServerIp = this.changeServerIp.bind(this);
     setupSocket = this.setupSocket.bind(this);
@@ -26,7 +28,7 @@ class App extends Component {
         tuioManager.start();
         this.setupSocket();
         console.log(TUIOManager.getInstance());
-        let gameWidget = new GameWidget();
+        this.setState({gameWidget: new GameWidget(this.state.socket, this.state.players)});
     }
 
     render() {
@@ -50,7 +52,9 @@ class App extends Component {
     }
 
     changeServerIp(newIp){
-        this.setState({serverIp: newIp}, () => {
+        if(this.state.socket)
+            this.state.socket.close();
+        this.setState({socket: null, serverIp: newIp}, () => {
             this.setupSocket();
         });
     }
@@ -68,18 +72,30 @@ class App extends Component {
                 console.log("playerJoined", data);
                 let players = this.state.players;
                 players.push(data);
-                this.setState({players: players});
+                this.setState({players: players}, () => {
+                    this.state.gameWidget.setPlayers(players);
+                });
             });
             socket.on('gameStart', data => {
                 console.log("gameStart", data);
-                this.setState({gamePhase: 1, players: data});
+                this.setState({gamePhase: 1, players: data}, () => {
+                    this.state.gameWidget.setPlayers(data);
+                });
                 socket.emit('readyAge');
             });
             socket.on('endTurn', data => {
                 console.log("endTurn", data);
-                this.setState({players: data.gameState.players, latestActions: data.latestActions});
+                this.setState({players: data.gameState.players, latestActions: data.latestActions}, () => {
+                    this.state.gameWidget.setPlayers(data.gameState.players);
+                });
             });
-            this.setState({socket: socket, connectionError: false});
+            socket.on('battle', data => {
+                console.log("battle", data);
+                socket.emit('readyAge');
+            });
+            this.setState({socket: socket, connectionError: false}, () => {
+                this.state.gameWidget.setSocket(socket);
+            });
         });
         socket.on('connect_error', () => {
             socket.close();
@@ -89,65 +105,3 @@ class App extends Component {
 }
 
 export default App;
-/*
-{
-    latestActions: [
-        {
-            player: {...},
-            action: '...',
-            cardId: '...'
-        },
-        {
-            player: {...},
-            action: '...',
-            cardId: '...'
-        },
-        {
-            player: {...},
-            action: '...',
-            cardId: '...'
-        },
-        {
-            player: {...},
-            action: '...',
-            cardId: '...'
-        }
-    ],
-    gameState: {
-        players: [
-            {
-                name: '...',
-                position: '...',
-                city: '...',
-                money: '...',
-                warPoints: [...],
-                playedCards: [...]
-            },
-            {
-                name: '...',
-                position: '...',
-                city: '...',
-                money: '...',
-                warPoints: [...],
-                playedCards: [...]
-            },
-            {
-                name: '...',
-                position: '...',
-                city: '...',
-                money: '...',
-                warPoints: [...],
-                playedCards: [...]
-            },
-            {
-                name: '...',
-                position: '...',
-                city: '...',
-                money: '...',
-                warPoints: [...],
-                playedCards: [...]
-            }
-        ]
-    }
-}
-*/

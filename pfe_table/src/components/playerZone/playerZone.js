@@ -20,9 +20,9 @@ class PlayerZone extends Component {
                         <p>Cartes jouées :</p>
                         {this.props.player.playedCards ?
                             <div>
-                                {this.props.player.playedCards.map(card => {
+                                {this.props.player.playedCards.map((card, index) => {
                                     return (
-                                        <img className='shadow' src={this.getCardImage(card)}/>
+                                        <img className='shadow' key={`${this.props.player.position}${index}`} src={this.getCardImage(card)}/>
                                     );
                                 })}
                             </div>
