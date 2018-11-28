@@ -7,7 +7,8 @@ class Player {
         this.actions = [];
         this.gold = 3;
         this.army = 0;
-        this.wardPoint = 0;
+        this.warPoints = 0;
+        this.lostWars = 0;
         this.city = null;
         this.socket = socket;
     }

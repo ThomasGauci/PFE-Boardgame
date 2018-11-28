@@ -19,8 +19,8 @@ let fsm = new StateMachine({
         { name: 'playTurn', from: 'turn', to: 'endTurn'},
         { name: 'startTurn', from: 'endTurn', to: 'turn'},
         { name: 'battle', from: 'endTurn', to: 'endAge'},
-        /*{ name: 'restartAge', from: 'enAge', to: 'newAge'},*/
-        { name: 'findWinner', from: 'enAge', to: 'end'}
+        { name: 'restartAge', from: 'endAge', to: 'newAge'},
+        { name: 'findWinner', from: 'endAge', to: 'end'}
     ],
     methods: {
         onSetUp:  function(lifecycle,client,board) {
@@ -35,10 +35,9 @@ let fsm = new StateMachine({
             if(client != null)
                 client.broadcast.emit('gameStart', data);
         },
-        onStartAge: function(lifecycle,client,board){
+        onNewAge: function(lifecycle,client,board){
             console.log("Start new Age");
-            board.distributeCards(cards.age1);
-            board.age++;
+            board.newAge(cards);
         },
         onStart: function(lifecycle,client,board){
             console.log("Start turn");
@@ -95,9 +94,15 @@ let fsm = new StateMachine({
                     "turn":board.turn,
                     "cards":board.players[i].getCardsId()
                 };
-                if(board.players[i].socket != null)
+                if(board.players[i].socket != null){
                     board.players[i].socket.emit('newTurn',data);
+                }
             }
+        },
+        onBattle: function(lifecycle,client,board){
+            console.log("End of age: battle");
+            board.battle();
+            let data = [];
         }
     }
 });
@@ -107,10 +112,15 @@ let fsm = new StateMachine({
 }
 
 function ifGoNextAge(board){
-    return (board.turn === 6);
+    return (board.turn === 6 && ifGoNextTurn() && board.age < 3);
+}
+
+function ifEndGame(board){
+     return (board.turn ===6 && ifGoNextTurn() && board.age === 3);
 }
 
 module.exports = { fsm: fsm,
     ifGoNextTurn : ifGoNextTurn,
-    ifGoNextAge : ifGoNextAge
+    ifGoNextAge : ifGoNextAge,
+    ifEndGame : ifEndGame
  };

@@ -19,7 +19,6 @@ class Action {
         this.player.actions.push(this.getData());
         let playedCard = this.player.findCardFromId(this.card);
 
-        console.log(this.player.hand.indexOf(playedCard));
         this.player.hand.splice(this.player.hand.indexOf(playedCard),1);
         switch (this.type) {
             case("wonderStep"):
@@ -34,7 +33,6 @@ class Action {
     }
 
     undo(){
-
     }
 }
 module.exports = Action;
