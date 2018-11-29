@@ -59,21 +59,20 @@ class Player {
 
     getCurrentResources(){
         let resources = new Map();
-        if(this.gold !== 0)
-            resources.set('gold', this.gold);
-        console.log('TEST', resources);
         for(let card of this.cards){
-            if(resources.has(card.effectTarget))
-                resources.set(card.effectTarget, resources.get(card.effectTarget) + card.effectValue);
-            else
-                resources.set(card.effectTarget, card.effectValue);
+            if(card.effectTarget && card.effectTarget !== "tablet" && card.effectTarget !== "compass" && card.effectTarget !== "gear" && card.effectTarget !== "army" && card.effectTarget !== "victory" ){
+                if(resources.has(card.effectTarget)){
+                    resources.set(card.effectTarget, {quantity: resources.get(card.effectTarget) + card.effectValue, cost: 2});
+                }
+                else{
+                    resources.set(card.effectTarget, {quantity: card.effectValue, cost: 2});
+                }
+            }
         }
-        console.log("PIOU");
-        console.log(resources);
         if(resources.has(this.city.baseRessource))
-            resources.set(this.city.baseRessource, resources.get(this.city.baseRessource) + 1);
+            resources.set(this.city.baseRessource, {quantity: resources.get(this.city.baseRessource).quantity + 1, cost: 2});
         else
-            resources.set(this.city.baseRessource, 1);
+            resources.set(this.city.baseRessource, {quantity: 1, cost: 2});
         return resources;
     }
 }

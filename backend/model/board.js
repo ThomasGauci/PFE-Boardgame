@@ -141,7 +141,7 @@ class Board {
         const playerNeighbors = this.getPlayerNeighbors(this.players[playerIndex].position);
         let availableMoves = [];
         for(let card of playerHand){
-            let resources = card.getCardResources(card, this.players[playerIndex].getCurrentResources(), playerNeighbors);
+            let resources = card.getCardResources(card, this.players[playerIndex], playerNeighbors);
             availableMoves.push({
                 card: card.getInfos(),
                 isPlayable: resources.isPlayable,
