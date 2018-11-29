@@ -2,23 +2,36 @@ import TUIOWidget from "tuiomanager/core/TUIOWidget";
 import { WINDOW_HEIGHT, WINDOW_WIDTH } from 'tuiomanager/core/constants';
 
 export default class GameWidget extends TUIOWidget{
-    constructor(socket, players){
+    constructor(socket, players, cards){
         super(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
         this.socket = socket;
         this.players = players;
-        //this.players = [{tagId: 31, name:'TEST'}, {tagId: 62, name:'TEST2'}];
+        this.players = [{position: 2, tagId: "A6"}]
+        this.cards = cards;
     }
 
     onTouchCreation(tuioTouch){
-        console.log(tuioTouch);
+        const touchX = tuioTouch._x - 1920;
+        const touchY = tuioTouch._y;
+        console.log("Touch on ", touchX, touchY);
+        for(let card of this.cards){
+            if(touchX >= card.x1 && touchX <= card.x2 && touchY >= card.y1 && touchY <= card.y2){
+                console.log("Card ", card.id, " touched !");
+            }
+        }
     }
 
     onTagCreation(tuioTag) {
-        console.log(tuioTag);
+        const tagX = tuioTag._x - 1920;
+        const tagY = tuioTag._y;
         const player = this.getPlayerWithTag(tuioTag._id);
-        console.log(player);
-        if (this.socket)
-            ;//this.socket.emit('getInformations', {playerPosition: 1, cardId: 'B101'});
+        for(let card of this.cards){
+            if(tagX >= card.x1 && tagX <= card.x2 && tagY >= card.y1 && tagY <= card.y2){
+                console.log("Tag", tuioTag._id, "on", card.id);
+                if(this.socket && player)
+                    this.socket.emit('getInformations', {playerPosition: player.position, cardId: card.id});
+            }
+        }
     }
 
     setPlayers(players){
@@ -27,6 +40,10 @@ export default class GameWidget extends TUIOWidget{
 
     setSocket(socket){
         this.socket = socket;
+    }
+
+    setCards(cards){
+        this.cards = cards;
     }
 
     getPlayerWithTag(tag){

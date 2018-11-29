@@ -54,7 +54,7 @@ class PlayerZone extends Component {
                                     {
                                         economics.map((card, index) => {
                                             return (
-                                            <img className='gameCardMin playerCardMin shadow' key={`${this.props.player.position}${index}`}
+                                            <img id={card.id} className='gameCardMin playerCardMin shadow' key={`${this.props.player.position}${index}`}
                                             src={this.getCardImage(card)}/>
                                             );
                                         })
@@ -67,7 +67,7 @@ class PlayerZone extends Component {
                                     {
                                         resources.map((card, index) => {
                                             return (
-                                                <img className='gameCardMin playerCardMin shadow'
+                                                <img id={card.id} className='gameCardMin playerCardMin shadow'
                                                      key={`${this.props.player.position}${index}`}
                                                      src={this.getCardImage(card)}/>
                                             );
@@ -82,7 +82,7 @@ class PlayerZone extends Component {
                                         {
                                             products.map((card, index) => {
                                                 return (
-                                                    <img className='gameCardMin playerCardMin shadow'
+                                                    <img id={card.id} className='gameCardMin playerCardMin shadow'
                                                          key={`${this.props.player.position}${index}`}
                                                          src={this.getCardImage(card)}/>
                                                 );
@@ -96,7 +96,7 @@ class PlayerZone extends Component {
                                         {
                                             guilds.map((card, index) => {
                                                 return (
-                                                    <img className='gameCardMin playerCardMin shadow'
+                                                    <img id={card.id} className='gameCardMin playerCardMin shadow'
                                                          key={`${this.props.player.position}${index}`}
                                                          src={this.getCardImage(card)}/>
                                                 );
@@ -110,7 +110,7 @@ class PlayerZone extends Component {
                                         {
                                             buildings.map((card, index) => {
                                                 return (
-                                                    <img className='gameCardMin playerCardMin shadow'
+                                                    <img id={card.id} className='gameCardMin playerCardMin shadow'
                                                          key={`${this.props.player.position}${index}`}
                                                          src={this.getCardImage(card)}/>
                                                 );
@@ -127,7 +127,7 @@ class PlayerZone extends Component {
                                     {
                                         sciences.map((card, index) => {
                                             return (
-                                                <img className='gameCardMin playerCardMin shadow'
+                                                <img id={card.id} className='gameCardMin playerCardMin shadow'
                                                      key={`${this.props.player.position}${index}`}
                                                      src={this.getCardImage(card)}/>
                                             );
@@ -143,7 +143,7 @@ class PlayerZone extends Component {
                                     {
                                         militarys.map((card, index) => {
                                             return (
-                                            <img className='gameCardMin playerCardMin shadow' key={`${this.props.player.position}${index}`}
+                                            <img id={card.id} className='gameCardMin playerCardMin shadow' key={`${this.props.player.position}${index}`}
                                             src={this.getCardImage(card)}/>
                                             );
                                         })

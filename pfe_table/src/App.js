@@ -13,13 +13,14 @@ const tuioManager = new TUIOManager();
 class App extends Component {
 
     state={
-        serverIp: 'wss://192.168.1.8:8000',
+        serverIp: 'wss://192.168.1.9:8000',
         socket: null,
         connectionError: false,
         gamePhase: 0,
         players: [],
         latestActions: null,
-        gameWidget: null
+        gameWidget: null,
+        cardsOnBoard: []
     }
     changeServerIp = this.changeServerIp.bind(this);
     setupSocket = this.setupSocket.bind(this);
@@ -28,12 +29,16 @@ class App extends Component {
         tuioManager.start();
         this.setupSocket();
         console.log(TUIOManager.getInstance());
-        this.setState({gameWidget: new GameWidget(this.state.socket, this.state.players)});
+        this.setState({gameWidget: new GameWidget(this.state.socket, this.state.players, this.getCardsOnBoard())});
+    }
+
+    componentDidUpdate(){
+        this.state.gameWidget.setCards(this.getCardsOnBoard());
     }
 
     render() {
         return (
-            <div className="App">
+            <div className="App" ref="app">
                 {this.state.gamePhase === 0 ?
                     <StartScreen
                         serverIp={this.state.serverIp}
@@ -101,6 +106,21 @@ class App extends Component {
             socket.close();
             this.setState({connectionError: true});
         });
+    }
+
+    getCardsOnBoard(){
+        const cards = ReactDOM.findDOMNode(this.refs['app']).getElementsByClassName('playerCardMin');
+        let result = [];
+        for(let card of cards){
+            result.push({
+                id: card.id,
+                x1: card.getBoundingClientRect().x,
+                x2: card.getBoundingClientRect().x + 44,
+                y1: card.getBoundingClientRect().y,
+                y2: card.getBoundingClientRect().y + 44
+            });
+        }
+        return result;
     }
 }
 
