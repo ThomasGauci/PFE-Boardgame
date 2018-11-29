@@ -62,13 +62,6 @@ class Card {
                 let allSolutions = getSolutions(allCombinations, card.cost, prices, playerMoney);
                 if(allSolutions.length === 0){
                     cardResources["isPlayable"] = false;
-                    console.log("cardResources",cardResources);
-                    console.log("cost", card.cost);
-                    console.log("money", playerMoney);
-                    console.log("playerResources",playerResources);
-                    for(let neighbor of neighbors){
-                        console.log("nresources", neighbor.getCurrentResources());
-                    }
                     return cardResources;
                 }
                 else {
@@ -77,6 +70,12 @@ class Card {
                     cardResources["usefullResources"] = result.usefullResources; //resources used to build card
                     cardResources["missingRessources"] = result.missingRessources;// resources needed but not owned
                     cardResources["stayingResources"] = result.stayingResources; //resources useless + or resources
+                    let availableResources = new Map();
+                    for(let neighbor of neighbors){
+                        availableResources.set(neighbor.getState().position, neighbor.getCurrentResources());
+                    }
+                    cardResources["availableResources"] = availableResources;
+
                 }
             }
         }
@@ -131,12 +130,16 @@ function getSolutions(combinations, cost, prices, playerMoney) {
     let solutions = [];
     for(let combination of combinations) {
         let missingResources = [];
+        let neededResources = new Map();
         for (let resource of cost) {
-            if ((!combination.has(resource.name) || combination.get(resource.name) < resource.quantity) && resource.name !== "gold") {
+            if ((!combination.has(resource.name) || combination.get(resource.name) < resource.quantity)) {
                 missingResources.push(resource);
             }
+            else {
+                neededResources.set(resource.name, resource.quantity);
+            }
         }
-        if(missingResources.length === 0 && (prices.length === 0 || checkSolutionPrice(combination, prices) <= playerMoney)){
+        if(missingResources.length === 0 && (prices.length === 0 || checkSolutionPrice(neededResources, prices,) <= playerMoney)){
             solutions.push(combination);
         }
     }
@@ -225,9 +228,6 @@ function checkSolutionPrice(combination, prices) {
                    quantity = combination.get(resourceName);
                    combination.delete(resourceName);
                    quantity === price.get(resourceName) ? price.delete(resourceName) : price.set(resourceName, price.get(resourceName) - quantity);
-                   console.log("resourceName",resourceName);
-                   console.log("value",value);
-                   console.log("quantity",quantity);
                    finalPrice += (value * quantity);
                    break
                 }
@@ -235,9 +235,6 @@ function checkSolutionPrice(combination, prices) {
                     quantity = price.get(resourceName);
                     combination.set(resourceName, combination.get(resourceName) - quantity);
                     price.delete(resourceName);
-                    console.log("resourceName",resourceName);
-                    console.log("value",value);
-                    console.log("quantity",quantity);
                     finalPrice += (value * quantity);
                 }
             }
@@ -245,6 +242,5 @@ function checkSolutionPrice(combination, prices) {
         }
         value = 0;
     }
-    console.log("finalPrice", finalPrice);
     return finalPrice;
 }
