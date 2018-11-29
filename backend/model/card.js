@@ -62,12 +62,12 @@ class Card {
                 let allSolutions = getSolutions(allCombinations, card.cost, prices, playerMoney);
                 if(allSolutions.length === 0){
                     cardResources["isPlayable"] = false;
-                    console.log("cardResources",cardResources);
+                    /*console.log("cardResources",cardResources);
                     console.log("cost", card.cost);
                     console.log("money", playerMoney);
-                    console.log("playerResources",playerResources);
+                    console.log("playerResources",playerResources);*/
                     for(let neighbor of neighbors){
-                        console.log("nresources", neighbor.getCurrentResources());
+                        //console.log("nresources", neighbor.getCurrentResources());
                     }
                     return cardResources;
                 }
@@ -84,10 +84,6 @@ class Card {
            cardResources["isPlayable"] = true;
         }
         return cardResources;
-    }
-
-    play(action){
-
     }
 }
 module.exports = Card;
@@ -198,6 +194,7 @@ function computePrices(playerResources, neighbors) {
             }
         }
     }
+
     prices.push(map0);
     prices.push(map1);
     prices.push(map2);
@@ -225,9 +222,9 @@ function checkSolutionPrice(combination, prices) {
                    quantity = combination.get(resourceName);
                    combination.delete(resourceName);
                    quantity === price.get(resourceName) ? price.delete(resourceName) : price.set(resourceName, price.get(resourceName) - quantity);
-                   console.log("resourceName",resourceName);
+                   /*console.log("resourceName",resourceName);
                    console.log("value",value);
-                   console.log("quantity",quantity);
+                   console.log("quantity",quantity);*/
                    finalPrice += (value * quantity);
                    break
                 }
@@ -235,9 +232,9 @@ function checkSolutionPrice(combination, prices) {
                     quantity = price.get(resourceName);
                     combination.set(resourceName, combination.get(resourceName) - quantity);
                     price.delete(resourceName);
-                    console.log("resourceName",resourceName);
+                    /*console.log("resourceName",resourceName);
                     console.log("value",value);
-                    console.log("quantity",quantity);
+                    console.log("quantity",quantity);*/
                     finalPrice += (value * quantity);
                 }
             }
@@ -245,6 +242,6 @@ function checkSolutionPrice(combination, prices) {
         }
         value = 0;
     }
-    console.log("finalPrice", finalPrice);
+    //console.log("finalPrice", finalPrice);
     return finalPrice;
 }

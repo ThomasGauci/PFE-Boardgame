@@ -5,12 +5,14 @@ class Player {
         this.hand = [];
         this.cards = [];
         this.actions = [];
-        this.gold = 3;
-        this.army = 0;
-        this.warPoints = [[0],[0],[0]];
+        this.warPoints = [[],[],[]];
         this.lostWars = 0;
         this.city = null;
         this.socket = socket;
+
+        this.gold = 3;
+        this.army = 0;
+        this.victory = 0;
     }
 
     setCity(city){

@@ -60,7 +60,7 @@ let fsm = new StateMachine({
                 console.log("erreur: player not found");
             }else{
                 let action = new Action(data.action,data.cardId,player,board);
-                action.play();
+                action.do();
                 num_played++;
             }
         },
@@ -101,9 +101,18 @@ let fsm = new StateMachine({
         },
         onBattle: function(lifecycle,table,board){
             console.log("End of age: battle");
-            let data = board.battle();
+            let players = [];
+            for(let i = 0; i<4;i++){
+                players.push(board.players[i].getState());
+            }
+            let wars = board.battle();
+            let data= {
+                "war": wars,
+                "gameState":
+                    {"players" : players}
+            };
             if(table != null){
-                table.emit('battle',"");
+                table.emit('battle',data);
             }
         }
     }

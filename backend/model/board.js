@@ -103,30 +103,28 @@ class Board {
     battle(){
         let gainedPoint = this.warPointPerAge[this.age-1];
         let neighbor;
-        let res =[];
+        let war = [];
         let data;
         for(let i = 0; i < this.players.length ; i++){
             neighbor = [this.findNeighbor(i).left,this.findNeighbor(i).right];
-            //data.position = i+1;
             for(let j = 0; j < neighbor.length ; j++){
                 if(this.players[i].army > neighbor[j].army){
-                    this.players[i].warPoints[this.age-1] += gainedPoint;
-                    /*if(i===0){
-                        data.left.win = "true";
-                        data.left.
-                    }*/
-
+                    this.players[i].warPoints[this.age-1].push(gainedPoint);
+                    data = {
+                        winner : this.players[i].getState(),
+                        loser : neighbor[j].getState()
+                    };
+                    war.push(data);
                 }
                 else if(this.players[i].army < neighbor[j].army){
-                    this.players[i].warPoints--;
+                    this.players[i].warPoints[this.age-1].push(-1);
                     this.players[i].lostWars++;
                 }
                 else{
-                    // do nothing
                 }
             }
         }
-
+        return war;
     }
 
     getPlayerNeighbors(playerPosition){
