@@ -3,7 +3,6 @@ import {Col, Row, Modal} from "react-bootstrap";
 
 import PlayerZone from "../../components/playerZone/playerZone";
 import './gameScreen.css';
-import {User} from "react-feather";
 
 class GameScreen extends Component {
 

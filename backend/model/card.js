@@ -7,6 +7,8 @@ class Card {
         if(infos.effect) {
             this.effectTarget = infos.effect.target;
             this.effectValue = infos.effect.value;
+        } else {
+            this.effectTarget = null;
         }
         if(infos.cost)
             this.cost = infos.cost;
@@ -27,28 +29,50 @@ class Card {
         };
     }
 
-    getCardResources(card, playerResources, neighbors){
+    getCardResources(card, player, neighbors) {
+        let playerResources = player.getCurrentResources();
+        let prices = computePrices(playerResources, neighbors);
+        let playerMoney = player.getState()["money"];
+        let cardResources = {};
+        //card cost is money only
+        if(card.cost && card.cost[0].name === "gold"){
+            //not enough gold to buy card
+            if(playerMoney < card.cost[0].quantity){
+                cardResources["isPlayable"] = false;
+                return cardResources;
+            }
+            //enough money to buy card
+            else {
+                cardResources["isPlayable"] = true;
+                return cardResources;
+            }
+        }
         //getting all Combinations with player's ressources only
         let combInit = [];
         combInit.push(new Map());
         let combinations = getCombinations(playerResources, combInit);
         //finding working combinations with player's ressources only
-        let cardResources = {};
         if(card.cost){
-            let solutions = getSolutions(combinations, card.cost);
+            let solutions = getSolutions(combinations, card.cost, [], 0);
             if(solutions.length > 0) {
                 cardResources["isPlayable"] = true;
             }
             else {
                 let allCombinations = getAllCombinations(combinations, neighbors);
-                let allSolutions = getSolutions(allCombinations, card.cost);
-                if(solutions.length === 0){
+                let allSolutions = getSolutions(allCombinations, card.cost, prices, playerMoney);
+                if(allSolutions.length === 0){
                     cardResources["isPlayable"] = false;
+                    console.log("cardResources",cardResources);
+                    console.log("cost", card.cost);
+                    console.log("money", playerMoney);
+                    console.log("playerResources",playerResources);
+                    for(let neighbor of neighbors){
+                        console.log("nresources", neighbor.getCurrentResources());
+                    }
                     return cardResources;
                 }
                 else {
                     cardResources["isPlayable"] = true;
-                    cardResources["playerResources"] = getUsefullPersonalResources(playerResources, card.cost);
                     let result = getUsefullAndMissingPersonalResources(playerResources, card.cost);
                     cardResources["usefullResources"] = result.usefullResources; //resources used to build card
                     cardResources["missingRessources"] = result.missingRessources;// resources needed but not owned
@@ -75,8 +99,8 @@ function getUsefullAndMissingPersonalResources(playerResources, cost) {
     let missingRessources = new Map();
     let usefullResources = new Map();
     let stayingResources = new Map();
-    for(let resource of playerResources) {
-        stayingResources.set(resource,resource.quantity);
+    for(let resourceName of playerResources.keys()) {
+        stayingResources.set(resourceName, playerResources.get(resourceName));
     }
     for(let resource of cost){
         if (playerResources.has(resource.name) && playerResources.get(resource.name) >= resource.quantity) {
@@ -85,12 +109,12 @@ function getUsefullAndMissingPersonalResources(playerResources, cost) {
             stayingResources.set(resource.name, playerResources.get(resource.name) - resource.quantity);
         }
         else if (playerResources.has(resource.name) && playerResources.get(resource.name) < resource.quantity) {
-            cost.set(resource.name, cost.get(resource.name) - playerResources.get(resource.name));
-            missingRessources.set(resource.name, cost.get(resource.name));
+            cost.set(resource.name, resource.quantity - playerResources.get(resource.name));
+            missingRessources.set(resource.name, resource.quantity);
             stayingResources.delete(resource.name);
         }
         else {
-            missingRessources.set(resource.name, cost.get(resource.name));
+            missingRessources.set(resource.name, resource.quantity);
         }
     }
     return {missingRessources: missingRessources, usefullResources: usefullResources, stayingResources: stayingResources};
@@ -103,16 +127,16 @@ function copyMap(oldMap) {
     return newMap;
 }
 
-function getSolutions(combinations, cost) {
+function getSolutions(combinations, cost, prices, playerMoney) {
     let solutions = [];
     for(let combination of combinations) {
         let missingResources = [];
         for (let resource of cost) {
-            if (!combination.has(resource.name) || combination.get(resource.name) < resource.quantity) {
+            if ((!combination.has(resource.name) || combination.get(resource.name) < resource.quantity) && resource.name !== "gold") {
                 missingResources.push(resource);
             }
         }
-        if(missingResources.length === 0){
+        if(missingResources.length === 0 && (prices.length === 0 || checkSolutionPrice(combination, prices) <= playerMoney)){
             solutions.push(combination);
         }
     }
@@ -125,7 +149,6 @@ function getAllCombinations(playerCombinations, neighbors) {
 }
 
 function getCombinations(resources, combinations) {
-    console.log(resources);
     for(let resourceName of resources.keys()) {
         if(resourceName.includes("/")) {
             let resourcesNames = resourceName.split("/");
@@ -134,7 +157,7 @@ function getCombinations(resources, combinations) {
                 for(let combination of combinations) {
                     let currentCombination = copyMap(combination);
                     if(currentCombination.has(resource)) {
-                        currentCombination.set(resource, resources.get(resource) + 1);
+                        currentCombination.set(resource, currentCombination.get(resource) + 1);
                     }
                     else {
                         currentCombination.set(resource, 1)
@@ -145,11 +168,83 @@ function getCombinations(resources, combinations) {
             combinations = [];
             combinations = newCombinations.slice(0, newCombinations.length);
         }
-        else {
+        else  {
             for(let combination of combinations) {
-                combination.set(resourceName, resources.get(resourceName) + (combination.has(resourceName) ? combination.get(resourceName) : 0));
+                combination.set(resourceName, resources.get(resourceName).quantity + (combination.has(resourceName) ? combination.get(resourceName) : 0));
             }
         }
     }
     return combinations;
+}
+
+function computePrices(playerResources, neighbors) {
+    let prices = [];
+    let map0 = new Map();
+    for(let resourceName of playerResources.keys()){
+        if(resourceName !== "gold" && resourceName !== "victory"){
+            map0.set(resourceName, playerResources.get(resourceName).quantity)
+        }
+    }
+    let map1 = new Map();
+    let map2 = new Map();
+    for(let neighbor of neighbors) {
+        let resources = neighbor.getCurrentResources();
+        for (let resourceName of resources.keys()){
+            if(resources.get(resourceName).cost === 1){
+                map1.set(resourceName, resources.get(resourceName).quantity + map1.has(resourceName)? map1.get(resourceName) : 0);
+            }
+            else {
+                map2.set(resourceName, resources.get(resourceName).quantity + (map2.has(resourceName)? map2.get(resourceName) : 0));
+            }
+        }
+    }
+    prices.push(map0);
+    prices.push(map1);
+    prices.push(map2);
+    return prices;
+}
+
+function checkSolutionPrice(combination, prices) {
+    let prices1 = [];
+    for(let price of prices){
+        prices1.push(copyMap(price));
+    }
+    let value = 0;
+    let finalPrice = 0;
+    for(let resourceName of combination.keys()){
+        for(let price of prices1){
+            for(let priceName of price.keys()){
+                if(priceName.includes(resourceName)){
+                    resourceName = priceName;
+                    break
+                }
+            }
+            if(price.has(resourceName)){
+                let quantity;
+                if(price.get(resourceName) >= combination.get(resourceName)){
+                   quantity = combination.get(resourceName);
+                   combination.delete(resourceName);
+                   quantity === price.get(resourceName) ? price.delete(resourceName) : price.set(resourceName, price.get(resourceName) - quantity);
+                   console.log("resourceName",resourceName);
+                   console.log("value",value);
+                   console.log("quantity",quantity);
+                   finalPrice += (value * quantity);
+                   break
+                }
+                else if(price.get(resourceName) >= 0) {
+                    quantity = price.get(resourceName);
+                    combination.set(resourceName, combination.get(resourceName) - quantity);
+                    price.delete(resourceName);
+                    console.log("resourceName",resourceName);
+                    console.log("value",value);
+                    console.log("quantity",quantity);
+                    finalPrice += (value * quantity);
+                }
+            }
+            value++;
+        }
+        value = 0;
+    }
+    console.log("finalPrice", finalPrice);
+    return finalPrice;
 }
