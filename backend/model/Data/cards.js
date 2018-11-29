@@ -215,17 +215,6 @@ addCard(age1, {
     }
 });
 
-/*addCard(age1, {
-    id: "R105",
-    name: "Friche",
-    age: 1,
-    type: "resource",
-    effect: {
-        target: "wood/clay",
-        value: 1,
-    },
-    cost: [{name: "gold", quantity: 1}]
-});*/
 addCard(age1, {
     id: "R106",
     name: "Excavation",
@@ -259,28 +248,6 @@ addCard(age1, {
     },
     cost: [{name: "gold", quantity: 1}]
 });
-/*addCard(age1, {
-    id: "R109",
-    name: "Gisement",
-    age: 1,
-    type: "resource",
-    effect: {
-        target: "wood/ore",
-        value: 1,
-    },
-    cost: [{name: "gold", quantity: 1}]
-});*/
-/*addCard(age1, {
-    id: "R110",
-    name: "Mine",
-    age: 1,
-    type: "resource",
-    effect: {
-        target: "stone/ore",
-        value: 1,
-    },
-    cost: [{name: "gold", quantity: 1}]
-});*/
 
 addCard(age1, {
     id: "S101",
@@ -332,59 +299,723 @@ addCard(age1, {
 });
 
 let age2 = [];
-addCard(age2,{id:"A201"});
-addCard(age2,{id:"A202"});
-addCard(age2,{id:"A203"});
-addCard(age2,{id:"A204"});
 
-addCard(age2,{id:"E201"});
-addCard(age2,{id:"E202"});
-addCard(age2,{id:"E203"});
-addCard(age2,{id:"E204"});
+addCard(age2, {
+    id: "A201",
+    name: "Ecurie",
+    age: 2,
+    type: "military",
+    effect: {
+        target: "army",
+        value: 2,
+    },
+    cost: [{name: "clay", quantity: 1},{name: "wood", quantity: 1},{name: "ore", quantity: 1}],
+    offer: []
+});
 
-addCard(age2,{id:"M201"});
-addCard(age2,{id:"M202"});
-addCard(age2,{id:"M203"});
-addCard(age2,{id:"M204"});
+addCard(age2, {
+    id: "A202",
+    name: "Muraille",
+    age: 2,
+    type: "military",
+    effect: {
+        target: "army",
+        value: 2,
+    },
+    cost: [{name: "stone", quantity: 3}],
+    offer: ["A303"]
+});
 
-addCard(age2,{id:"R201"});
-addCard(age2,{id:"R202"});
-addCard(age2,{id:"R203"});
-addCard(age2,{id:"R204"});
+addCard(age2, {
+    id: "A203",
+    name: "Champs de tir",
+    age: 2,
+    type: "military",
+    effect: {
+        target: "army",
+        value: 2,
+    },
+    cost: [{name: "wood", quantity: 2},{name: "ore", quantity: 1}],
+    offer: []
+});
 
-addCard(age2,{id:"S201"});
-addCard(age2,{id:"S202"});
-addCard(age2,{id:"S203"});
-addCard(age2,{id:"S204"});
+addCard(age2, {
+    id: "A204",
+    name: "Place d'armes",
+    age: 2,
+    type: "military",
+    effect: {
+        target: "army",
+        value: 2,
+    },
+    cost: [{name: "wood", quantity: 1},{name: "ore", quantity: 2}],
+    offer: ["A301"]
+});
+
+addCard(age2, {
+    id: "B201",
+    name: "Tribunal",
+    age: 2,
+    type: "building",
+    effect: {
+        target: "victory",
+        value: 4,
+    },
+    cost: [{name: "clay", quantity: 2},{name: "loom", quantity: 1}],
+    offer: []
+});
+
+addCard(age2, {
+    id: "B202",
+    name: "Statue",
+    age: 2,
+    type: "building",
+    effect: {
+        target: "victory",
+        value: 4,
+    },
+    cost: [{name: "ore", quantity: 2},{name: "wood", quantity: 1}],
+    offer: ["B302"]
+});
+
+addCard(age2, {
+    id: "B202",
+    name: "Statue",
+    age: 2,
+    type: "building",
+    effect: {
+        target: "victory",
+        value: 4,
+    },
+    cost: [{name: "ore", quantity: 2},{name: "wood", quantity: 1}],
+    offer: ["B302"]
+});
+
+addCard(age2, {
+    id: "B203",
+    name: "Temple",
+    age: 2,
+    type: "building",
+    effect: {
+        target: "victory",
+        value: 3,
+    },
+    cost: [{name: "glass", quantity: 1},{name: "wood", quantity: 1},{name: "clay", quantity: 1}],
+    offer: ["B303"]
+});
+
+addCard(age2, {
+    id: "B204",
+    name: "Aqueduc",
+    age: 2,
+    type: "building",
+    effect: {
+        target: "victory",
+        value: 5,
+    },
+    cost: [{name: "stone", quantity: 3}],
+    offer: []
+});
+
+addCard(age2, {
+    id: "E201",
+    name: "Vignoble",
+    age: 2,
+    type: "economic",
+    offer: []
+});
+
+addCard(age2, {
+    id: "E202",
+    name: "Bazar",
+    age: 2,
+    type: "economic",
+    offer: []
+});
+
+addCard(age2, {
+    id: "E203",
+    name: "Forum",
+    age: 2,
+    type: "economic",
+    cost: [{name: "clay", quantity: 2}],
+    offer: ["E303"]
+});
+
+addCard(age2, {
+    id: "E204",
+    name: "Caravansérail",
+    age: 2,
+    type: "economic",
+    cost: [{name: "wood", quantity: 2}],
+    offer: ["E304"]
+});
+
+addCard(age2, {
+    id: "P101",
+    name: "Métier à tisser",
+    age: 2,
+    type: "product",
+    effect: {
+        target: "loom",
+        value: 1,
+    }
+});
+addCard(age2, {
+    id: "P102",
+    name: "Verrerie",
+    age: 2,
+    type: "product",
+    effect: {
+        target: "glass",
+        value: 1,
+    }
+});
+addCard(age2, {
+    id: "P103",
+    name: "Presse",
+    age: 2,
+    type: "product",
+    effect: {
+        target: "papyrus",
+        value: 1,
+    }
+});
+
+addCard(age2, {
+    id: "R201",
+    name: "Scierie",
+    age: 2,
+    type: "resource",
+    effect: {
+        target: "wood",
+        value: 2,
+    },
+    cost: [{name: "gold", quantity: 1}]
+});
+
+addCard(age2, {
+    id: "R201",
+    name: "Scierie",
+    age: 2,
+    type: "resource",
+    effect: {
+        target: "wood",
+        value: 2,
+    },
+    cost: [{name: "gold", quantity: 1}]
+});
+
+addCard(age2, {
+    id: "R202",
+    name: "Carrière",
+    age: 2,
+    type: "resource",
+    effect: {
+        target: "stone",
+        value: 2,
+    },
+    cost: [{name: "gold", quantity: 1}]
+});
+
+addCard(age2, {
+    id: "R202",
+    name: "Carrière",
+    age: 2,
+    type: "resource",
+    effect: {
+        target: "stone",
+        value: 2,
+    },
+    cost: [{name: "gold", quantity: 1}]
+});
+
+addCard(age2, {
+    id: "R203",
+    name: "Briqueterie",
+    age: 2,
+    type: "resource",
+    effect: {
+        target: "clay",
+        value: 2,
+    },
+    cost: [{name: "gold", quantity: 1}]
+});
+
+addCard(age2, {
+    id: "R203",
+    name: "Briqueterie",
+    age: 2,
+    type: "resource",
+    effect: {
+        target: "clay",
+        value: 2,
+    },
+    cost: [{name: "gold", quantity: 1}]
+});
+
+addCard(age2, {
+    id: "R204",
+    name: "Fonderie",
+    age: 2,
+    type: "resource",
+    effect: {
+        target: "ore",
+        value: 2,
+    },
+    cost: [{name: "gold", quantity: 1}]
+});
+
+addCard(age2, {
+    id: "S201",
+    name: "Laboratoire",
+    age: 2,
+    type: "science",
+    effect: {
+        target: "gear",
+        value: 1,
+    },
+    cost: [{name: "papyrus", quantity: 1},{name: "clay", quantity: 2}],
+    offer: ["S301", "A304"]
+});
+
+addCard(age2, {
+    id: "S202",
+    name: "Ecole",
+    age: 2,
+    type: "science",
+    effect: {
+        target: "tablet",
+        value: 1,
+    },
+    cost: [{name: "papyrus", quantity: 1},{name: "wood", quantity: 1}],
+    offer: ["S302", "S305"]
+});
+
+addCard(age2, {
+    id: "S203",
+    name: "Dispensaire",
+    age: 2,
+    type: "science",
+    effect: {
+        target: "compass",
+        value: 1,
+    },
+    cost: [{name: "glass", quantity: 1},{name: "ore", quantity: 2}],
+    offer: ["S304", "E301"]
+});
+
+addCard(age2, {
+    id: "S203",
+    name: "Dispensaire",
+    age: 2,
+    type: "science",
+    effect: {
+        target: "compass",
+        value: 1,
+    },
+    cost: [{name: "glass", quantity: 1},{name: "ore", quantity: 2}],
+    offer: ["S304", "E301"]
+});
+
+addCard(age2, {
+    id: "S204",
+    name: "Bibliothèque",
+    age: 2,
+    type: "science",
+    effect: {
+        target: "tablet",
+        value: 1,
+    },
+    cost: [{name: "stone", quantity: 2},{name: "loop", quantity: 1}],
+    offer: ["B305", "S303"]
+});
 
 let age3 = [];
-addCard(age3,{id:"A301"});
-addCard(age3,{id:"A302"});
-addCard(age3,{id:"A303"});
-addCard(age3,{id:"A304"});
 
-addCard(age3,{id:"E301"});
-addCard(age3,{id:"E302"});
-addCard(age3,{id:"E303"});
-addCard(age3,{id:"E304"});
+addCard(age3, {
+    id: "A301",
+    name: "Cirque",
+    age: 3,
+    type: "military",
+    effect: {
+        target: "army",
+        value: 3,
+    },
+    cost: [{name: "stone", quantity: 3},{name: "ore", quantity: 1}],
+    offer: []
+});
 
-addCard(age3,{id:"G301"});
-addCard(age3,{id:"G302"});
-addCard(age3,{id:"G303"});
-addCard(age3,{id:"G304"});
-addCard(age3,{id:"G305"});
-addCard(age3,{id:"G306"});
-addCard(age3,{id:"G307"});
-addCard(age3,{id:"G308"});
-addCard(age3,{id:"G309"});
-addCard(age3,{id:"G310"});
+addCard(age3, {
+    id: "A302",
+    name: "Arsenal",
+    age: 3,
+    type: "military",
+    effect: {
+        target: "army",
+        value: 3,
+    },
+    cost: [{name: "wood", quantity: 2},{name: "ore", quantity: 1},{name: "loom", quantity: 1}],
+    offer: []
+});
 
-addCard(age3,{id:"S301"});
-addCard(age3,{id:"S302"});
-addCard(age3,{id:"S303"});
-addCard(age3,{id:"S304"});
-addCard(age3,{id:"S305"});
+addCard(age3, {
+    id: "A302",
+    name: "Arsenal",
+    age: 3,
+    type: "military",
+    effect: {
+        target: "army",
+        value: 3,
+    },
+    cost: [{name: "wood", quantity: 2},{name: "ore", quantity: 1},{name: "loom", quantity: 1}],
+    offer: []
+});
 
+addCard(age3, {
+    id: "A303",
+    name: "Fortifications",
+    age: 3,
+    type: "military",
+    effect: {
+        target: "army",
+        value: 3,
+    },
+    cost: [{name: "ore", quantity: 3},{name: "stone", quantity: 1}],
+    offer: []
+});
+
+addCard(age3, {
+    id: "A304",
+    name: "Atelier de siège",
+    age: 3,
+    type: "military",
+    effect: {
+        target: "army",
+        value: 3,
+    },
+    cost: [{name: "clay", quantity: 3},{name: "wood", quantity: 1}],
+    offer: []
+});
+
+addCard(age3, {
+    id: "B301",
+    name: "Palace",
+    age: 3,
+    type: "building",
+    effect: {
+        target: "victory",
+        value: 8,
+    },
+    cost: [{name: "stone", quantity: 1},{name: "ore", quantity: 1},{name: "wood", quantity: 1},{name: "clay", quantity: 1},{name: "glass", quantity: 1},{name: "papyrus", quantity: 1},{name: "loom", quantity: 1}],
+    offer: []
+});
+
+addCard(age3, {
+    id: "B302",
+    name: "Jardins",
+    age: 3,
+    type: "building",
+    effect: {
+        target: "victory",
+        value: 5,
+    },
+    cost: [{name: "clay", quantity: 2},{name: "wood", quantity: 1}],
+    offer: []
+});
+
+addCard(age3, {
+    id: "B303",
+    name: "Panthéon",
+    age: 3,
+    type: "building",
+    effect: {
+        target: "victory",
+        value: 7,
+    },
+    cost: [{name: "clay", quantity: 2},{name: "ore", quantity: 1},{name: "loom", quantity: 1},{name: "glass", quantity: 1},{name: "papyrus", quantity: 1}],
+    offer: []
+});
+
+addCard(age3, {
+    id: "B304",
+    name: "Hôtel de ville",
+    age: 3,
+    type: "building",
+    effect: {
+        target: "victory",
+        value: 6,
+    },
+    cost: [{name: "stone", quantity: 2},{name: "ore", quantity: 1},{name: "glass", quantity: 1}],
+    offer: []
+});
+
+addCard(age3, {
+    id: "B305",
+    name: "Sénat",
+    age: 3,
+    type: "building",
+    effect: {
+        target: "victory",
+        value: 6,
+    },
+    cost: [{name: "wood", quantity: 2},{name: "ore", quantity: 1},{name: "stone", quantity: 1}],
+    offer: []
+});
+
+addCard(age3, {
+    id: "E301",
+    name: "Arène",
+    age: 3,
+    type: "economic",
+    offer: []
+});
+
+addCard(age3, {
+    id: "E302",
+    name: "Chambre de commerce",
+    age: 3,
+    type: "economic",
+    offer: []
+});
+
+addCard(age3, {
+    id: "E303",
+    name: "Port",
+    age: 3,
+    type: "economic",
+    offer: []
+});
+
+addCard(age3, {
+    id: "E303",
+    name: "Port",
+    age: 3,
+    type: "economic",
+    offer: []
+});
+
+addCard(age3, {
+    id: "E304",
+    name: "Phare",
+    age: 3,
+    type: "economic",
+    offer: []
+});
+
+addCard(age3, {
+    id: "S301",
+    name: "Observatoire",
+    age: 3,
+    type: "science",
+    effect: {
+        target: "gear",
+        value: 1,
+    },
+    cost: [{name: "ore", quantity: 2},{name: "glass", quantity: 1},{name: "loom", quantity: 1}],
+    offer: []
+});
+
+addCard(age3, {
+    id: "S302",
+    name: "Académie",
+    age: 3,
+    type: "science",
+    effect: {
+        target: "compass",
+        value: 1,
+    },
+    cost: [{name: "stone", quantity: 3},{name: "glass", quantity: 1}],
+    offer: []
+});
+
+addCard(age3, {
+    id: "S303",
+    name: "Université",
+    age: 3,
+    type: "science",
+    effect: {
+        target: "tablet",
+        value: 1,
+    },
+    cost: [{name: "wood", quantity: 2},{name: "glass", quantity: 1},{name: "papyrus", quantity: 1}],
+    offer: []
+});
+
+addCard(age3, {
+    id: "S303",
+    name: "Université",
+    age: 3,
+    type: "science",
+    effect: {
+        target: "tablet",
+        value: 1,
+    },
+    cost: [{name: "wood", quantity: 2},{name: "glass", quantity: 1},{name: "papyrus", quantity: 1}],
+    offer: []
+});
+
+addCard(age3, {
+    id: "S304",
+    name: "Loge",
+    age: 3,
+    type: "science",
+    effect: {
+        target: "compass",
+        value: 1,
+    },
+    cost: [{name: "clay", quantity: 2},{name: "loom", quantity: 1},{name: "papyrus", quantity: 1}],
+    offer: []
+});
+
+addCard(age3, {
+    id: "S305",
+    name: "Etude",
+    age: 3,
+    type: "science",
+    effect: {
+        target: "gear",
+        value: 1,
+    },
+    cost: [{name: "wood", quantity: 1},{name: "loom", quantity: 1},{name: "papyrus", quantity: 1}],
+    offer: []
+});
+
+
+let guilds = [];
+
+addCard(guilds, {
+    id: "G301",
+    name: "Guilde des travailleurs",
+    age: 3,
+    type: "guild",
+    effect: {
+        target: "",
+        value: 0,
+    },
+    cost: [{name: "ore", quantity: 2},{name: "clay", quantity: 1},{name: "stone", quantity: 1},{name: "wood", quantity: 1}],
+    offer: []
+});
+
+addCard(guilds, {
+    id: "G302",
+    name: "Guilde des artisans",
+    age: 3,
+    type: "guild",
+    effect: {
+        target: "",
+        value: 0,
+    },
+    cost: [{name: "ore", quantity: 2},{name: "stone", quantity: 2}],
+    offer: []
+});
+
+addCard(guilds, {
+    id: "G303",
+    name: "Guilde des commerçants",
+    age: 3,
+    type: "guild",
+    effect: {
+        target: "",
+        value: 0,
+    },
+    cost: [{name: "glass", quantity: 1},{name: "loom", quantity: 1},{name: "papyrus", quantity: 1}],
+    offer: []
+});
+
+addCard(guilds, {
+    id: "G304",
+    name: "Guilde des philosophes",
+    age: 3,
+    type: "guild",
+    effect: {
+        target: "",
+        value: 0,
+    },
+    cost: [{name: "clay", quantity: 3},{name: "loom", quantity: 1},{name: "papyrus", quantity: 1}],
+    offer: []
+});
+
+addCard(guilds, {
+    id: "G305",
+    name: "Guilde des espions",
+    age: 3,
+    type: "guild",
+    effect: {
+        target: "",
+        value: 0,
+    },
+    cost: [{name: "clay", quantity: 3},{name: "glass", quantity: 1}],
+    offer: []
+});
+
+addCard(guilds, {
+    id: "G306",
+    name: "Guilde des stratèges",
+    age: 3,
+    type: "guild",
+    effect: {
+        target: "",
+        value: 0,
+    },
+    cost: [{name: "ore", quantity: 2},{name: "stone", quantity: 1},{name: "loom", quantity: 1}],
+    offer: []
+});
+
+addCard(guilds, {
+    id: "G307",
+    name: "Guilde des armateurs",
+    age: 3,
+    type: "guild",
+    effect: {
+        target: "",
+        value: 0,
+    },
+    cost: [{name: "wood", quantity: 3},{name: "glass", quantity: 1},{name: "papyrus", quantity: 1}],
+    offer: []
+});
+
+addCard(guilds, {
+    id: "G308",
+    name: "Guilde des scientifiques",
+    age: 3,
+    type: "guild",
+    effect: {
+        target: "",
+        value: 0,
+    },
+    cost: [{name: "wood", quantity: 2},{name: "ore", quantity: 2},{name: "papyrus", quantity: 1}],
+    offer: []
+});
+
+addCard(guilds, {
+    id: "G309",
+    name: "Guilde des magistrats",
+    age: 3,
+    type: "guild",
+    effect: {
+        target: "",
+        value: 0,
+    },
+    cost: [{name: "wood", quantity: 3},{name: "stone", quantity: 1},{name: "loom", quantity: 1}],
+    offer: []
+});
+
+addCard(guilds, {
+    id: "G310",
+    name: "Guilde des bâtisseurs",
+    age: 3,
+    type: "guild",
+    effect: {
+        target: "",
+        value: 0,
+    },
+    cost: [{name: "stone", quantity: 2},{name: "clay", quantity: 2},{name: "glass", quantity: 1}],
+    offer: []
+});
+
+shuffleArray(guilds);
+age3.push.apply(guilds.splice(0,5));
 shuffleArray(age1);
 shuffleArray(age2);
 shuffleArray(age3);
