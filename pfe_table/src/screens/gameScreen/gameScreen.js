@@ -7,7 +7,8 @@ import './gameScreen.css';
 class GameScreen extends Component {
 
     state={
-        currentAction: null
+        currentAction: null,
+        currentBattle: null
     }
     getPlayerOn = this.getPlayerOn.bind(this);
     sleep = this.sleep.bind(this);
@@ -20,6 +21,14 @@ class GameScreen extends Component {
             }
             this.setState({currentAction: null});
             this.props.socket.emit('readyTurn');
+        }
+        if(nextProps.war) {
+            for (let battle of nextProps.war) {
+                this.setState({currentBattle: battle});
+                await this.sleep(3000);
+            }
+            this.setState({currentBattle: null});
+            this.props.socket.emit('readyAge');
         }
     }
 
@@ -68,6 +77,29 @@ class GameScreen extends Component {
                             </div>
                             <h1 className='actionTextZone'>
                                 <span className='actionPlayer' style={{color: this.getPlayerColor(this.state.currentAction.player.position)}}>{this.state.currentAction.player.name}</span> a {this.getActionLabel(this.state.currentAction.action)}
+                            </h1>
+                        </Modal.Dialog>
+                    </div>
+                    : null
+                }
+                {this.state.currentBattle ?
+                    <div>
+                        <Modal.Dialog className='actionModal'>
+                            <h1 className='actionTextZone upsideDown'>
+                                <span className='actionPlayer'
+                                      style={{color: this.getPlayerColor(this.state.currentBattle.winner.position)}}>{this.state.currentBattle.winner.name}</span> a
+                                battu <span className='actionPlayer'
+                                            style={{color: this.getPlayerColor(this.state.currentBattle.loser.position)}}>{this.state.currentBattle.loser.name}</span>
+                            </h1>
+                            <div className='warHeader'>
+                                <img className='warImage warImageFirst' src={require("../../assets/swords.svg")}/>
+                                <img className='warImage upsideDown' src={require("../../assets/swords.svg")}/>
+                            </div>
+                            <h1 className='actionTextZone'>
+                                <span className='actionPlayer'
+                                      style={{color: this.getPlayerColor(this.state.currentBattle.winner.position)}}>{this.state.currentBattle.winner.name}</span> a
+                                battu <span className='actionPlayer'
+                                            style={{color: this.getPlayerColor(this.state.currentBattle.loser.position)}}>{this.state.currentBattle.loser.name}</span>
                             </h1>
                         </Modal.Dialog>
                     </div>

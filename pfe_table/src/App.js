@@ -20,7 +20,8 @@ class App extends Component {
         players: [],
         latestActions: null,
         gameWidget: null,
-        cardsOnBoard: []
+        cardsOnBoard: [],
+        war: null
     }
     changeServerIp = this.changeServerIp.bind(this);
     setupSocket = this.setupSocket.bind(this);
@@ -49,7 +50,8 @@ class App extends Component {
                         <GameScreen
                             players={this.state.players}
                             latestActions={this.state.latestActions}
-                            socket={this.state.socket}/>
+                            socket={this.state.socket}
+                            war={this.state.war}/>
                         : null
                 }
             </div>
@@ -96,7 +98,9 @@ class App extends Component {
             });
             socket.on('battle', data => {
                 console.log("battle", data);
-                socket.emit('readyAge');
+                this.setState({players: data.gameState.players, war: data.war}, () => {
+                    this.state.gameWidget.setPlayers(data.gameState.players);
+                });
             });
             this.setState({socket: socket, connectionError: false}, () => {
                 this.state.gameWidget.setSocket(socket);
