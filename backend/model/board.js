@@ -147,7 +147,8 @@ class Board {
                 isPlayable: resources.isPlayable,
                 missingResources: resources.missingRessources,
                 usefullResources: resources.usefullResources,
-                stayingResources: resources.stayingResources
+                stayingResources: resources.stayingResources,
+                availableResources: resources.availableResources
 
             });
         }

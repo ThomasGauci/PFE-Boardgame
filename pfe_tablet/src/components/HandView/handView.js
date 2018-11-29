@@ -30,19 +30,12 @@ class HandView extends Component{
                     ],
                     availableResources: [
                         {
-                            player: {
-                                name: 'ken',
-                                position: 1
-                            },
-                            resources: [
+                            1: [
                                 {
-                                    type: 'glass',
-                                    quantity: 1,
-                                    price: 2
+                                    'glass': 1,
                                 }
                             ],
-                            resourcePrice: 2,
-                            productPrice: 2
+                            3: []
                         }
                     ],
                 }
@@ -114,11 +107,16 @@ class HandView extends Component{
                 };
                 this.props.data.socket.emit('turnValidated', dataToSend);
             }
-            else {
+            else if(cardObject.isPlayable){
                 this.setState({
                     trading: true,
                     modalText: "Vous n'avez pas assez de ressources mais vous pouvez en acheter"
                 });
+            }
+            else {
+                this.setState({
+                    modalText: "Vous ne pouvez pas construire ce bâtiment"
+                })
             }
         }
         else {

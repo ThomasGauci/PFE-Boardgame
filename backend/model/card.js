@@ -67,14 +67,15 @@ class Card {
                 else {
                     cardResources["isPlayable"] = true;
                     let result = getUsefullAndMissingPersonalResources(playerResources, card.cost);
-                    cardResources["usefullResources"] = result.usefullResources; //resources used to build card
-                    cardResources["missingRessources"] = result.missingRessources;// resources needed but not owned
-                    cardResources["stayingResources"] = result.stayingResources; //resources useless + or resources
+                    cardResources["usefullResources"] = strMapToObj(result.usefullResources); //resources used to build card
+                    cardResources["missingRessources"] = strMapToObj(result.missingRessources);// resources needed but not owned
+                    cardResources["stayingResources"] = strMapToObj(result.stayingResources); //resources useless + or resources
                     let availableResources = new Map();
                     for(let neighbor of neighbors){
-                        availableResources.set(neighbor.getState().position, neighbor.getCurrentResources());
+                        availableResources.set(neighbor.getState().position, strMapToObj(neighbor.getCurrentResources()));
                     }
-                    cardResources["availableResources"] = availableResources;
+                    cardResources["availableResources"] = strMapToObj(availableResources);
+                    console.log("availableResources",availableResources);
 
                 }
             }
@@ -98,17 +99,26 @@ function getUsefullAndMissingPersonalResources(playerResources, cost) {
     let missingRessources = new Map();
     let usefullResources = new Map();
     let stayingResources = new Map();
-    for(let resourceName of playerResources.keys()) {
-        stayingResources.set(resourceName, playerResources.get(resourceName));
-    }
+    let tmpCost = [];
     for(let resource of cost){
-        if (playerResources.has(resource.name) && playerResources.get(resource.name) >= resource.quantity) {
-            usefullResources.set(resource.name,resource.quantity);
-            cost.delete(resource.name);
-            stayingResources.set(resource.name, playerResources.get(resource.name) - resource.quantity);
+        tmpCost.push({quantity: resource.quantity, name: resource.name});
+    }
+    console.log("playerResources",playerResources);
+    for(let resourceName of playerResources.keys()) {
+        stayingResources.set(resourceName, playerResources.get(resourceName).quantity);
+    }
+    console.log("cost", cost);
+    for(let resource of tmpCost){
+        if (playerResources.has(resource.name) && playerResources.get(resource.name).quantity >= resource.quantity) {
+            usefullResources.set(resource.name, resource.quantity);
+            stayingResources.set(resource.name, stayingResources.get(resource.name) - resource.quantity);
+            if(stayingResources.get(resource.name) === 0){
+                stayingResources.delete(resource.name);
+            }
+            resource["quantity"] = 0;
         }
-        else if (playerResources.has(resource.name) && playerResources.get(resource.name) < resource.quantity) {
-            cost.set(resource.name, resource.quantity - playerResources.get(resource.name));
+        else if (playerResources.has(resource.name) && playerResources.get(resource.name).quantity < resource.quantity) {
+            resource.quantity = resource.quantity - playerResources.get(resource.name).quantity;
             missingRessources.set(resource.name, resource.quantity);
             stayingResources.delete(resource.name);
         }
@@ -116,6 +126,9 @@ function getUsefullAndMissingPersonalResources(playerResources, cost) {
             missingRessources.set(resource.name, resource.quantity);
         }
     }
+    console.log("missingRessources",missingRessources);
+    console.log("stayingResources",stayingResources);
+    console.log("usefullResources",usefullResources);
     return {missingRessources: missingRessources, usefullResources: usefullResources, stayingResources: stayingResources};
 }
 function copyMap(oldMap) {
@@ -243,4 +256,13 @@ function checkSolutionPrice(combination, prices) {
         value = 0;
     }
     return finalPrice;
+}
+function strMapToObj(strMap) {
+    let obj = Object.create(null);
+    for (let [k,v] of strMap) {
+        // We don’t escape the key '__proto__'
+        // which can cause problems on older engines
+        obj[k] = v;
+    }
+    return obj;
 }
