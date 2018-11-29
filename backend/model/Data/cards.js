@@ -1024,6 +1024,26 @@ function addCard(list,cardInfos){
     list.push(new Card(cardInfos));
 }
 
+function findCardFromId(id){
+    let age = id.charAt(1);
+    if(age === "1"){
+        return findCardInList(id,age1);
+    }
+    else if(age === "2"){
+        return findCardInList(id,age2);
+    }
+    else{
+        return findCardInList(id,age3);
+    }
+}
+
+function findCardInList(id,list){
+    for(let i = 0; i < list.length ; i++){
+        if(list[i].id === id)
+            return list[i];
+    }
+}
+
 function shuffleArray(array) {
     for (let i = array.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
@@ -1034,5 +1054,6 @@ function shuffleArray(array) {
 module.exports = {
     age1: age1,
     age2: age2,
-    age3: age3
+    age3: age3,
+    findCardFromId : findCardFromId
 };

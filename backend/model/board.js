@@ -110,7 +110,7 @@ class Board {
             //data.position = i+1;
             for(let j = 0; j < neighbor.length ; j++){
                 if(this.players[i].army > neighbor[j].army){
-                    this.players[i].warPoints += gainedPoint;
+                    this.players[i].warPoints[this.age-1] += gainedPoint;
                     /*if(i===0){
                         data.left.win = "true";
                         data.left.

@@ -102,7 +102,9 @@ let fsm = new StateMachine({
         onBattle: function(lifecycle,table,board){
             console.log("End of age: battle");
             let data = board.battle();
-            table.emit('battle',"");
+            if(table != null){
+                table.emit('battle',"");
+            }
         }
     }
 });

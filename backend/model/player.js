@@ -7,7 +7,7 @@ class Player {
         this.actions = [];
         this.gold = 3;
         this.army = 0;
-        this.warPoints = 0;
+        this.warPoints = [[0],[0],[0]];
         this.lostWars = 0;
         this.city = null;
         this.socket = socket;
@@ -50,7 +50,7 @@ class Player {
             "name": this.name,
             "position": this.position,
             "money": this.gold,
-            "warPoints": this.wardPoint,
+            "warPoints": this.warPoints,
             "city": this.city.id,
             "army": this.army,
             "playedCards": this.cards

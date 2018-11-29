@@ -1,5 +1,6 @@
 const Player = require('./model/player');
 const Board = require('./model/board');
+const Cards = require('./model/Data/cards');
 const automate = require('./model/gameLogic');
 
 let fs = require( 'fs' );
@@ -36,6 +37,13 @@ io.on('connection', (client) => {
         console.log(board.getTookPlaces());
         callback({"data":board.getTookPlaces()});
     });
+
+    client.on('getInformations', (data) => {
+        let card = Cards.findCardFromId(data.id);
+        let player = board.players[data.position];
+        player.socket.emit("cardInformation",card);
+    });
+
 
     client.on('newPlayer', (data) => {
         console.log(data);
