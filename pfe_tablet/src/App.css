@@ -36,3 +36,11 @@
   margin-left: auto!important;
   width: 60%!important;
 }
+
+.shadow{
+  -moz-box-shadow: 5px 5px 50px 0px #656565;
+  -webkit-box-shadow: 5px 5px 50px 0px #656565;
+  -o-box-shadow: 5px 5px 50px 0px #656565;
+  box-shadow: 5px 5px 50px 0px #656565;
+  filter:progid:DXImageTransform.Microsoft.Shadow(color=#656565, Direction=134, Strength=50);
+}
