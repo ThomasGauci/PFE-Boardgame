@@ -70,13 +70,12 @@ class Card {
                     cardResources["usefullResources"] = strMapToObj(result.usefullResources); //resources used to build card
                     cardResources["missingRessources"] = strMapToObj(result.missingRessources);// resources needed but not owned
                     cardResources["stayingResources"] = strMapToObj(result.stayingResources); //resources useless + or resources
-                    let availableResources = new Map();
+                    let availableResources = [];
                     for(let neighbor of neighbors){
-                        availableResources.set(neighbor.getState().position, strMapToObj(neighbor.getCurrentResources()));
+                        let obj = {player: neighbor.getState(), resources: strMapToObj(neighbor.getCurrentResources())};
+                        availableResources.push(obj);
                     }
-                    cardResources["availableResources"] = strMapToObj(availableResources);
-                    console.log("availableResources",availableResources);
-
+                    cardResources["availableResources"] = availableResources;
                 }
             }
         }
@@ -103,11 +102,9 @@ function getUsefullAndMissingPersonalResources(playerResources, cost) {
     for(let resource of cost){
         tmpCost.push({quantity: resource.quantity, name: resource.name});
     }
-    console.log("playerResources",playerResources);
     for(let resourceName of playerResources.keys()) {
         stayingResources.set(resourceName, playerResources.get(resourceName).quantity);
     }
-    console.log("cost", cost);
     for(let resource of tmpCost){
         if (playerResources.has(resource.name) && playerResources.get(resource.name).quantity >= resource.quantity) {
             usefullResources.set(resource.name, resource.quantity);
@@ -126,9 +123,6 @@ function getUsefullAndMissingPersonalResources(playerResources, cost) {
             missingRessources.set(resource.name, resource.quantity);
         }
     }
-    console.log("missingRessources",missingRessources);
-    console.log("stayingResources",stayingResources);
-    console.log("usefullResources",usefullResources);
     return {missingRessources: missingRessources, usefullResources: usefullResources, stayingResources: stayingResources};
 }
 function copyMap(oldMap) {
@@ -262,7 +256,9 @@ function strMapToObj(strMap) {
     for (let [k,v] of strMap) {
         // We don’t escape the key '__proto__'
         // which can cause problems on older engines
-        obj[k] = v;
+        obj["type"] = k;
+        obj["quantity"] = v["quantity"] ? v.quantity : v;
+        v["cost"]? obj["cost"] = v.cost : null;
     }
     return obj;
 }
