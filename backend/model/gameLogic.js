@@ -4,7 +4,8 @@ const cities = require('./Data/cities');
 const cards = require('./Data/cards');
 const Action = require('./action');
 
-let num_played = 0;
+let playerPlayed = [];
+let currentActions = new Map();
 let m_board;
 
 let fsm = new StateMachine({
@@ -35,14 +36,14 @@ let fsm = new StateMachine({
             if(client != null)
                 client.broadcast.emit('gameStart', data);
         },
-        onNewAge: function(lifecycle,client,board){
-            console.log("Start new Age " + board.age);
+        onNewAge: function(lifecycle,client,board){console.log("Start new Age");
             board.newAge(cards);
         },
         onStart: function(lifecycle,client,board){
-            console.log("Start turn " + board.turn);
+            console.log("Start turn");
             board.turn++;
-            num_played = 0;
+            playerPlayed = [];
+            currentActions = new Map();
             let data;
             for(let i=0;i<4;i++){
                 data={"age": board.age,
@@ -54,18 +55,24 @@ let fsm = new StateMachine({
             }
         },
         onPlayerPlayed: function(lifecycle,board,data){
-            console.log("Player played");
+            console.log("Player played", data.position);
             let player = board.findPlayer(data.position);
             if(player === -1){
                 console.log("erreur: player not found");
             }else{
-                let action = new Action(data.action,data.cardId,player,board);
-                action.do();
-                num_played++;
+                console.log(data.cardId);
+                let action = new Action(data.action,data.cardId,player,board, data.purchases);
+                if(!playerPlayed.includes(data.position)){
+                    playerPlayed.push(data.position);
+                }
+                currentActions.set(data.position,action);
             }
         },
         onEndTurn: function (lifecycle,client,board) {
-            console.log("End turn " + board.turn);
+            console.log("End turn");
+            for(let currentActionKey of currentActions.keys()){
+                currentActions.get(currentActionKey).do();
+            }
             let latestActions = [];
             for(let i = 0; i<4;i++){
                 latestActions.push(board.players[i].actions[board.players[i].actions.length - 1]);
@@ -84,8 +91,9 @@ let fsm = new StateMachine({
                 client.broadcast.emit("endTurn",data);
             }
         },onStartTurn: function(lifecycle,client,board){
-            console.log("Restart turn " + board.turn);
-            num_played = 0;
+            console.log("Restart turn");
+            playerPlayed = [];
+            currentActions = new Map();
             board.turn++;
             board.changeHands();
             let data;
@@ -118,15 +126,13 @@ let fsm = new StateMachine({
         onEnd: function(lifecycle,table,board){
             console.log("its over anakin");
             console.log(board.calculateWinner());
-            if(table != null){
-                table.emit("result",board.calculateWinner());
-            }
+            table.emit("result",board.calculateWinner())
         }
     }
 });
 
  function ifGoNextTurn(){
-    return (num_played === 4);
+    return (playerPlayed.length === 4);
 }
 
 function ifGoNextAge(board){

@@ -7,13 +7,14 @@ import StartScreen from "./screens/startScreen/startScreen";
 import GameWidget from "./GameWidget"
 import './App.css';
 import ReactDOM from "react-dom";
+import ResultScreen from "./screens/resultScreen/resultScreen";
 
 const tuioManager = new TUIOManager();
 
 class App extends Component {
 
     state={
-        serverIp: 'wss://192.168.1.9:8000',
+        serverIp: 'wss://192.168.1.8:8000',
         socket: null,
         connectionError: false,
         gamePhase: 0,
@@ -21,7 +22,8 @@ class App extends Component {
         latestActions: null,
         gameWidget: null,
         cardsOnBoard: [],
-        war: null
+        war: null,
+        resultPoints: []
     }
     changeServerIp = this.changeServerIp.bind(this);
     setupSocket = this.setupSocket.bind(this);
@@ -52,7 +54,10 @@ class App extends Component {
                             latestActions={this.state.latestActions}
                             socket={this.state.socket}
                             war={this.state.war}/>
-                        : null
+                        : this.state.gamePhase === 2 ?
+                            <ResultScreen
+                                points={this.state.resultPoints}/>
+                            : null
                 }
             </div>
         );
@@ -92,15 +97,19 @@ class App extends Component {
             });
             socket.on('endTurn', data => {
                 console.log("endTurn", data);
-                this.setState({players: data.gameState.players, latestActions: data.latestActions}, () => {
+                this.setState({players: data.gameState.players, latestActions: data.latestActions, war: null}, () => {
                     this.state.gameWidget.setPlayers(data.gameState.players);
                 });
             });
             socket.on('battle', data => {
                 console.log("battle", data);
-                this.setState({players: data.gameState.players, war: data.war}, () => {
+                this.setState({players: data.gameState.players, war: data.war, latestActions: null}, () => {
                     this.state.gameWidget.setPlayers(data.gameState.players);
                 });
+            });
+            socket.on('result', data => {
+                console.log("result", data);
+                this.setState({gamePhase: 2, resultPoints: data});
             });
             this.setState({socket: socket, connectionError: false}, () => {
                 this.state.gameWidget.setSocket(socket);

@@ -1,16 +1,18 @@
 class Action {
-    constructor(type,card,player,board) {
+    constructor(type,card,player,board, purchases) {
         this.type = type;
         this.card = card;
         this.player = player;
         this.board = board;
+        this.purchases = purchases;
     }
 
     getData(){
         return {
             "player": this.player.getState(),
             "action": this.type,
-            "cardId": this.card
+            "cardId": this.card,
+            "purchases": this.purchases
         };
     }
 
@@ -23,6 +25,16 @@ class Action {
                 break;
             case("building"):
                 this.player.addCard(playedCard);
+                if(playedCard.cost) //If card cost money then remove money from buyer
+                    for(let resource of playedCard.cost)
+                        if(resource.name === 'gold')
+                            this.player.gold -= resource.quantity;
+                if(this.purchases) //Switch money from buyer to seller
+                    for(let purchase of this.purchases){
+                        let seller = this.board.findPlayer(purchase.seller);
+                        this.player.gold -= purchase.price;
+                        seller.gold += purchase.price;
+                    }
                 this.play(playedCard);
                 break;
             case("discarding"):
