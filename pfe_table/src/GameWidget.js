@@ -24,12 +24,12 @@ export default class GameWidget extends TUIOWidget{
     onTagCreation(tuioTag) {
         const tagX = tuioTag._x - 1920;
         const tagY = tuioTag._y;
-        const player = this.getPlayerWithTag(tuioTag._id);
+        const playerPosition = this.getPlayerPositionWithTag(tuioTag._id);
         for(let card of this.cards){
             if(tagX >= card.x1 && tagX <= card.x2 && tagY >= card.y1 && tagY <= card.y2){
                 console.log("Tag", tuioTag._id, "on", card.id);
-                if(this.socket && player)
-                    this.socket.emit('getInformations', {playerPosition: player.position, cardId: card.id});
+                if(this.socket && playerPosition)
+                    this.socket.emit('getInformations', {position: playerPosition, id: card.id});
             }
         }
     }
@@ -46,10 +46,18 @@ export default class GameWidget extends TUIOWidget{
         this.cards = cards;
     }
 
-    getPlayerWithTag(tag){
-        for(let player of this.players){
-            if(player.tagId === tag)
-                return player;
+    getPlayerPositionWithTag(tag){
+        switch(tag){
+            case "B3":
+                return 1;
+            case "B4":
+                return 2;
+            case "B5":
+                return 3;
+            case "A6":
+                return 4;
+            default:
+                return null;
         }
     }
 }
