@@ -7,8 +7,8 @@ let p2 = new Player("pierre",2,null);
 let p1 = new Player("jean",1,null);
 let p4 = new Player("pipi",4,null);
 let p3 = new Player("kader",3,null);
-p2.army = 1;
-p4.army = 1;
+/*p2.army = 1;
+p4.army = 1;*/
 
 board.addPlayer(p1);
 board.addPlayer(p2);
@@ -76,16 +76,8 @@ if(automate.ifGoNextAge(board)){
     automate.fsm.battle(null,board);
 }
 
-/*console.log(board.players[0].warPoints);
-console.log(board.players[0].army);
-console.log(board.players[1].warPoints);
-console.log(board.players[1].army);
-console.log(board.players[2].warPoints);
-console.log(board.players[2].army);
-console.log(board.players[3].warPoints);
-console.log(board.players[3].army);*/
 
-/*automate.fsm.restartAge(null,board);
+automate.fsm.restartAge(null,board);
 automate.fsm.start(null,board);
 console.log(board.age);
 console.log(board.turn);
@@ -110,14 +102,38 @@ for(let i = 0; i < 5;i++){
 if(automate.ifGoNextAge(board)){
     automate.fsm.battle(null,board);
 }
-console.log(board.players[0].warPoints);
-console.log(board.players[1].warPoints);
-console.log(board.players[2].warPoints);
-console.log(board.players[3].warPoints);
+
+if(board.age === 3){
+    automate.fsm.findWinner(null,board);
+}
 
 automate.fsm.restartAge(null,board);
 automate.fsm.start(null,board);
 console.log(board.age);
 console.log(board.turn);
-automate.fsm.playTurn(null,board);*/
+automate.fsm.playTurn(null,board);
 
+for(let i = 0; i < 5;i++){
+    automate.fsm.startTurn(null,board);
+    console.log(board.turn);
+    data = {"action":"building","position":"1","cardId":p1.hand[0].id};
+    automate.fsm.playerPlayed(board,data);
+    data = {"action":"building","position":"2","cardId":p2.hand[0].id};
+    automate.fsm.playerPlayed(board,data);
+    data = {"action":"building","position":"3","cardId":p3.hand[0].id};
+    automate.fsm.playerPlayed(board,data);
+    data = {"action":"building","position":"4","cardId":p4.hand[0].id};
+    automate.fsm.playerPlayed(board,data);
+    automate.fsm.playTurn(null,board);
+}
+
+console.log(board.age);
+console.log(board.turn);
+
+if(automate.ifGoNextAge(board)){
+    automate.fsm.battle(null,board);
+}
+
+if(board.age === 3){
+    automate.fsm.findWinner(null,board);
+}

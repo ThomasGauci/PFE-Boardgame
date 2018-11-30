@@ -5,11 +5,16 @@ class Player {
         this.hand = [];
         this.cards = [];
         this.actions = [];
-        this.warPoints = [[],[],[]];
+        this.warPoints = [[0],[0],[0]];
         this.lostWars = 0;
         this.city = null;
         this.socket = socket;
 
+        this.science = {
+            gear : 0,
+            compass : 0,
+            tablet : 0
+        };
         this.gold = 3;
         this.army = 0;
         this.victory = 0;
@@ -47,6 +52,25 @@ class Player {
         return this.hand;
     }
 
+    getWarPoints(){
+        let sum = (acc,curr) => acc +curr;
+        let sumRed = (lst) => lst.reduce(sum);
+        let points = this.warPoints.map(sumRed);
+        return points.reduce(sum);
+    }
+
+    getGoldPoints(){
+        return Math.floor(this.gold/3);
+    }
+
+    getSciencePoints(){
+        let gearPoints = Math.pow(this.science.gear,2);
+        let compassPoints = Math.pow(this.science.compass,2);
+        let tabletPoints = Math.pow(this.science.tablet,2);
+        let combo = Math.min(this.science.gear,this.science.compass,this.science.tablet) * 7;
+        return gearPoints + compassPoints + tabletPoints + combo;
+    }
+
     getState(){
         return {
             "name": this.name,
@@ -55,7 +79,8 @@ class Player {
             "warPoints": this.warPoints,
             "city": this.city.id,
             "army": this.army,
-            "playedCards": this.cards
+            "playedCards": this.cards,
+            "victory" : this.victory
         };
     }
 

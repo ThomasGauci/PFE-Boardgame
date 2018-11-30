@@ -24,6 +24,7 @@ class Action {
                 break;
             case("building"):
                 this.player.addCard(playedCard);
+                this.play(playedCard);
                 break;
             case("discarding"):
                 this.board.discarded.push(playedCard);
@@ -33,6 +34,37 @@ class Action {
     }
 
     undo(){
+    }
+
+    play(playedCard){
+        let type = playedCard.type;
+        let value = playedCard.effectValue;
+        switch (type) {
+            case("military"):
+                this.player.army += value;
+                break;
+            case("building"):
+                this.player.victory += value;
+                break;
+            case("economic"):
+                break;
+            case("product"):
+                break;
+            case("resource"):
+                break;
+            case("science"):
+                let target = playedCard.effectTarget;
+                if(target === "gear"){
+                    this.player.science.gear++;
+                }else if(target ==="compass"){
+                    this.player.science.compass++;
+                }else{
+                    this.player.science.tablet++;
+                }
+                break;
+            case("guild"):
+                break;
+        }
     }
 }
 module.exports = Action;

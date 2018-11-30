@@ -35,8 +35,7 @@ let fsm = new StateMachine({
             if(client != null)
                 client.broadcast.emit('gameStart', data);
         },
-        onNewAge: function(lifecycle,client,board){
-            console.log("Start new Age");
+        onNewAge: function(lifecycle,client,board){console.log("Start new Age");
             board.newAge(cards);
         },
         onStart: function(lifecycle,client,board){
@@ -59,6 +58,7 @@ let fsm = new StateMachine({
             if(player === -1){
                 console.log("erreur: player not found");
             }else{
+                console.log(data.cardId);
                 let action = new Action(data.action,data.cardId,player,board);
                 action.do();
                 num_played++;
@@ -114,6 +114,11 @@ let fsm = new StateMachine({
             if(table != null){
                 table.emit('battle',data);
             }
+        },
+        onEnd: function(lifecycle,table,board){
+            console.log("its over anakin");
+            console.log(board.calculateWinner());
+            table.emit("result",board.calculateWinner())
         }
     }
 });
@@ -123,15 +128,11 @@ let fsm = new StateMachine({
 }
 
 function ifGoNextAge(board){
-    return (board.turn === 6 && ifGoNextTurn() && board.age < 3);
+    return (board.turn === 6 && ifGoNextTurn());
 }
 
-function ifEndGame(board){
-     return (board.turn ===6 && ifGoNextTurn() && board.age === 3);
-}
 
 module.exports = { fsm: fsm,
     ifGoNextTurn : ifGoNextTurn,
-    ifGoNextAge : ifGoNextAge,
-    ifEndGame : ifEndGame
+    ifGoNextAge : ifGoNextAge
  };
