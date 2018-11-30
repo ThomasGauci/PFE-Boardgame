@@ -14,7 +14,7 @@ class Action {
         };
     }
 
-    play(){
+    do(){
         this.player.actions.push(this.getData());
         let playedCard = this.player.findCardFromId(this.card);
 
@@ -27,6 +27,7 @@ class Action {
                 break;
             case("discarding"):
                 this.board.discarded.push(playedCard);
+                this.player.gold += 3;
                 break;
         }
     }

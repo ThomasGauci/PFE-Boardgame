@@ -40,7 +40,7 @@ io.on('connection', (client) => {
 
     client.on('getInformations', (data) => {
         let card = Cards.findCardFromId(data.id);
-        let player = board.players[data.position];
+        let player = board.players[data.position-1];
         player.socket.emit("cardInformation",card);
     });
 
