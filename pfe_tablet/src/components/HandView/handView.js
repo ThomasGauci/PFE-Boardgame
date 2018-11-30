@@ -168,9 +168,9 @@ class HandView extends Component {
 
     }
 
-    showModal(cardId) {
+    showModal(cardInfos) {
         this.setState({
-            currentCard: cardId,
+            currentCard: cardInfos,
             modal: true
         })
     }
@@ -202,13 +202,13 @@ class HandView extends Component {
         const hand = this.state.cards.map((infos, index) => <Image key={index} rounded
                                                                    src={require("../../assets/cards/" + infos.card.id + ".jpg")}
                                                                    id={infos.card.id} className="card"
-                                                                   onClick={() => this.showModal(infos.card.id)}/>)
+                                                                   onClick={() => this.showModal(infos)}/>)
         return (
             <div>
                 {this.state.modal ?
-                    <CardDetails card={this.state.cards[0].card}
+                    <CardDetails card={this.state.currentCard.card}
                                  isHandCard
-                                 isPlayable={this.state.cards[0].isPlayable}
+                                 isPlayable={this.state.currentCard.isPlayable}
                                  close={this.handleDismissModal}
                                  build={() => this.validateTurn("building")}
                                  buildWonder={() => this.validateTurn("wonderStep")}
