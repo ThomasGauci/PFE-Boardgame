@@ -94,10 +94,10 @@ class Board {
         this.age++;
         this.turn = 0;
         if(this.age === 1)
-            this.distributeCards(cards.age1);
+            this.distributeCards(cards.age1.slice());
         else if(this.age === 2 )
-            this.distributeCards(cards.age2);
-        else this.distributeCards(cards.age3);
+            this.distributeCards(cards.age2.slice());
+        else this.distributeCards(cards.age3.slice());
     }
 
     battle(){
@@ -125,6 +125,24 @@ class Board {
             }
         }
         return war;
+    }
+
+
+    calculateWinner(){
+        let res = [];
+        for(let player of this.players){
+            let data = {
+                position : player.position,
+                victory : player.victory,
+                war : player.getWarPoints(),
+                gold : player.getGoldPoints(),
+                wonder: null,
+                science : player.getSciencePoints(),
+                economy:null
+            };
+            res.push(data);
+        }
+        return res;
     }
 
     getPlayerNeighbors(playerPosition){

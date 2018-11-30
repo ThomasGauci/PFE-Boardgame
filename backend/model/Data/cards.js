@@ -1026,10 +1026,10 @@ function addCard(list,cardInfos){
 
 function findCardFromId(id){
     let age = id.charAt(1);
-    if(age === "1"){
+    if(age === '1'){
         return findCardInList(id,age1);
     }
-    else if(age === "2"){
+    else if(age === '2'){
         return findCardInList(id,age2);
     }
     else{

@@ -75,7 +75,7 @@ class Card {
                         availableResources.set(neighbor.getState().position, strMapToObj(neighbor.getCurrentResources()));
                     }
                     cardResources["availableResources"] = strMapToObj(availableResources);
-                    console.log("availableResources",availableResources);
+                    //console.log("availableResources",availableResources);
 
                 }
             }
@@ -103,11 +103,11 @@ function getUsefullAndMissingPersonalResources(playerResources, cost) {
     for(let resource of cost){
         tmpCost.push({quantity: resource.quantity, name: resource.name});
     }
-    console.log("playerResources",playerResources);
+    //console.log("playerResources",playerResources);
     for(let resourceName of playerResources.keys()) {
         stayingResources.set(resourceName, playerResources.get(resourceName).quantity);
     }
-    console.log("cost", cost);
+    //console.log("cost", cost);
     for(let resource of tmpCost){
         if (playerResources.has(resource.name) && playerResources.get(resource.name).quantity >= resource.quantity) {
             usefullResources.set(resource.name, resource.quantity);
@@ -126,9 +126,9 @@ function getUsefullAndMissingPersonalResources(playerResources, cost) {
             missingRessources.set(resource.name, resource.quantity);
         }
     }
-    console.log("missingRessources",missingRessources);
+    /*console.log("missingRessources",missingRessources);
     console.log("stayingResources",stayingResources);
-    console.log("usefullResources",usefullResources);
+    console.log("usefullResources",usefullResources);*/
     return {missingRessources: missingRessources, usefullResources: usefullResources, stayingResources: stayingResources};
 }
 function copyMap(oldMap) {
