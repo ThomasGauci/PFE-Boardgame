@@ -122,7 +122,7 @@ class App extends Component {
             this.changeData(newData);
             this.changeComponent("WaitScreen");
         });
-        socket.on('displayCardDetails', data => {
+        socket.on('cardInformations', data => {
             this.setState({cardDetails: data});
         });
     }
