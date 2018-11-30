@@ -187,7 +187,7 @@ class HandView extends Component {
 
     render() {
         var divStyle = {
-            background: utils.intToColor(1)//utils.intToColor(this.props.data.position)
+            background: utils.intToColor(this.props.data.position)
         };
         const hand = this.state.cards.map((infos, index) => <Image key={index} rounded
                                                                    src={require("../../assets/cards/" + infos.card.id + ".jpg")}
@@ -207,7 +207,7 @@ class HandView extends Component {
                     : null
                 }
                 {this.state.trading ?
-                    <TradingScreen currentCard={this.state.currentCard}  close={() => this.closeTrading()}/>
+                    <TradingScreen money={this.state.money} currentCard={this.state.currentCard}  close={() => this.closeTrading()}/>
                     : null
                 }
                 <div id="container" style={divStyle}>
