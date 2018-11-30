@@ -80,11 +80,11 @@ class HandView extends Component {
     }
 
     componentDidMount() {
-        /*this.setState({
+        this.setState({
             cards: this.props.data.cards,
             turn: this.props.data.turn,
             age: this.props.data.age
-        })*/
+        })
     }
 
     validateTurn(action) {
