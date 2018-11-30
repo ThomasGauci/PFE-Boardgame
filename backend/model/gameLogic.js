@@ -4,7 +4,8 @@ const cities = require('./Data/cities');
 const cards = require('./Data/cards');
 const Action = require('./action');
 
-let num_played = 0;
+let playerPlayed = [];
+let currentActions = new Map();
 let m_board;
 
 let fsm = new StateMachine({
@@ -41,7 +42,8 @@ let fsm = new StateMachine({
         onStart: function(lifecycle,client,board){
             console.log("Start turn");
             board.turn++;
-            num_played = 0;
+            playerPlayed = [];
+            currentActions = new Map();
             let data;
             for(let i=0;i<4;i++){
                 data={"age": board.age,
@@ -53,19 +55,24 @@ let fsm = new StateMachine({
             }
         },
         onPlayerPlayed: function(lifecycle,board,data){
-            console.log("Player played");
+            console.log("Player played", data.position);
             let player = board.findPlayer(data.position);
             if(player === -1){
                 console.log("erreur: player not found");
             }else{
                 console.log(data.cardId);
                 let action = new Action(data.action,data.cardId,player,board);
-                action.do();
-                num_played++;
+                if(!playerPlayed.includes(data.position)){
+                    playerPlayed.push(data.position);
+                }
+                currentActions.set(data.position,action);
             }
         },
         onEndTurn: function (lifecycle,client,board) {
             console.log("End turn");
+            for(let currentActionKey of currentActions.keys()){
+                currentActions.get(currentActionKey).do();
+            }
             let latestActions = [];
             for(let i = 0; i<4;i++){
                 latestActions.push(board.players[i].actions[board.players[i].actions.length - 1]);
@@ -85,7 +92,8 @@ let fsm = new StateMachine({
             }
         },onStartTurn: function(lifecycle,client,board){
             console.log("Restart turn");
-            num_played = 0;
+            playerPlayed = [];
+            currentActions = new Map();
             board.turn++;
             board.changeHands();
             let data;
@@ -124,7 +132,7 @@ let fsm = new StateMachine({
 });
 
  function ifGoNextTurn(){
-    return (num_played === 4);
+    return (playerPlayed.length === 4);
 }
 
 function ifGoNextAge(board){
