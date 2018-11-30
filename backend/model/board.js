@@ -110,6 +110,7 @@ class Board {
             for(let j = 0; j < neighbor.length ; j++){
                 if(this.players[i].army > neighbor[j].army){
                     this.players[i].warPoints[this.age-1].push(gainedPoint);
+                    this.players[i].getWarPointsDisplay.push(gainedPoint);
                     data = {
                         winner : this.players[i].getState(),
                         loser : neighbor[j].getState()
@@ -118,6 +119,7 @@ class Board {
                 }
                 else if(this.players[i].army < neighbor[j].army){
                     this.players[i].warPoints[this.age-1].push(-1);
+                    this.players[i].getWarPointsDisplay.push(-1);
                     this.players[i].lostWars++;
                 }
                 else{
@@ -130,18 +132,31 @@ class Board {
 
     calculateWinner(){
         let res = [];
+        let sum = 0;
         for(let player of this.players){
+            sum = 0;
+            sum = player.victory + player.getWarPoints() + player.getGoldPoints() + player.getSciencePoints();
             let data = {
-                position : player.position,
+                "player" : player,
                 victory : player.victory,
                 war : player.getWarPoints(),
                 gold : player.getGoldPoints(),
                 wonder: null,
                 science : player.getSciencePoints(),
-                economy:null
+                economy:null,
+                total : sum,
+                rank : player.position
             };
             res.push(data);
         }
+
+        /*for(let i = 0 ; i < this.players.length; i++){
+            for(let j = i+1 ; j< this.players.length; j++){
+                if(res[i].total > res[j].total){
+                    //if(res[i])
+                }
+            }
+        }*/
         return res;
     }
 

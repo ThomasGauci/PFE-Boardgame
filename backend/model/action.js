@@ -17,7 +17,6 @@ class Action {
     do(){
         this.player.actions.push(this.getData());
         let playedCard = this.player.findCardFromId(this.card);
-
         this.player.hand.splice(this.player.hand.indexOf(playedCard),1);
         switch (this.type) {
             case("wonderStep"):
@@ -64,6 +63,13 @@ class Action {
                 break;
             case("guild"):
                 break;
+        }
+
+
+        if(playedCard.cost){
+            if(playedCard.cost[0].name === "gold"){
+                this.player.gold -= playedCard.cost[0].quantity;
+            }
         }
     }
 }

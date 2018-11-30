@@ -93,14 +93,14 @@ io.on('connection', (client) => {
         if(automate.ifGoNextTurn()){
             automate.fsm.playTurn(client,board);
         }
-
-        if(automate.ifGoNextAge(board)){
-            automate.fsm.battle(table,board);
-        }
     });
 
     client.on('readyTurn', () => {
         console.log("table ready for a new turn");
+        if(automate.ifGoNextAge(board)){
+            automate.fsm.battle(table,board);
+            return;
+        }
         automate.fsm.startTurn(client,board);
     });
 });

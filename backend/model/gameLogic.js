@@ -35,11 +35,12 @@ let fsm = new StateMachine({
             if(client != null)
                 client.broadcast.emit('gameStart', data);
         },
-        onNewAge: function(lifecycle,client,board){console.log("Start new Age");
+        onNewAge: function(lifecycle,client,board){
+            console.log("Start new Age " + board.age);
             board.newAge(cards);
         },
         onStart: function(lifecycle,client,board){
-            console.log("Start turn");
+            console.log("Start turn " + board.turn);
             board.turn++;
             num_played = 0;
             let data;
@@ -58,14 +59,13 @@ let fsm = new StateMachine({
             if(player === -1){
                 console.log("erreur: player not found");
             }else{
-                console.log(data.cardId);
                 let action = new Action(data.action,data.cardId,player,board);
                 action.do();
                 num_played++;
             }
         },
         onEndTurn: function (lifecycle,client,board) {
-            console.log("End turn");
+            console.log("End turn " + board.turn);
             let latestActions = [];
             for(let i = 0; i<4;i++){
                 latestActions.push(board.players[i].actions[board.players[i].actions.length - 1]);
@@ -84,7 +84,7 @@ let fsm = new StateMachine({
                 client.broadcast.emit("endTurn",data);
             }
         },onStartTurn: function(lifecycle,client,board){
-            console.log("Restart turn");
+            console.log("Restart turn " + board.turn);
             num_played = 0;
             board.turn++;
             board.changeHands();
@@ -118,7 +118,9 @@ let fsm = new StateMachine({
         onEnd: function(lifecycle,table,board){
             console.log("its over anakin");
             console.log(board.calculateWinner());
-            table.emit("result",board.calculateWinner())
+            if(table != null){
+                table.emit("result",board.calculateWinner());
+            }
         }
     }
 });

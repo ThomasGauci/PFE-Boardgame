@@ -6,6 +6,7 @@ class Player {
         this.cards = [];
         this.actions = [];
         this.warPoints = [[0],[0],[0]];
+        this.getWarPointsDisplay = [];
         this.lostWars = 0;
         this.city = null;
         this.socket = socket;
