@@ -77,7 +77,6 @@ class HandView extends Component {
         this.handleDismissModal = this.handleDismissModal.bind(this);
         this.showModal = this.showModal.bind(this);
         this.validateTurn = this.validateTurn.bind(this);
-        this.getCardObject = this.getCardObject.bind(this);
     }
 
     componentDidMount() {
@@ -88,17 +87,8 @@ class HandView extends Component {
         })
     }
 
-    getCardObject(cardId) {
-        let cardsInfos = this.state.cards;
-        for (let i = 0; i < this.state.cards.length; i++) {
-            if (cardsInfos[i].card.id === cardId) {
-                return cardsInfos[i];
-            }
-        }
-    }
-
     validateTurn(action) {
-        let cardObject = this.getCardObject(this.state.currentCard);
+        let cardObject = this.state.currentCard;
         console.log(cardObject);
         if (action === "building") {
             if (cardObject.isPlayable && !("availableResources" in cardObject)) {
