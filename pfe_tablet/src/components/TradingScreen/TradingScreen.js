@@ -1,11 +1,12 @@
 import React, {Component} from "react";
-import {Button} from "react-bootstrap";
+import {Button, Image, Label} from "react-bootstrap";
 
 import './TradingScreen.css'
 
 class TradingScreen extends Component {
 
     render(){
+        console.log(this.props);
         return (
             <div className="tradingScreen">
                 <div className="tradingScreenContent">
@@ -13,7 +14,18 @@ class TradingScreen extends Component {
                         <div className="tradingScreenTitle">Il vous manque des ressources pour fabriquer cette carte. Vous pouvez en acheter à vos voisins :</div>
                         <div className="tradingScreenMissingResources">
                             Ressources manquantes:
-                            <div className="missingResourcesList"></div>
+                            <div className="missingResourcesList">
+                                {this.props.currentCard.missingResources.map((missingRessource,index) =>
+                                    <div className="resourceDiv" key={index}>
+                                        <Label>{missingRessource.quantity}</Label>
+                                        <div>
+                                            <Image rounded
+                                                   src={require("../../assets//" + missingRessource.type + ".png")}
+                                                   className="resource"/>
+                                        </div>
+                                    </div>
+                                )}
+                            </div>
                         </div>
                         <div className="tradingScreenResources">
                             <div className="tradingScreenResourcesCol">

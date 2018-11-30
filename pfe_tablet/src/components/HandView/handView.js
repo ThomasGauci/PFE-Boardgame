@@ -80,11 +80,11 @@ class HandView extends Component {
     }
 
     componentDidMount() {
-        this.setState({
+        /*this.setState({
             cards: this.props.data.cards,
             turn: this.props.data.turn,
             age: this.props.data.age
-        })
+        })*/
     }
 
     validateTurn(action) {
@@ -187,12 +187,12 @@ class HandView extends Component {
 
     render() {
         var divStyle = {
-            background: utils.intToColor(this.props.data.position)
+            background: utils.intToColor(1)//utils.intToColor(this.props.data.position)
         };
         const hand = this.state.cards.map((infos, index) => <Image key={index} rounded
                                                                    src={require("../../assets/cards/" + infos.card.id + ".jpg")}
                                                                    id={infos.card.id} className="card"
-                                                                   onClick={() => this.showModal(infos)}/>)
+                                                                   onClick={() => this.showModal(infos)}/>);
         return (
             <div>
                 {this.state.modal ?
@@ -207,7 +207,7 @@ class HandView extends Component {
                     : null
                 }
                 {this.state.trading ?
-                    <TradingScreen close={() => this.closeTrading()}/>
+                    <TradingScreen currentCard={this.state.currentCard}  close={() => this.closeTrading()}/>
                     : null
                 }
                 <div id="container" style={divStyle}>
