@@ -44,8 +44,17 @@ class PlayerZone extends Component {
 
             return (
                 <div className='playerZone'>
-                    <div className='playerMoney shadow'>
-                        <div>{this.props.player.money}</div>
+                    <div className='playerZoneStats'>
+                        <div className="playerZoneWarPoints">
+                            {this.props.player.warPointsDisplay.map(warPoint => {
+                                return (
+                                    <img className="playerZoneWarPoint" src={require(`../../assets/war${warPoint}.png`)}/>
+                                );
+                            })}
+                        </div>
+                        <div className='playerMoney shadow'>
+                            <div>{this.props.player.money}</div>
+                        </div>
                     </div>
                     <div className='playerBoard'>
                         <div className='playerBoardContent'>
