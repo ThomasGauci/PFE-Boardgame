@@ -61,7 +61,7 @@ let fsm = new StateMachine({
                 console.log("erreur: player not found");
             }else{
                 console.log(data.cardId);
-                let action = new Action(data.action,data.cardId,player,board);
+                let action = new Action(data.action,data.cardId,player,board, data.purchases);
                 if(!playerPlayed.includes(data.position)){
                     playerPlayed.push(data.position);
                 }

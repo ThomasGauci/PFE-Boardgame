@@ -36,6 +36,7 @@ automate.fsm.playTurn(null,board,);
 //restart turn
 automate.fsm.startTurn(null,board);
 console.log(board.turn);
+console.log(board);
 //console.log(p4.hand);
 automate.fsm.playTurn(null,board,);
 
