@@ -20,6 +20,7 @@ class GameScreen extends Component {
                 await this.sleep(3000);
             }
             this.setState({currentAction: null});
+            console.log("Next turn plz");
             this.props.socket.emit('readyTurn');
         }
         if(nextProps.war) {
@@ -28,6 +29,7 @@ class GameScreen extends Component {
                 await this.sleep(3000);
             }
             this.setState({currentBattle: null});
+            console.log("Next age plz");
             this.props.socket.emit('readyAge');
         }
     }
