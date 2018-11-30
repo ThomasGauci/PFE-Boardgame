@@ -111,7 +111,7 @@ class HandView extends Component {
                     modalText: "Action validée"
                 });
                 let dataToSend = {
-                    cardId: this.state.currentCard,
+                    cardId: this.state.currentCard.card.id,
                     action: action,
                     position: this.props.data.position
                 };
@@ -149,7 +149,7 @@ class HandView extends Component {
                 modalText: "Action validée"
             });
             let dataToSend = {
-                cardId: this.state.currentCard,
+                cardId: this.state.currentCard.card.id,
                 action: action,
                 position: this.props.data.position
             };
