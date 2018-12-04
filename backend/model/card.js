@@ -72,7 +72,7 @@ class Card {
                     cardResources["stayingResources"] = strMapToArray(result.stayingResources); //resources useless + or resources
                     let availableResources = [];
                     for(let neighbor of neighbors){
-                        console.log("resources", strMapToObj(neighbor.getCurrentResources()));
+                        console.log("resources", strMapToArray(neighbor.getCurrentResources()));
                         let obj = {player: neighbor.getState(), resources: strMapToArray(neighbor.getCurrentResources())};
                         availableResources.push(obj);
                     }
