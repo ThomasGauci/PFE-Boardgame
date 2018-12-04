@@ -627,7 +627,7 @@ addCard(age2, {
         target: "tablet",
         value: 1,
     },
-    cost: [{name: "stone", quantity: 2},{name: "loop", quantity: 1}],
+    cost: [{name: "stone", quantity: 2},{name: "loom", quantity: 1}],
     offer: ["B305", "S303"]
 });
 
@@ -708,6 +708,19 @@ addCard(age3, {
         value: 8,
     },
     cost: [{name: "stone", quantity: 1},{name: "ore", quantity: 1},{name: "wood", quantity: 1},{name: "clay", quantity: 1},{name: "glass", quantity: 1},{name: "papyrus", quantity: 1},{name: "loom", quantity: 1}],
+    offer: []
+});
+
+addCard(age3, {
+    id: "B302",
+    name: "Jardins",
+    age: 3,
+    type: "building",
+    effect: {
+        target: "victory",
+        value: 5,
+    },
+    cost: [{name: "clay", quantity: 2},{name: "wood", quantity: 1}],
     offer: []
 });
 
@@ -1015,7 +1028,7 @@ addCard(guilds, {
 });
 
 shuffleArray(guilds);
-age3.push.apply(guilds.splice(0,5));
+age3.push.apply(age3,guilds.slice(0,6));
 shuffleArray(age1);
 shuffleArray(age2);
 shuffleArray(age3);

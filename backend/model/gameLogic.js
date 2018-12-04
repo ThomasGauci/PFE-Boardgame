@@ -36,7 +36,8 @@ let fsm = new StateMachine({
             if(client != null)
                 client.broadcast.emit('gameStart', data);
         },
-        onNewAge: function(lifecycle,client,board){console.log("Start new Age");
+        onNewAge: function(lifecycle,client,board){
+            console.log("Start new Age");
             board.newAge(cards);
         },
         onStart: function(lifecycle,client,board){
@@ -60,7 +61,6 @@ let fsm = new StateMachine({
             if(player === -1){
                 console.log("erreur: player not found");
             }else{
-                console.log(data.cardId);
                 let action = new Action(data.action,data.cardId,player,board, data.purchases);
                 if(!playerPlayed.includes(data.position)){
                     playerPlayed.push(data.position);
@@ -123,10 +123,16 @@ let fsm = new StateMachine({
                 table.emit('battle',data);
             }
         },
-        onEnd: function(lifecycle,table,board){
-            console.log("its over anakin");
-            console.log(board.calculateWinner());
-            table.emit("result",board.calculateWinner())
+        onFindWinner: function(lifecycle,table,board){
+            console.log("End of game");
+            let res = board.calculateWinner();
+            console.log(res);
+            if(table != null){
+                table.emit("result",res);
+            }
+        },
+        onInvalidTransition: function(transition, from, to) {
+            throw new Error("transition " + transition + " not allowed from " + from + " to " + to);
         }
     }
 });

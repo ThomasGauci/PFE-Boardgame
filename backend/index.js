@@ -72,11 +72,11 @@ io.on('connection', (client) => {
 
     client.on('readyAge', () => {
         console.log("table ready for a new age");
-        if(board.age === 0){
+        if(board.age === 2){
             automate.fsm.startAge(client,board);
         }
         else if(board.age === 3){
-            automate.fsm.findWinner(client,board);
+            automate.fsm.findWinner(table,board);
             return;
         }else{
             automate.fsm.restartAge(client,board);
@@ -87,7 +87,6 @@ io.on('connection', (client) => {
 
 
     client.on('turnValidated', (data) => {
-        //console.log("Player played");
         automate.fsm.playerPlayed(board,data);
 
         if(automate.ifGoNextTurn()){
