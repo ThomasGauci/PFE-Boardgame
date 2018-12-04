@@ -13,14 +13,14 @@ class HandView extends Component {
             cards: [
                 {
                     card: {
-                        id: "A102",
-                        cost: [{name: "wood", quantity: 1}]
+                        id: "A203",
+                        cost: [{name: "wood", quantity: 2},{name: "ore", quantity: 1}]
                     },
                     isPlayable: true,
                     missingResources: [
                         {
                             type: 'wood',
-                            quantity: 1,
+                            quantity: 2,
                         },
                     ],
                     availableResources: [
@@ -46,7 +46,7 @@ class HandView extends Component {
                                 {
                                     type: "wood",
                                     cost: 2,
-                                    quantity: 1
+                                    quantity: 3
                                 }
                             ]
                         }
@@ -57,7 +57,12 @@ class HandView extends Component {
                             quantity: 1
                         }
                     ],
-                    usefullResources: []
+                    usefullResources: [
+                        {
+                            type: "ore",
+                            quantity: 1
+                        }
+                    ]
                 }
             ],
             currentCard: "R101",
@@ -89,7 +94,6 @@ class HandView extends Component {
 
     validateTurn(action) {
         let cardObject = this.state.currentCard;
-        console.log(cardObject);
         if (action === "building") {
             if (cardObject.isPlayable && !("availableResources" in cardObject)) {
                 let buttons = this.state.buttons;
