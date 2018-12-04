@@ -1,2 +1,2 @@
 const Cards = require('../model/Data/cards');
-console.log(Cards.findCardFromId("B203"));
+console.log(Cards.age3);

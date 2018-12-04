@@ -76,13 +76,6 @@ class Action {
             case("guild"):
                 break;
         }
-
-
-        if(playedCard.cost){
-            if(playedCard.cost[0].name === "gold"){
-                this.player.gold -= playedCard.cost[0].quantity;
-            }
-        }
     }
 }
 module.exports = Action;
