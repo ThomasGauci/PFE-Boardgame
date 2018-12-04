@@ -3,7 +3,7 @@ class Board {
         this.players = [];
         this.freePlaces = [1,2,3,4];
         this.discarded = [];
-        this.age = 2;
+        this.age = 0;
         this.turn = 0;
         this.warPointPerAge = [1,3,5];
     }

@@ -72,7 +72,7 @@ io.on('connection', (client) => {
 
     client.on('readyAge', () => {
         console.log("table ready for a new age");
-        if(board.age === 2){
+        if(board.age === 0){
             automate.fsm.startAge(client,board);
         }
         else if(board.age === 3){
