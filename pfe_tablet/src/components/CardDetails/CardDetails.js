@@ -25,7 +25,7 @@ class CardDetails extends Component {
                                 "MozFilter": "grayscale(100%)",
                             } : null}/>
                         {this.props.validated ?
-                            <Check size={200} color="white" className="cardInfosCheck"/>
+                            <Check size={200} color="green" className="cardInfosCheck"/>
                             : null
                         }
                         { this.props.isHandCard ?

@@ -1,0 +1,17 @@
+.overlayDiv {
+    position: relative;
+}
+#check {
+    position: absolute;
+    z-index: 500;
+}
+
+.modalStyle1 {
+    border: none!important;
+    text-align: center!important;
+    margin: 10px;
+}
+.resButton {
+    margin: 10px;
+    width: 50%;
+}

@@ -81,5 +81,26 @@
 .resourceDiv {
     display: flex;
     flex-direction: row;
-    border-style: solid;
+    align-items: center;
+}
+.resourcesDiv {
+    display: flex;
+    flex-direction: column;
+}
+.header {
+    display: flex;
+    flex-direction: column;
+}
+.titleLabel {
+    background: transparent!important;
+}
+#money {
+    display: flex;
+    flex-direction: row;
+}
+.resourceLabel {
+    text-align: center;
+    background: transparent!important;
+    color: black!important;
+    font-size: 100%!important;
 }
