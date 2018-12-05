@@ -97,27 +97,36 @@
     text-align: right;
     vertical-align: middle;
     margin-right: 5px;
+    margin-left: 5px;
 }
 
-.playerZoneStats{
+.playerZoneStatsRight{
     position: absolute;
     right: 5px;
     top: 5px;
 }
 
-.playerZoneStats *{
+.playerZoneStatsLeft{
+    position: absolute;
+    left: 5px;
+    top: 5px;
+}
+
+.playerZoneStatsRight *, .playerZoneStatsLeft *{
     display: inline-block;
 }
 
 .playerMoney{
-    background: gold;
     width: 50px;
     height: 50px;
     border-radius: 50%;
-    font-size: 20pt;
+    font-size: 18pt;
     font-weight: bold;
     vertical-align: middle;
     position: relative;
+    background-image: url("../../assets/silver_empty.png");
+    background-position: center;
+    background-size: contain;
 }
 
 .playerMoney *{
@@ -125,5 +134,5 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    padding-bottom: 2px;
+    padding-bottom: 9px;
 }
