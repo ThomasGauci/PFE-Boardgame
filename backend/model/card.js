@@ -72,7 +72,6 @@ class Card {
                     cardResources["stayingResources"] = strMapToArray(result.stayingResources); //resources useless + or resources
                     let availableResources = [];
                     for(let neighbor of neighbors){
-                        console.log("resources", strMapToArray(neighbor.getCurrentResources()));
                         let obj = {player: neighbor.getState(), resources: strMapToArray(neighbor.getCurrentResources())};
                         availableResources.push(obj);
                     }
@@ -254,8 +253,9 @@ function checkSolutionPrice(combination, prices) {
 }
 function strMapToArray(strMap) {
     let result = [];
-    let obj = Object.create(null);
+    let obj;
     for (let [k,v] of strMap) {
+        obj = Object.create(null);
         // We don’t escape the key '__proto__'
         // which can cause problems on older engines
         obj["type"] = k;

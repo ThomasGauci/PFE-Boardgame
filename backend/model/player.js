@@ -91,7 +91,7 @@ class Player {
         for(let card of this.cards){
             if(card.effectTarget && card.effectTarget !== "tablet" && card.effectTarget !== "compass" && card.effectTarget !== "gear" && card.effectTarget !== "army" && card.effectTarget !== "victory" ){
                 if(resources.has(card.effectTarget)){
-                    resources.set(card.effectTarget, {quantity: resources.get(card.effectTarget) + card.effectValue, cost: 2});
+                    resources.set(card.effectTarget, {quantity: resources.get(card.effectTarget).quantity + card.effectValue, cost: 2});
                 }
                 else{
                     resources.set(card.effectTarget, {quantity: card.effectValue, cost: 2});

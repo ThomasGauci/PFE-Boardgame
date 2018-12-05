@@ -14,14 +14,18 @@ class HandView extends Component {
                 {
                     card: {
                         id: "A203",
-                        cost: [{name: "wood", quantity: 2},{name: "ore", quantity: 1}]
+                        cost: [{name: "wood", quantity: 2},{name: "stone", quantity: 1}]
                     },
                     isPlayable: true,
                     missingResources: [
                         {
                             type: 'wood',
-                            quantity: 2,
+                            quantity: 1,
                         },
+                        {
+                            type: 'stone',
+                            quantity: 1,
+                        }
                     ],
                     availableResources: [
                         {
@@ -31,7 +35,7 @@ class HandView extends Component {
                             },
                             resources: [
                                 {
-                                    type: "wood/stone",
+                                    type: "stone",
                                     cost: 2,
                                     quantity: 1
                                 }
@@ -53,7 +57,7 @@ class HandView extends Component {
                     ],
                     stayingResources: [
                         {
-                            type: "clay",
+                            type: "wood/stone",
                             quantity: 1
                         }
                     ],
@@ -73,27 +77,46 @@ class HandView extends Component {
             validated: false,
             trading: false,
             money: 5,
+            action: "",
             buttons: {
                 building: false,
                 wonderStep: false,
                 discarding: false
-            }
+            },
+            purchases: []
         };
         this.handleDismissModal = this.handleDismissModal.bind(this);
         this.showModal = this.showModal.bind(this);
         this.validateTurn = this.validateTurn.bind(this);
+        this.closeTrading = this.closeTrading.bind(this);
+        this.submitPurchases = this.submitPurchases.bind(this);
     }
 
     componentDidMount() {
         this.setState({
             cards: this.props.data.cards,
             turn: this.props.data.turn,
-            age: this.props.data.age
-        })
+            age: this.props.data.age,
+            money: this.props.data.money
+        });
+    }
+
+    submitPurchases(){
+        this.setState({
+            validated: true
+        });
+        let dataToSend = {
+            cardId: this.state.currentCard.card.id,
+            action: this.state.action,
+            position: this.props.data.position,
+            purchases: this.state.purchases
+        };
+        this.props.data.socket.emit('turnValidated', dataToSend);
     }
 
     validateTurn(action) {
         let cardObject = this.state.currentCard;
+        this.setState({action: action});
         if (action === "building") {
             if (cardObject.isPlayable && !("availableResources" in cardObject)) {
                 let buttons = this.state.buttons;
@@ -191,7 +214,7 @@ class HandView extends Component {
 
     render() {
         var divStyle = {
-            background: utils.intToColor(this.props.data.position)
+            background: utils.intToColor(1)//utils.intToColor(this.props.data.position)
         };
         const hand = this.state.cards.map((infos, index) => <Image key={index} rounded
                                                                    src={require("../../assets/cards/" + infos.card.id + ".jpg")}
@@ -211,7 +234,7 @@ class HandView extends Component {
                     : null
                 }
                 {this.state.trading ?
-                    <TradingScreen money={this.state.money} currentCard={this.state.currentCard}  close={() => this.closeTrading()}/>
+                    <TradingScreen purchases={this.state.purchases} submitPurchases={this.submitPurchases} money={this.state.money} currentCard={this.state.currentCard}  close={this.closeTrading}/>
                     : null
                 }
                 <div id="container" style={divStyle}>

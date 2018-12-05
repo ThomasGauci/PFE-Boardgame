@@ -49,7 +49,8 @@ let fsm = new StateMachine({
             for(let i=0;i<4;i++){
                 data={"age": board.age,
                     "turn": board.turn,
-                    "cards": board.getPlayerAvailableMoves(i)
+                    "cards": board.getPlayerAvailableMoves(i),
+                    "money": board.players[i].gold,
                 };
                 if(board.players[i].socket != null)
                     board.players[i].socket.emit('newTurn',data);
@@ -62,6 +63,7 @@ let fsm = new StateMachine({
                 console.log("erreur: player not found");
             }else{
                 let action = new Action(data.action,data.cardId,player,board, data.purchases);
+                console.log(action);
                 if(!playerPlayed.includes(data.position)){
                     playerPlayed.push(data.position);
                 }
@@ -100,7 +102,8 @@ let fsm = new StateMachine({
             for(let i=0;i<4;i++){
                 data={"age": board.age,
                     "turn":board.turn,
-                    "cards":board.getPlayerAvailableMoves(i)
+                    "cards":board.getPlayerAvailableMoves(i),
+                    "money": board.players[i].gold
                 };
                 if(board.players[i].socket != null){
                     board.players[i].socket.emit('newTurn',data);
