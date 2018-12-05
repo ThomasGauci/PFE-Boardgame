@@ -67,12 +67,13 @@ class Card {
                 else {
                     cardResources["isPlayable"] = true;
                     let result = getUsefullAndMissingPersonalResources(playerResources, card.cost);
-                    cardResources["usefullResources"] = strMapToObj(result.usefullResources); //resources used to build card
-                    cardResources["missingRessources"] = strMapToObj(result.missingRessources);// resources needed but not owned
-                    cardResources["stayingResources"] = strMapToObj(result.stayingResources); //resources useless + or resources
+                    cardResources["usefullResources"] = strMapToArray(result.usefullResources); //resources used to build card
+                    cardResources["missingRessources"] = strMapToArray(result.missingRessources);// resources needed but not owned
+                    cardResources["stayingResources"] = strMapToArray(result.stayingResources); //resources useless + or resources
                     let availableResources = [];
                     for(let neighbor of neighbors){
-                        let obj = {player: neighbor.getState(), resources: strMapToObj(neighbor.getCurrentResources())};
+                        console.log("resources", strMapToArray(neighbor.getCurrentResources()));
+                        let obj = {player: neighbor.getState(), resources: strMapToArray(neighbor.getCurrentResources())};
                         availableResources.push(obj);
                     }
                     cardResources["availableResources"] = availableResources;
@@ -251,7 +252,8 @@ function checkSolutionPrice(combination, prices) {
     }
     return finalPrice;
 }
-function strMapToObj(strMap) {
+function strMapToArray(strMap) {
+    let result = [];
     let obj = Object.create(null);
     for (let [k,v] of strMap) {
         // We don’t escape the key '__proto__'
@@ -259,6 +261,7 @@ function strMapToObj(strMap) {
         obj["type"] = k;
         obj["quantity"] = v["quantity"] ? v.quantity : v;
         v["cost"]? obj["cost"] = v.cost : null;
+        result.push(obj);
     }
-    return obj;
+    return result;
 }
