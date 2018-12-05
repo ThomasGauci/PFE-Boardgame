@@ -15,18 +15,18 @@ class ResultScreen extends Component {
                 <div className='territoryBackground'>
                     <Row className='territoryRow'>
                         <Col md={6} className='territory territory1 upsideDown'>
-                            <PlayerResult points={this.getPlayerPoints(1)}/>
+                            <PlayerResult position={1} points={this.getPlayerPoints(1)}/>
                         </Col>
                         <Col md={6} className='territory territory2 upsideDown'>
-                            <PlayerResult points={this.getPlayerPoints(2)}/>
+                            <PlayerResult position={2} points={this.getPlayerPoints(2)}/>
                         </Col>
                     </Row>
                     <Row className='territoryRow'>
                         <Col md={6} className='territory territory3'>
-                            <PlayerResult points={this.getPlayerPoints(4)}/>
+                            <PlayerResult position={4} points={this.getPlayerPoints(4)}/>
                         </Col>
                         <Col md={6} className='territory territory4'>
-                            <PlayerResult points={this.getPlayerPoints(3)}/>
+                            <PlayerResult position={3} points={this.getPlayerPoints(3)}/>
                         </Col>
                     </Row>
                 </div>
