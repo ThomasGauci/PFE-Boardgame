@@ -14,6 +14,348 @@ class HandView extends Component {
                 {
                     card: {
                         id: "B103",
+                        cost: [{name: "wood", quantity: 2},{name: "stone", quantity: 1}],
+                        offer: ["B201"]
+                    },
+                    isPlayable: true,
+                    missingResources: [
+                        {
+                            type: 'wood',
+                            quantity: 1,
+                        },
+                        {
+                            type: 'stone',
+                            quantity: 1,
+                        }
+                    ],
+                    availableResources: [
+                        {
+                            player: {
+                                position: 1,
+                                name: "Test"
+                            },
+                            resources: [
+                                {
+                                    type: "stone",
+                                    cost: 2,
+                                    quantity: 1
+                                }
+                            ]
+                        },
+                        {
+                            player: {
+                                position: 3,
+                                name: "Test2"
+                            },
+                            resources: [
+                                {
+                                    type: "wood",
+                                    cost: 2,
+                                    quantity: 3
+                                }
+                            ]
+                        }
+                    ],
+                    stayingResources: [
+                        {
+                            type: "wood/stone",
+                            quantity: 1
+                        }
+                    ],
+                    usefullResources: [
+                        {
+                            type: "ore",
+                            quantity: 1
+                        }
+                    ]
+                },
+                {
+                    card: {
+                        id: "B102",
+                        cost: [{name: "wood", quantity: 2},{name: "stone", quantity: 1}]
+                    },
+                    isPlayable: true,
+                    missingResources: [
+                        {
+                            type: 'wood',
+                            quantity: 1,
+                        },
+                        {
+                            type: 'stone',
+                            quantity: 1,
+                        }
+                    ],
+                    availableResources: [
+                        {
+                            player: {
+                                position: 1,
+                                name: "Test"
+                            },
+                            resources: [
+                                {
+                                    type: "stone",
+                                    cost: 2,
+                                    quantity: 1
+                                }
+                            ]
+                        },
+                        {
+                            player: {
+                                position: 3,
+                                name: "Test2"
+                            },
+                            resources: [
+                                {
+                                    type: "wood",
+                                    cost: 2,
+                                    quantity: 3
+                                }
+                            ]
+                        }
+                    ],
+                    stayingResources: [
+                        {
+                            type: "wood/stone",
+                            quantity: 1
+                        }
+                    ],
+                    usefullResources: [
+                        {
+                            type: "ore",
+                            quantity: 1
+                        }
+                    ]
+                },
+                {
+                    card: {
+                        id: "B103",
+                        cost: [{name: "wood", quantity: 2},{name: "stone", quantity: 1}]
+                    },
+                    isPlayable: true,
+                    missingResources: [
+                        {
+                            type: 'wood',
+                            quantity: 1,
+                        },
+                        {
+                            type: 'stone',
+                            quantity: 1,
+                        }
+                    ],
+                    availableResources: [
+                        {
+                            player: {
+                                position: 1,
+                                name: "Test"
+                            },
+                            resources: [
+                                {
+                                    type: "stone",
+                                    cost: 2,
+                                    quantity: 1
+                                }
+                            ]
+                        },
+                        {
+                            player: {
+                                position: 3,
+                                name: "Test2"
+                            },
+                            resources: [
+                                {
+                                    type: "wood",
+                                    cost: 2,
+                                    quantity: 3
+                                }
+                            ]
+                        }
+                    ],
+                    stayingResources: [
+                        {
+                            type: "wood/stone",
+                            quantity: 1
+                        }
+                    ],
+                    usefullResources: [
+                        {
+                            type: "ore",
+                            quantity: 1
+                        }
+                    ]
+                },
+                {
+                    card: {
+                        id: "B103",
+                        cost: [{name: "wood", quantity: 2},{name: "stone", quantity: 1}]
+                    },
+                    isPlayable: true,
+                    missingResources: [
+                        {
+                            type: 'wood',
+                            quantity: 1,
+                        },
+                        {
+                            type: 'stone',
+                            quantity: 1,
+                        }
+                    ],
+                    availableResources: [
+                        {
+                            player: {
+                                position: 1,
+                                name: "Test"
+                            },
+                            resources: [
+                                {
+                                    type: "stone",
+                                    cost: 2,
+                                    quantity: 1
+                                }
+                            ]
+                        },
+                        {
+                            player: {
+                                position: 3,
+                                name: "Test2"
+                            },
+                            resources: [
+                                {
+                                    type: "wood",
+                                    cost: 2,
+                                    quantity: 3
+                                }
+                            ]
+                        }
+                    ],
+                    stayingResources: [
+                        {
+                            type: "wood/stone",
+                            quantity: 1
+                        }
+                    ],
+                    usefullResources: [
+                        {
+                            type: "ore",
+                            quantity: 1
+                        }
+                    ]
+                },
+                {
+                    card: {
+                        id: "B103",
+                        cost: [{name: "wood", quantity: 2},{name: "stone", quantity: 1}]
+                    },
+                    isPlayable: true,
+                    missingResources: [
+                        {
+                            type: 'wood',
+                            quantity: 1,
+                        },
+                        {
+                            type: 'stone',
+                            quantity: 1,
+                        }
+                    ],
+                    availableResources: [
+                        {
+                            player: {
+                                position: 1,
+                                name: "Test"
+                            },
+                            resources: [
+                                {
+                                    type: "stone",
+                                    cost: 2,
+                                    quantity: 1
+                                }
+                            ]
+                        },
+                        {
+                            player: {
+                                position: 3,
+                                name: "Test2"
+                            },
+                            resources: [
+                                {
+                                    type: "wood",
+                                    cost: 2,
+                                    quantity: 3
+                                }
+                            ]
+                        }
+                    ],
+                    stayingResources: [
+                        {
+                            type: "wood/stone",
+                            quantity: 1
+                        }
+                    ],
+                    usefullResources: [
+                        {
+                            type: "ore",
+                            quantity: 1
+                        }
+                    ]
+                },
+                {
+                    card: {
+                        id: "B103",
+                        cost: [{name: "wood", quantity: 2},{name: "stone", quantity: 1}]
+                    },
+                    isPlayable: true,
+                    missingResources: [
+                        {
+                            type: 'wood',
+                            quantity: 1,
+                        },
+                        {
+                            type: 'stone',
+                            quantity: 1,
+                        }
+                    ],
+                    availableResources: [
+                        {
+                            player: {
+                                position: 1,
+                                name: "Test"
+                            },
+                            resources: [
+                                {
+                                    type: "stone",
+                                    cost: 2,
+                                    quantity: 1
+                                }
+                            ]
+                        },
+                        {
+                            player: {
+                                position: 3,
+                                name: "Test2"
+                            },
+                            resources: [
+                                {
+                                    type: "wood",
+                                    cost: 2,
+                                    quantity: 3
+                                }
+                            ]
+                        }
+                    ],
+                    stayingResources: [
+                        {
+                            type: "wood/stone",
+                            quantity: 1
+                        }
+                    ],
+                    usefullResources: [
+                        {
+                            type: "ore",
+                            quantity: 1
+                        }
+                    ]
+                },{
+                    card: {
+                        id: "B103",
                         cost: [{name: "wood", quantity: 2},{name: "stone", quantity: 1}]
                     },
                     isPlayable: true,
@@ -216,7 +558,7 @@ class HandView extends Component {
         var divStyle = {
             background: utils.intToColor(this.props.data.position)
         };
-        const hand = this.state.cards.map((infos, index) => <Image key={index} rounded
+        const hand = this.state.cards.map((infos, index) => <Image key={index}
                                                                    src={require("../../assets/cards/" + infos.card.id + ".jpg")}
                                                                    id={infos.card.id} className="card"
                                                                    onClick={() => this.showModal(infos)}/>);

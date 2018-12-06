@@ -38,7 +38,8 @@ class CardDetails extends Component {
                     <div className="cardInfosContent">
                         <div className="cardInfosBox">
                             <X className="cardInfosClose" color={"white"} size={40} onClick={this.props.close}/>
-                            <Info className="cardInfosTree" color={"white"} size={35} onClick={this.showTree}/>
+                            {console.log("hoy",this.props.card)}
+                            {this.props.card.offer ? <Info className="cardInfosTree" color={"white"} size={35} onClick={this.showTree}/>:null}
                             <img
                                 className="cardInfosCard"
                                 src={require(`../../assets/cards/${this.props.card.id}.jpg`)}
