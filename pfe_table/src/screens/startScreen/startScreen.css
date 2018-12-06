@@ -45,6 +45,7 @@
     width: 100vw;
     position: absolute;
     z-index: 0;
+    overflow: hidden;
 }
 
 .territoryRow{

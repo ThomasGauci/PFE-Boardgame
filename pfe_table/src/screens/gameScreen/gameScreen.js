@@ -20,8 +20,9 @@ class GameScreen extends Component {
                 await this.sleep(3000);
             }
             this.setState({currentAction: null});
-            console.log("Next turn plz");
-            this.props.socket.emit('readyTurn');
+            console.log("Emitting next turn demand");
+            if(this.props.socket)
+                this.props.socket.emit('readyTurn');
         }
         if(nextProps.war) {
             for (let battle of nextProps.war) {
@@ -29,8 +30,9 @@ class GameScreen extends Component {
                 await this.sleep(3000);
             }
             this.setState({currentBattle: null});
-            console.log("Next age plz");
-            this.props.socket.emit('readyAge');
+            console.log("Emitting next age demand");
+            if(this.props.socket)
+                this.props.socket.emit('readyAge');
         }
     }
 
@@ -46,7 +48,8 @@ class GameScreen extends Component {
                                 serverIp={this.props.serverIp}
                                 age={this.props.age}
                                 turn={this.props.turn}
-                                isReady={this.props.playerReady[1]}/>
+                                isReady={this.props.playerReady[1]}
+                                action={this.state.currentAction && this.state.currentAction.player.position === 1 ? this.state.currentAction : null}/>
                         </Col>
                         <Col md={6} className='territory territory2 upsideDown'>
                             <PlayerZone
@@ -55,7 +58,8 @@ class GameScreen extends Component {
                                 serverIp={this.props.serverIp}
                                 age={this.props.age}
                                 turn={this.props.turn}
-                                isReady={this.props.playerReady[2]}/>
+                                isReady={this.props.playerReady[2]}
+                                action={this.state.currentAction && this.state.currentAction.player.position === 2 ? this.state.currentAction : null}/>
                         </Col>
                     </Row>
                     <Row className='territoryRow'>
@@ -66,7 +70,8 @@ class GameScreen extends Component {
                                 serverIp={this.props.serverIp}
                                 age={this.props.age}
                                 turn={this.props.turn}
-                                isReady={this.props.playerReady[4]}/>
+                                isReady={this.props.playerReady[4]}
+                                action={this.state.currentAction && this.state.currentAction.player.position === 4 ? this.state.currentAction : null}/>
                         </Col>
                         <Col md={6} className='territory territory4'>
                             <PlayerZone
@@ -75,11 +80,12 @@ class GameScreen extends Component {
                                 serverIp={this.props.serverIp}
                                 age={this.props.age}
                                 turn={this.props.turn}
-                                isReady={this.props.playerReady[3]}/>
+                                isReady={this.props.playerReady[3]}
+                                action={this.state.currentAction && this.state.currentAction.player.position === 3 ? this.state.currentAction : null}/>
                         </Col>
                     </Row>
                 </div>
-                { this.state.currentAction ?
+                { /*this.state.currentAction ?
                     <div>
                         <Modal.Dialog className='actionModal'>
                             <h1 className='actionTextZone upsideDown'>
@@ -94,7 +100,7 @@ class GameScreen extends Component {
                             </h1>
                         </Modal.Dialog>
                     </div>
-                    : null
+                    : null*/
                 }
                 {this.state.currentBattle ?
                     <div>
@@ -106,8 +112,8 @@ class GameScreen extends Component {
                                             style={{color: this.getPlayerColor(this.state.currentBattle.loser.position)}}>{this.state.currentBattle.loser.name}</span>
                             </h1>
                             <div className='warHeader'>
-                                <img className='warImage warImageFirst' src={require("../../assets/swords.svg")}/>
-                                <img className='warImage upsideDown' src={require("../../assets/swords.svg")}/>
+                                <img alt="swords" className='warImage warImageFirst' src={require("../../assets/swords.svg")}/>
+                                <img alt="swords" className='warImage upsideDown' src={require("../../assets/swords.svg")}/>
                             </div>
                             <h1 className='actionTextZone'>
                                 <span className='actionPlayer'
