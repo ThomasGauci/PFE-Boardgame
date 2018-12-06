@@ -13,7 +13,7 @@ class HandView extends Component {
             cards: [
                 {
                     card: {
-                        id: "A203",
+                        id: "B103",
                         cost: [{name: "wood", quantity: 2},{name: "stone", quantity: 1}]
                     },
                     isPlayable: true,
@@ -230,7 +230,8 @@ class HandView extends Component {
                                  build={() => this.validateTurn("building")}
                                  buildWonder={() => this.validateTurn("wonderStep")}
                                  sell={() => this.validateTurn("discarding")}
-                                 validated={this.state.validated}/>
+                                 validated={this.state.validated}
+                    type="red"/>
                     : null
                 }
                 {this.state.trading ?

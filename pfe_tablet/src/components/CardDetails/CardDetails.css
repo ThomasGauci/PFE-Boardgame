@@ -1,8 +1,16 @@
 .cardInfos{
     position: absolute;
-    z-index: 99999;
+    z-index: 3000;
     width: 100vw;
     height: 100vh;
+    background: rgba(50, 50, 50, 0.7);
+}
+
+.treeInfos{
+    position: absolute;
+    z-index: 4000;
+    width: 100vw;
+    height: 250vh;
     background: rgba(50, 50, 50, 0.7);
 }
 
@@ -25,6 +33,12 @@
 }
 
 .cardInfosClose{
+    position: absolute;
+    right: 2px;
+    top: 10px;
+    z-index: 99999
+}
+.cardInfosClose1{
     position: absolute;
     right: 10px;
     top: 10px;
@@ -59,4 +73,20 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+}
+
+.cardInfosTree {
+    position: absolute;
+    right: 5px;
+    top: 50px;
+    z-index: 9000;
+}
+
+.treeDiv {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    height: 70%;
+
 }
