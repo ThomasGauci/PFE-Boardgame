@@ -9,6 +9,9 @@ class Player {
         this.warPointsDisplay = [];
         this.lostWars = 0;
         this.city = null;
+        this.freeCards =[];
+        this.economicEffect = [];
+
         this.socket = socket;
 
         this.science = {
@@ -20,9 +23,15 @@ class Player {
         this.army = 0;
         this.victory = 0;
 
-        this.freeCards =[];
-
-        this.economicEffect = [];
+        this.cardsPerType = new Map();
+        this.cardsPerType.set("resource",0);
+        this.cardsPerType.set("product",0);
+        this.cardsPerType.set("economic",0);
+        this.cardsPerType.set("military",0);
+        this.cardsPerType.set("building",0);
+        this.cardsPerType.set("science",0);
+        this.cardsPerType.set("guild",0);
+        this.cardsPerType.set("resource",0);
     }
 
     setCity(city){
@@ -32,7 +41,7 @@ class Player {
     setHand(cards){
         this.hand = cards;
     }
-    
+
 
     isFreeToBuild(id){
         for(let card of this.freeCards){

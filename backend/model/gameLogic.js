@@ -47,7 +47,8 @@ let fsm = new StateMachine({
             currentActions = new Map();
             let data;
             for(let i=0;i<4;i++){
-                data={"age": board.age,
+                data={
+                    "age": board.age,
                     "turn": board.turn,
                     "cards": board.getPlayerAvailableMoves(i),
                     "money": board.players[i].gold,
@@ -63,7 +64,6 @@ let fsm = new StateMachine({
                 console.log("erreur: player not found");
             }else{
                 let action = new Action(data.action,data.cardId,player,board, data.purchases);
-                console.log(action);
                 if(!playerPlayed.includes(data.position)){
                     playerPlayed.push(data.position);
                 }
@@ -88,8 +88,11 @@ let fsm = new StateMachine({
             }
             let data= {
                 "latestActions":latestActions,
-                "gameState":
-                    {"players":players}
+                "gameState": {
+                    "players": players,
+                    "turn": board.turn,
+                    "age" : board.age
+                }
             };
             if(client != null){
                 client.emit("endTurn",data);

@@ -130,6 +130,8 @@ class Board {
     }
 
 
+
+
     calculateWinner(){
         let res = [];
         let sum = 0;
@@ -169,6 +171,8 @@ class Board {
         neighbors.push(this.players[playerPosition%4]);
         return neighbors;
     }
+
+
 
     getPlayerAvailableMoves(playerIndex){ //TODO: ici Pierre
         const playerHand = this.players[playerIndex].getHand();

@@ -77,6 +77,9 @@ class Action {
             case("guild"):
                 break;
         }
+        let val = this.player.cardsPerType.get(type) + 1;
+        this.player.cardsPerType.set(type,val);
+        console.log(this.player.cardsPerType);
     }
 
     playEconomicCard(playedCard,target,value){
@@ -85,6 +88,7 @@ class Action {
                 this.player.gold += value;
                 break;
             case("dynamicGold"):
+
                 break;
             default:
                 let effect = {
