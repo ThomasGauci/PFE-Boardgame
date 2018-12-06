@@ -19,6 +19,10 @@ class Player {
         this.gold = 3;
         this.army = 0;
         this.victory = 0;
+
+        this.freeCards =[];
+
+        this.economicEffect = [];
     }
 
     setCity(city){
@@ -31,6 +35,9 @@ class Player {
 
     addCard(card){
         this.cards.push(card);
+        if(card.offer){
+            this.freeCards.push.apply(this.freeCards,card.offer);
+        }
     }
 
     findCardFromId(id){

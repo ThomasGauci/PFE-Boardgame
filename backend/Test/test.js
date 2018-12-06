@@ -23,7 +23,6 @@ console.log(board.turn);
 let data = {"action":"building","position":"1","cardId":p1.hand[0].id};
 automate.fsm.playerPlayed(board,data);
 //console.log(p1.hand);
-
 data = {"action":"building","position":"2","cardId":p2.hand[0].id};
 automate.fsm.playerPlayed(board,data);
 data = {"action":"building","position":"3","cardId":p3.hand[0].id};
@@ -32,13 +31,13 @@ data = {"action":"building","position":"4","cardId":p4.hand[0].id};
 automate.fsm.playerPlayed(board,data);
 //console.log(p4.hand);
 //end turn
-automate.fsm.playTurn(null,board,);
+automate.fsm.playTurn(null,board);
 //restart turn
 automate.fsm.startTurn(null,board);
 console.log(board.turn);
 console.log(board);
 //console.log(p4.hand);
-automate.fsm.playTurn(null,board,);
+automate.fsm.playTurn(null,board);
 
 
 automate.fsm.startTurn(null,board);
@@ -130,6 +129,8 @@ for(let i = 0; i < 5;i++){
 
 console.log(board.age);
 console.log(board.turn);
+
+console.log(board.players[0].freeCards);
 
 if(automate.ifGoNextAge(board)){
     automate.fsm.battle(null,board);

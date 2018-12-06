@@ -55,7 +55,7 @@ let fsm = new StateMachine({
                     board.players[i].socket.emit('newTurn',data);
             }
         },
-        onPlayerPlayed: function(lifecycle,board,data){
+        onPlayerPlayed: function(lifecycle,board,data,table){
             console.log("Player played", data.position);
             let player = board.findPlayer(data.position);
             if(player === -1){
@@ -66,6 +66,9 @@ let fsm = new StateMachine({
                     playerPlayed.push(data.position);
                 }
                 currentActions.set(data.position,action);
+                if(table != null){
+                    table.emit("playedPlayed",data.position);
+                }
             }
         },
         onEndTurn: function (lifecycle,client,board) {
@@ -132,7 +135,8 @@ let fsm = new StateMachine({
             }
         },
         onInvalidTransition: function(transition, from, to) {
-            throw new Error("transition " + transition + " not allowed from " + from + " to " + to);
+            console.log("transition " + transition + " not allowed from " + from + " to " + to);
+            //throw new Error("transition " + transition + " not allowed from " + from + " to " + to);
         }
     }
 });
