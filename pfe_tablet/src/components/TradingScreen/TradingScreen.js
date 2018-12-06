@@ -10,9 +10,11 @@ class TradingScreen extends Component {
         this.state = {
             money: 0,
             missingResources: new Map(),
-            titleText: "Il vous manque des ressources pour fabriquer cette carte. Vous pouvez en acheter à vos voisins"
+            titleText: "Il vous manque des ressources pour construire ce bâtiment. Vous pouvez en acheter à vos voisins",
+            missingResourceModal: false
         };
-        this.displayResource = this.displayResource.bind(this)
+        this.displayResource = this.displayResource.bind(this);
+        this.handleDismiss = this.handleDismiss.bind(this);
     }
 
     componentWillMount(){
@@ -26,6 +28,18 @@ class TradingScreen extends Component {
         this.setState(newState);
     }
 
+    submitPurchases(){
+        if(Array.from(this.state.missingResources.keys()).length > 0){
+            this.setState({
+                missingResourceModal: true,
+            });
+        }
+        else {
+            this.props.close();
+            this.props.submitPurchases();
+        }
+    }
+
     arrayToMap(resourceArray){
         let result = new Map();
         for(let resource of resourceArray){
@@ -34,20 +48,35 @@ class TradingScreen extends Component {
         return result
     }
 
-    displayResource(resource, isChecked, onClickCall) {
+    displayResource(resource, isChecked, seller) {
         let result = [];
         for (let i = 0; i < resource.quantity; i++) {
             result.push(<Resource changeState={this.changeState.bind(this)} key={i} resource={resource}
-                                  isChecked={isChecked} money={this.state.money}
-                                  missingResources={this.state.missingResources} cancellable={!isChecked}/>);
+                                  isChecked={isChecked} money={this.state.money} missingResources={this.state.missingResources}
+                                  cancellable={!isChecked} purchases={this.props.purchases} seller={seller}/>);
         }
         return result;
     }
 
+    handleDismiss(){
+        this.setState({
+            missingResourceModal: false,
+        });
+    }
 
     render(){
         return (
             <div className="tradingScreen">
+                {
+                    this.state.missingResourceModal ?
+                        <Modal.Dialog>
+                            <Modal.Body bsClass="modalStyle1">Il vous manque des ressources pour construire cette carte</Modal.Body>
+                            <Modal.Footer bsClass="modalStyle1">
+                                <Button onClick={this.handleDismiss.bind(this)}>OK</Button>
+                            </Modal.Footer>
+                        </Modal.Dialog>
+                        : null
+                }
                 <div className="tradingScreenContent">
                     <div className="tradingScreenBox shadow">
                         <div className="header">
@@ -60,7 +89,7 @@ class TradingScreen extends Component {
                                 {
                                     Array.from(this.state.missingResources.keys()).map((missingResourceName,index) =>
                                         <div className="resourceDiv" key={index}>
-                                            {this.displayResource({type: missingResourceName, quantity: this.state.missingResources.get(missingResourceName)}, false, () => {})}
+                                            {this.displayResource({type: missingResourceName, quantity: this.state.missingResources.get(missingResourceName)}, false, 0)}
                                         </div>
                                 )}
                             </div>
@@ -71,15 +100,12 @@ class TradingScreen extends Component {
                                 <div className="resourcesDiv">
                                     {this.props.currentCard.usefullResources.map((usefullResource,index) =>
                                         <div className="resourceDiv" key={index}>
-                                            {this.displayResource(usefullResource, true, ()=>{this.setState({
-                                                errorModal: true,
-                                                errorModalText: "Cette ressource est déjà utilisée"
-                                            })})}
+                                            {this.displayResource(usefullResource, true, 0)}
                                         </div>
                                     )}
                                     {this.props.currentCard.stayingResources.map((stayingResource,index) =>
                                         <div className="resourceDiv" key={index}>
-                                            {this.displayResource(stayingResource, false, ()=>this.buyResource(0, stayingResource.type))}
+                                            {this.displayResource(stayingResource, false, 0)}
                                         </div>
                                     )}
                                 </div>
@@ -89,7 +115,7 @@ class TradingScreen extends Component {
                                 <div className="resourcesDiv">
                                     {this.props.currentCard.availableResources[0].resources.map((availableResource,index) =>
                                         <div className="resourceDiv" key={index}>
-                                            {this.displayResource(availableResource, false, () => {this.buyResource(availableResource.cost, availableResource.type);})}
+                                            {this.displayResource(availableResource, false, this.props.currentCard.availableResources[0].player.position)}
                                         </div>
                                     )}
                                 </div>
@@ -99,7 +125,7 @@ class TradingScreen extends Component {
                                 <div className="resourcesDiv">
                                     {this.props.currentCard.availableResources[1].resources.map((availableResource,index) =>
                                         <div className="resourceDiv" key={index}>
-                                            {this.displayResource(availableResource, false, () => {this.buyResource(availableResource.cost, availableResource.type);})}
+                                            {this.displayResource(availableResource, false, this.props.currentCard.availableResources[1].player.position)}
                                         </div>
                                     )}
                                 </div>
@@ -107,7 +133,7 @@ class TradingScreen extends Component {
                         </div>
                         <div className="tradingScreenButtons">
                             <Button className="tradingScreenButton" bsStyle="danger" onClick={this.props.close}>Annuler</Button>
-                            <Button className="tradingScreenButton" bsStyle="success">Valider</Button>
+                            <Button className="tradingScreenButton" bsStyle="success" onClick={()=>this.submitPurchases()}>Valider</Button>
                         </div>
                     </div>
                 </div>

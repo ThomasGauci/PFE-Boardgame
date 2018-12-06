@@ -44,7 +44,14 @@ class PlayerZone extends Component {
 
             return (
                 <div className='playerZone'>
-                    <div className='playerZoneStats'>
+                    <div className={this.props.player.position === 1 || this.props.player.position === 3 ? 'playerZoneStatsLeft' : 'playerZoneStatsRight'}>
+                        {
+                            this.props.player.position === 1 || this.props.player.position === 3 ?
+                                <div className='playerMoney shadow'>
+                                    <div>{this.props.player.money}</div>
+                                </div>
+                                : null
+                        }
                         <div className="playerZoneWarPoints">
                             {this.props.player.warPointsDisplay.map(warPoint => {
                                 return (
@@ -52,9 +59,13 @@ class PlayerZone extends Component {
                                 );
                             })}
                         </div>
-                        <div className='playerMoney shadow'>
-                            <div>{this.props.player.money}</div>
-                        </div>
+                        {
+                            this.props.player.position === 2 || this.props.player.position === 4 ?
+                                <div className='playerMoney shadow'>
+                                    <div>{this.props.player.money}</div>
+                                </div>
+                                : null
+                        }
                     </div>
                     <div className='playerBoard'>
                         <div className='playerBoardContent'>

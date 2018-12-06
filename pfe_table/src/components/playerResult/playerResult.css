@@ -2,5 +2,58 @@
     text-align: center;
     height: 100%;
     color: white;
-    font-size: 60pt;
+}
+
+.resultCircle{
+    position: absolute;
+    top: 0;
+    background: #eeb711;
+    text-align: left;
+    padding-left: 5px;
+}
+
+.resultCircleTopLeft{
+    left: 0;
+    border-bottom-right-radius: 100%;
+    border-top-left-radius: 5px;
+    border-bottom: 5px solid black;
+    border-right: 5px solid black;
+}
+
+.resultCircleTopRight{
+    right: 0;
+    border-bottom-left-radius: 100%;
+    border-top-right-radius: 5px;
+    border-bottom: 5px solid black;
+    border-left: 5px solid black;
+}
+
+.militaryCircle{
+    background: red;
+    z-index: 7;
+}
+
+.goldCircle{
+    background: silver;
+    z-index: 6;
+}
+
+.wonderCircle{
+    background: brown;
+    z-index: 5;
+}
+
+.victoryCircle{
+    background: blue;
+    z-index: 4;
+}
+
+.economyCircle{
+    background: yellow;
+    z-index: 3;
+}
+
+.scienceCircle{
+    background: green;
+    z-index: 2;
 }
