@@ -1,0 +1,11 @@
+.playerHand{
+    position: absolute;
+    bottom: 0;
+    height: 70px;
+    width: 100%;
+    overflow: hidden;
+}
+
+.playerHandCard{
+    margin-left: -75px;
+}

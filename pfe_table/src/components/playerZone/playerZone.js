@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 
 import './playerZone.css'
+import PlayerHand from "../playerHand/playerHand";
 
 class PlayerZone extends Component {
 
@@ -173,6 +174,10 @@ class PlayerZone extends Component {
                             : null
                         }
                     </div>
+                    <PlayerHand
+                        age={this.props.age}
+                        turn={this.props.turn}
+                        isReady={this.props.isReady}/>
                 </div>
             );
         }

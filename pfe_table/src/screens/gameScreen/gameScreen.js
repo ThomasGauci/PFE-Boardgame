@@ -43,13 +43,19 @@ class GameScreen extends Component {
                             <PlayerZone
                                 position={1}
                                 player={this.getPlayerOn(1)}
-                                serverIp={this.props.serverIp}/>
+                                serverIp={this.props.serverIp}
+                                age={this.props.age}
+                                turn={this.props.turn}
+                                isReady={this.props.playerReady[1]}/>
                         </Col>
                         <Col md={6} className='territory territory2 upsideDown'>
                             <PlayerZone
                                 position={2}
                                 player={this.getPlayerOn(2)}
-                                serverIp={this.props.serverIp}/>
+                                serverIp={this.props.serverIp}
+                                age={this.props.age}
+                                turn={this.props.turn}
+                                isReady={this.props.playerReady[2]}/>
                         </Col>
                     </Row>
                     <Row className='territoryRow'>
@@ -57,13 +63,19 @@ class GameScreen extends Component {
                             <PlayerZone
                                 position={4}
                                 player={this.getPlayerOn(4)}
-                                serverIp={this.props.serverIp}/>
+                                serverIp={this.props.serverIp}
+                                age={this.props.age}
+                                turn={this.props.turn}
+                                isReady={this.props.playerReady[4]}/>
                         </Col>
                         <Col md={6} className='territory territory4'>
                             <PlayerZone
                                 position={3}
                                 player={this.getPlayerOn(3)}
-                                serverIp={this.props.serverIp}/>
+                                serverIp={this.props.serverIp}
+                                age={this.props.age}
+                                turn={this.props.turn}
+                                isReady={this.props.playerReady[3]}/>
                         </Col>
                     </Row>
                 </div>

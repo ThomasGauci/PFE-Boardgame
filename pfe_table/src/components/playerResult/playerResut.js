@@ -54,7 +54,7 @@ class PlayerResult extends Component {
                         <span>war</span>
                     </div>
                     :
-                    warStart != science ?
+                    warStart !== science ?
                         <svg
                             width={warEnd}
                             height={warEnd}

@@ -19,11 +19,14 @@ class App extends Component {
         connectionError: false,
         gamePhase: 0,
         players: [],
+        playerReady: [],
         latestActions: null,
         gameWidget: null,
         cardsOnBoard: [],
         war: null,
-        resultPoints: []
+        resultPoints: [],
+        age: 1,
+        turn: 1
     }
     changeServerIp = this.changeServerIp.bind(this);
     setupSocket = this.setupSocket.bind(this);
@@ -53,7 +56,10 @@ class App extends Component {
                             players={this.state.players}
                             latestActions={this.state.latestActions}
                             socket={this.state.socket}
-                            war={this.state.war}/>
+                            war={this.state.war}
+                            age={this.state.age}
+                            turn={this.state.turn}
+                            playerReady={this.state.playerReady}/>
                         : this.state.gamePhase === 2 ?
                             <ResultScreen
                                 points={this.state.resultPoints}/>
@@ -95,6 +101,16 @@ class App extends Component {
                 });
                 socket.emit('readyAge');
             });
+            socket.on('playerPlayed', data => {
+                console.log("playerPlayed", data);
+                let playerReady = this.state.playerReady;
+                playerReady[data] = true;
+                this.setState({playerReady: playerReady});
+            });
+            socket.on('newTurn', data => {
+                console.log('newTurn');
+                this.setState({playerReady: [], age: data.gameState.age, turn: data.gameState.turn, latestActions: null, war: null});
+            })
             socket.on('endTurn', data => {
                 console.log("endTurn", data);
                 this.setState({players: data.gameState.players, latestActions: data.latestActions, war: null}, () => {
