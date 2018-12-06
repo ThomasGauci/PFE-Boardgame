@@ -97,7 +97,7 @@ class App extends Component {
             data: newData
         });
         socket.on('newTurn', (data) => {
-            console.log(data);
+            console.log("data",data);
             let newData = {
                 position: position,
                 pseudo: this.state.data.pseudo,

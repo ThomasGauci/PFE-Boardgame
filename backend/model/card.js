@@ -34,6 +34,17 @@ class Card {
         let prices = computePrices(playerResources, neighbors);
         let playerMoney = player.getState()["money"];
         let cardResources = {};
+        //if we already got the card we can't build it
+        if(player.isAlreadyBuilt(card.id)){
+            cardResources["isPlayable"] = false;
+            return cardResources;
+        }
+
+        //if we can build the card for free
+        if(player.isFreeToBuild(card.id)){
+            cardResources["isPlayable"] = true;
+            return cardResources;
+        }
         //card cost is money only
         if(card.cost && card.cost[0].name === "gold"){
             //not enough gold to buy card
@@ -72,7 +83,6 @@ class Card {
                     cardResources["stayingResources"] = strMapToArray(result.stayingResources); //resources useless + or resources
                     let availableResources = [];
                     for(let neighbor of neighbors){
-                        console.log("resources", strMapToArray(neighbor.getCurrentResources()));
                         let obj = {player: neighbor.getState(), resources: strMapToArray(neighbor.getCurrentResources())};
                         availableResources.push(obj);
                     }
@@ -254,8 +264,9 @@ function checkSolutionPrice(combination, prices) {
 }
 function strMapToArray(strMap) {
     let result = [];
-    let obj = Object.create(null);
+    let obj;
     for (let [k,v] of strMap) {
+        obj = Object.create(null);
         // We don’t escape the key '__proto__'
         // which can cause problems on older engines
         obj["type"] = k;

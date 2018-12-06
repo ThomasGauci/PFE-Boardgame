@@ -19,6 +19,10 @@ class Player {
         this.gold = 3;
         this.army = 0;
         this.victory = 0;
+
+        this.freeCards =[];
+
+        this.economicEffect = [];
     }
 
     setCity(city){
@@ -28,9 +32,29 @@ class Player {
     setHand(cards){
         this.hand = cards;
     }
+    
+
+    isFreeToBuild(id){
+        for(let card of this.freeCards){
+            if(card === id)
+                return true;
+        }
+        return false;
+    }
+
+    isAlreadyBuilt(id){
+        for(let card of this.cards){
+            if(card.id === id)
+                return true;
+        }
+        return false;
+    }
 
     addCard(card){
         this.cards.push(card);
+        if(card.offer){
+            this.freeCards.push.apply(this.freeCards,card.offer);
+        }
     }
 
     findCardFromId(id){
@@ -91,7 +115,7 @@ class Player {
         for(let card of this.cards){
             if(card.effectTarget && card.effectTarget !== "tablet" && card.effectTarget !== "compass" && card.effectTarget !== "gear" && card.effectTarget !== "army" && card.effectTarget !== "victory" ){
                 if(resources.has(card.effectTarget)){
-                    resources.set(card.effectTarget, {quantity: resources.get(card.effectTarget) + card.effectValue, cost: 2});
+                    resources.set(card.effectTarget, {quantity: resources.get(card.effectTarget).quantity + card.effectValue, cost: 2});
                 }
                 else{
                     resources.set(card.effectTarget, {quantity: card.effectValue, cost: 2});

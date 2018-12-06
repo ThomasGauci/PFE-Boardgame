@@ -87,7 +87,7 @@ io.on('connection', (client) => {
 
 
     client.on('turnValidated', (data) => {
-        automate.fsm.playerPlayed(board,data);
+        automate.fsm.playerPlayed(board,data,table);
 
         if(automate.ifGoNextTurn()){
             automate.fsm.playTurn(client,board);

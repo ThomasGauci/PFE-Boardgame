@@ -96,6 +96,10 @@ addCard(age1, {
     id: "E101",
     name: "Comptoir Est",
     age: 1,
+    effect: {
+        target: "discount",
+        value: "left"
+    },
     type: "economic",
     offer: ["E203"]
 });
@@ -103,6 +107,10 @@ addCard(age1, {
     id: "E102",
     name: "Comptoir Ouest",
     age: 1,
+    effect: {
+        target: "discount",
+        value: "right"
+    },
     type: "economic",
     offer: ["E203"]
 });
@@ -110,12 +118,20 @@ addCard(age1, {
     id: "E103",
     name: "Marché",
     age: 1,
+    effect: {
+        target: "discount",
+        value: "both"
+    },
     type: "economic",
     offer: ["E204"]
 });
 addCard(age1, {
     id: "E104",
     name: "Taverne",
+    effect: {
+        target: "gold",
+        value: 5
+    },
     age: 1,
     type: "economic"
 });
@@ -421,6 +437,10 @@ addCard(age2, {
     id: "E201",
     name: "Vignoble",
     age: 2,
+    effect: {
+        target: "dynamicGold",
+        value: "ressource"
+    },
     type: "economic",
     offer: []
 });
@@ -429,6 +449,10 @@ addCard(age2, {
     id: "E202",
     name: "Bazar",
     age: 2,
+    effect: {
+        target: "dynamicGold",
+        value: "product"
+    },
     type: "economic",
     offer: []
 });
@@ -437,6 +461,10 @@ addCard(age2, {
     id: "E203",
     name: "Forum",
     age: 2,
+    effect: {
+        target: "glass/loom/papyrus",
+        value: 1
+    },
     type: "economic",
     cost: [{name: "clay", quantity: 2}],
     offer: ["E303"]
@@ -446,6 +474,10 @@ addCard(age2, {
     id: "E204",
     name: "Caravansérail",
     age: 2,
+    effect: {
+        target: "wood/stone/ore/clay",
+        value: 1
+    },
     type: "economic",
     cost: [{name: "wood", quantity: 2}],
     offer: ["E304"]
@@ -780,7 +812,12 @@ addCard(age3, {
     id: "E301",
     name: "Arène",
     age: 3,
+    effect: {
+        target: "victory/gold",
+        value: "w",
+    },
     type: "economic",
+    cost: [{name: "ore", quantity: 1},{name: "stone", quantity: 2}],
     offer: []
 });
 
@@ -788,7 +825,12 @@ addCard(age3, {
     id: "E302",
     name: "Chambre de commerce",
     age: 3,
+    effect: {
+        target: "victory/gold",
+        value: "p",
+    },
     type: "economic",
+    cost: [{name: "papyrus", quantity: 1},{name: "clay", quantity: 2}],
     offer: []
 });
 
@@ -796,7 +838,12 @@ addCard(age3, {
     id: "E303",
     name: "Port",
     age: 3,
+    effect: {
+        target: "victory/gold",
+        value: "r",
+    },
     type: "economic",
+    cost: [{name: "wood", quantity: 1},{name: "ore", quantity: 1},{name: "loom", quantity: 1}],
     offer: []
 });
 
@@ -804,7 +851,12 @@ addCard(age3, {
     id: "E303",
     name: "Port",
     age: 3,
+    effect: {
+        target: "victory/gold",
+        value: "e",
+    },
     type: "economic",
+    cost: [{name: "stone", quantity: 1},{name: "glass", quantity: 1}],
     offer: []
 });
 

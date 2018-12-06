@@ -50,6 +50,7 @@ class Action {
     play(playedCard){
         let type = playedCard.type;
         let value = playedCard.effectValue;
+        let target = playedCard.effectTarget;
         switch (type) {
             case("military"):
                 this.player.army += value;
@@ -58,13 +59,13 @@ class Action {
                 this.player.victory += value;
                 break;
             case("economic"):
+                this.playEconomicCard(playedCard,target,value);
                 break;
             case("product"):
                 break;
             case("resource"):
                 break;
             case("science"):
-                let target = playedCard.effectTarget;
                 if(target === "gear"){
                     this.player.science.gear++;
                 }else if(target ==="compass"){
@@ -75,6 +76,23 @@ class Action {
                 break;
             case("guild"):
                 break;
+        }
+    }
+
+    playEconomicCard(playedCard,target,value){
+        switch (target) {
+            case("gold"):
+                this.player.gold += value;
+                break;
+            case("dynamicGold"):
+                break;
+            default:
+                let effect = {
+                    target: target,
+                    value: value
+                };
+                this.player.economicEffect.push(effect);
+                break
         }
     }
 }

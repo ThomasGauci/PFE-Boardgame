@@ -49,23 +49,28 @@ let fsm = new StateMachine({
             for(let i=0;i<4;i++){
                 data={"age": board.age,
                     "turn": board.turn,
-                    "cards": board.getPlayerAvailableMoves(i)
+                    "cards": board.getPlayerAvailableMoves(i),
+                    "money": board.players[i].gold,
                 };
                 if(board.players[i].socket != null)
                     board.players[i].socket.emit('newTurn',data);
             }
         },
-        onPlayerPlayed: function(lifecycle,board,data){
+        onPlayerPlayed: function(lifecycle,board,data,table){
             console.log("Player played", data.position);
             let player = board.findPlayer(data.position);
             if(player === -1){
                 console.log("erreur: player not found");
             }else{
                 let action = new Action(data.action,data.cardId,player,board, data.purchases);
+                console.log(action);
                 if(!playerPlayed.includes(data.position)){
                     playerPlayed.push(data.position);
                 }
                 currentActions.set(data.position,action);
+                if(table != null){
+                    table.emit("playedPlayed",data.position);
+                }
             }
         },
         onEndTurn: function (lifecycle,client,board) {
@@ -100,7 +105,8 @@ let fsm = new StateMachine({
             for(let i=0;i<4;i++){
                 data={"age": board.age,
                     "turn":board.turn,
-                    "cards":board.getPlayerAvailableMoves(i)
+                    "cards":board.getPlayerAvailableMoves(i),
+                    "money": board.players[i].gold
                 };
                 if(board.players[i].socket != null){
                     board.players[i].socket.emit('newTurn',data);
@@ -132,7 +138,8 @@ let fsm = new StateMachine({
             }
         },
         onInvalidTransition: function(transition, from, to) {
-            throw new Error("transition " + transition + " not allowed from " + from + " to " + to);
+            console.log("transition " + transition + " not allowed from " + from + " to " + to);
+            //throw new Error("transition " + transition + " not allowed from " + from + " to " + to);
         }
     }
 });
