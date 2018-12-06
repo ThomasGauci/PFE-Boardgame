@@ -32,6 +32,23 @@ class Player {
     setHand(cards){
         this.hand = cards;
     }
+    
+
+    isFreeToBuild(id){
+        for(let card of this.freeCards){
+            if(card === id)
+                return true;
+        }
+        return false;
+    }
+
+    isAlreadyBuilt(id){
+        for(let card of this.cards){
+            if(card.id === id)
+                return true;
+        }
+        return false;
+    }
 
     addCard(card){
         this.cards.push(card);

@@ -34,6 +34,17 @@ class Card {
         let prices = computePrices(playerResources, neighbors);
         let playerMoney = player.getState()["money"];
         let cardResources = {};
+        //if we already got the card we can't build it
+        if(player.isAlreadyBuilt(card.id)){
+            cardResources["isPlayable"] = false;
+            return cardResources;
+        }
+
+        //if we can build the card for free
+        if(player.isFreeToBuild(card.id)){
+            cardResources["isPlayable"] = true;
+            return cardResources;
+        }
         //card cost is money only
         if(card.cost && card.cost[0].name === "gold"){
             //not enough gold to buy card
