@@ -14,11 +14,10 @@ let server = https.createServer({
 },app);
 server.listen(8080);
 //communication objects
-let io = require('socket.io').listen(server);
-io.configure(function () { 
-  io.set("transports", ["xhr-polling"]); 
-  io.set("polling duration", 10); 
-});
+let io = require('socket.io')({
+    transports: ["xhr-polling"],
+    requestTimeout: 10
+}).listen(server);
 let numConnection;
 let table;
 
