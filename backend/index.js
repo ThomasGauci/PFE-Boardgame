@@ -15,6 +15,10 @@ let server = https.createServer({
 server.listen(8080);
 //communication objects
 let io = require('socket.io').listen(server);
+io.configure(function () { 
+  io.set("transports", ["xhr-polling"]); 
+  io.set("polling duration", 10); 
+});
 let numConnection;
 let table;
 
