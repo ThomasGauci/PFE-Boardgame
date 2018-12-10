@@ -12,7 +12,7 @@ let server = https.createServer({
     requestCert: false,
     rejectUnauthorized: false
 },app);
-server.listen(8443);
+server.listen(80);
 //communication objects
 let io = require('socket.io')({
     transports: ["websocket"]
