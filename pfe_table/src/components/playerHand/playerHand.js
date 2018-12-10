@@ -62,7 +62,11 @@ class PlayerHand extends Component {
                             })
                         } else {
                             setTimeout(() => {
-                                this.setState({played: true});
+                                this.setState({played: true}, () => {
+                                    setTimeout(() => {
+                                        this.setState({returned: false, played: false});
+                                    }, 2000);
+                                });
                             }, 2000);
                         }
                     } else {
