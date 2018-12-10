@@ -449,7 +449,7 @@ class HandView extends Component {
     }
 
     componentDidMount() {
-        this.setState({
+        /*this.setState({
             cards: this.props.data.cards,
             turn: this.props.data.turn,
             age: this.props.data.age,
@@ -461,7 +461,7 @@ class HandView extends Component {
             wonderPoints: this.props.data.points.wonder,
             guildPoints: this.props.data.points.guild,
             civilPoints: this.props.data.points.civil
-        });
+        });*/
     }
 
     submitPurchases(){
@@ -577,7 +577,7 @@ class HandView extends Component {
 
     render() {
         var divStyle = {
-            background: utils.intToColor(this.props.data.position)
+            background: utils.intToColor(1)//utils.intToColor(this.props.data.position)
         };
         const hand = this.state.cards.map((infos, index) => <Image key={index}
                                                                    src={require("../../assets/cards/" + infos.card.id + ".jpg")}
@@ -607,6 +607,8 @@ class HandView extends Component {
                             <Label className="labels transparent">Tour {this.state.turn} </Label>
                     </div>
                     <div className="labelsDiv1">
+                        <Label className="labels nopad transparent">{this.state.wonderPoints}</Label>
+                        <Image className="pointsImg" src={require("../../assets/wonderLogo.png")}/>
                         <Label className="labels nopad transparent">{this.state.civilPoints}</Label>
                         <Image className="pointsImg" src={require("../../assets/lauriersWhite.png")}/>
                         <Label className="labels nopad transparent">{this.state.warPoints}</Label>
@@ -615,8 +617,6 @@ class HandView extends Component {
                         <Image className="pointsImg" src={require("../../assets/science.png")}/>
                         <Label className="labels nopad transparent">{this.state.economyPoints}</Label>
                         <Image className="pointsImg" src={require("../../assets/economy.png")}/>
-                        <Label className="labels nopad transparent">{this.state.wonderPoints}</Label>
-                        <Image className="pointsImg" src={require("../../assets/wonderLogo.png")}/>
                         <Label className="labels nopad transparent">{Math.floor(this.state.money/3)}</Label>
                         <Image className="pointsImg" src={require("../../assets/money.png")}/>
                         <Label className="labels nopad transparent">{this.state.guildPoints}</Label>

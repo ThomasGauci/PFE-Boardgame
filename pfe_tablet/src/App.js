@@ -23,7 +23,7 @@ class App extends Component {
     constructor() {
         super();
         this.state = {
-            componentName: "QRView",
+            componentName: "HandView",
             data: {},
             showModal: true,
             fullScreen: false,
