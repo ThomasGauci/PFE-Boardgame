@@ -12,11 +12,9 @@ let server = https.createServer({
     requestCert: false,
     rejectUnauthorized: false
 },app);
-server.listen(80);
+server.listen(8000);
 //communication objects
-let io = require('socket.io')({
-    transports: ["websocket"]
-}).listen(server);
+let io = require('socket.io').listen(server);
 let numConnection;
 let table;
 
@@ -105,4 +103,3 @@ io.on('connection', (client) => {
         automate.fsm.startTurn(client,board);
     });
 });
-
