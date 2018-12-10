@@ -32,6 +32,7 @@ class Resource extends Component {
 
 
     buyOrResource(cost, type){
+        console.log(cost);
         this.setState({
             chooseResource: false
         });
@@ -55,7 +56,7 @@ class Resource extends Component {
                 purchases.push({seller: this.props.seller, resource: type, price: cost});
             }
             this.props.changeState({
-                cost: cost ? this.props.money - cost : this.props.money
+                money: cost ? this.props.money - cost : this.props.money
             });
             this.setState({
                 isChecked: true,
