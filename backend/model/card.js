@@ -30,8 +30,7 @@ class Card {
     }
 
     getCardResources(card, player, neighbors) {
-        let playerResources = player.getCurrentResources();
-        let prices = computePrices(playerResources, neighbors);
+        let prices = computePrices(player, neighbors);
         let playerMoney = player.getState()["money"];
         let cardResources = {};
         //if we already got the card we can't build it
@@ -58,11 +57,11 @@ class Card {
                 return cardResources;
             }
         }
-        //getting all Combinations with player's ressources only
+        //getting all Combinations with player's resources only
         let combInit = [];
         combInit.push(new Map());
         let combinations = getCombinations(playerResources, combInit);
-        //finding working combinations with player's ressources only
+        //finding working combinations with player's resources only
         if(card.cost){
             let solutions = getSolutions(combinations, card.cost, [], 0);
             if(solutions.length > 0) {
@@ -96,8 +95,8 @@ class Card {
         return cardResources;
     }
 
-    play(action){
-
+    static test(player, neighbors){
+        return computePrices(player,neighbors);
     }
 }
 module.exports = Card;
@@ -198,24 +197,44 @@ function getCombinations(resources, combinations) {
     return combinations;
 }
 
-function computePrices(playerResources, neighbors) {
+function isResource(name){
+    return (name === "stone" || name === "wood" || name === "ore" || name === "clay"  || name === "stone/wood"  || name === "stone/clay"|| name === "clay/ore");
+}
+
+function isProduct(name){
+    return (name === "loom" || name === "glass" || name === "papyrus");
+}
+
+function computePrices(player, neighbors) {
+    let playerResources = player.getCurrentResources();
     let prices = [];
+    let discount = player.economicEffect.discount;
     let map0 = new Map();
     for(let resourceName of playerResources.keys()){
         if(resourceName !== "gold" && resourceName !== "victory"){
-            map0.set(resourceName, playerResources.get(resourceName).quantity)
+            map0.set(resourceName, playerResources.get(resourceName));
         }
     }
     let map1 = new Map();
     let map2 = new Map();
-    for(let neighbor of neighbors) {
-        let resources = neighbor.getCurrentResources();
+    for(let i = 0; i < 2 ; i++) {
+        let resources = neighbors[i].getCurrentResources();
         for (let resourceName of resources.keys()){
-            if(resources.get(resourceName).cost === 1){
-                map1.set(resourceName, resources.get(resourceName).quantity + map1.has(resourceName)? map1.get(resourceName) : 0);
+            if(discount.length > 0){
+                if(discount.includes("left") && i === 0 && isResource(resourceName)){
+                    map1.set(resourceName, resources.get(resourceName) + (map1.has(resourceName)? map1.get(resourceName) : 0));
+                }
+                else if(discount.includes("right") && i === 1 && isResource(resourceName)){
+                    map1.set(resourceName, resources.get(resourceName) + (map1.has(resourceName)? map1.get(resourceName) : 0));
+                }
+                else if(discount.includes("both") && isProduct(resourceName)){
+                    map1.set(resourceName, resources.get(resourceName) + (map1.has(resourceName)? map1.get(resourceName) : 0));
+                }
+                else
+                    map2.set(resourceName, resources.get(resourceName) + (map2.has(resourceName)? map2.get(resourceName) : 0));
             }
             else {
-                map2.set(resourceName, resources.get(resourceName).quantity + (map2.has(resourceName)? map2.get(resourceName) : 0));
+                map2.set(resourceName, resources.get(resourceName) + (map2.has(resourceName)? map2.get(resourceName) : 0));
             }
         }
     }

@@ -11,7 +11,7 @@ class Action {
         return {
             "player": this.player.getState(),
             "action": this.type,
-            "cardId": this.card,
+            "cardId": this.card.id,
             "purchases": this.purchases
         };
     }
@@ -62,8 +62,20 @@ class Action {
                 this.playEconomicCard(playedCard,target,value);
                 break;
             case("product"):
+                if(this.player.resources.get(target)){
+                    let newVal = this.player.resources.get(target) + value;
+                    this.player.resources.set(target,newVal);
+                }else{
+                    this.player.resources.set(target,value);
+                }
                 break;
             case("resource"):
+                if(this.player.resources.get(target)){
+                    let newVal = this.player.resources.get(target) + value;
+                    this.player.resources.set(target,newVal);
+                }else{
+                    this.player.resources.set(target,value);
+                }
                 break;
             case("science"):
                 if(target === "gear"){
@@ -77,9 +89,12 @@ class Action {
             case("guild"):
                 break;
         }
-        let val = this.player.cardsPerType.get(type) + 1;
-        this.player.cardsPerType.set(type,val);
-        console.log(this.player.cardsPerType);
+        if(this.player.cardsPerType.get(type)){
+            let val = this.player.cardsPerType.get(type) + 1;
+            this.player.cardsPerType.set(type,val);
+        }else{
+            this.player.cardsPerType.set(type,1);
+        }
     }
 
     playEconomicCard(playedCard,target,value){
@@ -88,14 +103,25 @@ class Action {
                 this.player.gold += value;
                 break;
             case("dynamicGold"):
-
+                let goldWon;
+                goldWon = this.board.getNeighborsNumberCards(this.player.position,value);
+                goldWon += this.player.cardsPerType.get(value);
+                if(value === "product")
+                    goldWon *= 2;
+                this.player.gold += goldWon;
+                break;
+            case("discount"):
+                this.player.economicEffect.discount.push(value);
+                break;
+            case("resources"):
+                this.player.economicEffect.resources.push(value);
                 break;
             default:
-                let effect = {
+                /*let effect = {
                     target: target,
                     value: value
                 };
-                this.player.economicEffect.push(effect);
+                this.player.economicEffect.push(effect);*/
                 break
         }
     }

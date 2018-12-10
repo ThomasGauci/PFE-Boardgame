@@ -130,8 +130,6 @@ class Board {
     }
 
 
-
-
     calculateWinner(){
         let res = [];
         let sum = 0;
@@ -167,12 +165,16 @@ class Board {
 
     getPlayerNeighbors(playerPosition){
         let neighbors = [];
-        neighbors.push(this.players[(playerPosition+2)%4]);
         neighbors.push(this.players[playerPosition%4]);
+        neighbors.push(this.players[(playerPosition+2)%4]);
         return neighbors;
     }
 
-
+    getNeighborsNumberCards(position, cardType){
+        let neighbors = this.getPlayerNeighbors(position);
+        let number = neighbors[0].cardsPerType.get(cardType) + neighbors[1].cardsPerType.get(cardType);
+        return number;
+    }
 
     getPlayerAvailableMoves(playerIndex){ //TODO: ici Pierre
         const playerHand = this.players[playerIndex].getHand();

@@ -10,7 +10,10 @@ class Player {
         this.lostWars = 0;
         this.city = null;
         this.freeCards =[];
-        this.economicEffect = [];
+        this.economicEffect = {
+            discount : [],
+            resources : []
+        };
 
         this.socket = socket;
 
@@ -24,24 +27,22 @@ class Player {
         this.victory = 0;
 
         this.cardsPerType = new Map();
-        this.cardsPerType.set("resource",0);
-        this.cardsPerType.set("product",0);
-        this.cardsPerType.set("economic",0);
-        this.cardsPerType.set("military",0);
-        this.cardsPerType.set("building",0);
-        this.cardsPerType.set("science",0);
-        this.cardsPerType.set("guild",0);
-        this.cardsPerType.set("resource",0);
+        this.resources = new Map();
     }
 
     setCity(city){
         this.city = city;
+        if(this.resources.get(city.baseRessource)){
+            this.resources.set(city.baseRessource,this.resources.get(city.baseRessource) + 1);
+        }
+        else{
+            this.resources.set(city.baseRessource, 1);
+        }
     }
 
     setHand(cards){
         this.hand = cards;
     }
-
 
     isFreeToBuild(id){
         for(let card of this.freeCards){
@@ -119,7 +120,7 @@ class Player {
         };
     }
 
-    getCurrentResources(){
+    getCurrentResources2(){
         let resources = new Map();
         for(let card of this.cards){
             if(card.effectTarget && card.effectTarget !== "tablet" && card.effectTarget !== "compass" && card.effectTarget !== "gear" && card.effectTarget !== "army" && card.effectTarget !== "victory" ){
@@ -136,6 +137,10 @@ class Player {
         else
             resources.set(this.city.baseRessource, {quantity: 1, cost: 2});
         return resources;
+    }
+
+    getCurrentResources(){
+        return this.resources;
     }
 }
 module.exports = Player;

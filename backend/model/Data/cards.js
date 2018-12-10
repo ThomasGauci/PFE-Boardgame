@@ -98,7 +98,7 @@ addCard(age1, {
     age: 1,
     effect: {
         target: "discount",
-        value: "left"
+        value: "right"
     },
     type: "economic",
     offer: ["E203"]
@@ -109,7 +109,7 @@ addCard(age1, {
     age: 1,
     effect: {
         target: "discount",
-        value: "right"
+        value: "left"
     },
     type: "economic",
     offer: ["E203"]
@@ -439,7 +439,7 @@ addCard(age2, {
     age: 2,
     effect: {
         target: "dynamicGold",
-        value: "ressource"
+        value: "resource"
     },
     type: "economic",
     offer: []
@@ -462,8 +462,8 @@ addCard(age2, {
     name: "Forum",
     age: 2,
     effect: {
-        target: "glass/loom/papyrus",
-        value: 1
+        target: "resources",
+        value: "glass/loom/papyrus"
     },
     type: "economic",
     cost: [{name: "clay", quantity: 2}],
@@ -475,8 +475,8 @@ addCard(age2, {
     name: "Caravansérail",
     age: 2,
     effect: {
-        target: "wood/stone/ore/clay",
-        value: 1
+        target: "resources",
+        value: "wood/stone/ore/clay"
     },
     type: "economic",
     cost: [{name: "wood", quantity: 2}],
