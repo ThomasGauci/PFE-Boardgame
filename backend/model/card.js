@@ -79,13 +79,14 @@ class Card {
                     let result = getUsefullAndMissingPersonalResources(player.getCurrentResources(), card.cost);
                     cardResources["usefullResources"] = strMapToArray(result.usefullResources); //resources used to build card
                     cardResources["missingRessources"] = strMapToArray(result.missingRessources);// resources needed but not owned
-                    cardResources["stayingResources"] = strMapToArray(result.stayingResources); //resources useless + or resources
-                    let availableResources = [];
+                    cardResources["stayingResources"] = strMapToArray(result.stayingResources); //resources useless + or resource
+
+
                     for(let neighbor of neighbors){
-                        let obj = {player: neighbor.getState(), resources: strMapToArray(neighbor.getCurrentResources())};
+                        let obj = {player: neighbor.getState(), resources: neighbor.getCurrentResources()};
                         availableResources.push(obj);
                     }
-                    cardResources["availableResources"] = availableResources;
+                    cardResources["availableResources"] = getNeighborResources(player,neighbors);
                 }
             }
         }
@@ -203,6 +204,38 @@ function isResource(name){
 
 function isProduct(name){
     return (name === "loom" || name === "glass" || name === "papyrus");
+}
+
+function getNeighborResources(player, neighbors) {
+    let res = [];
+    let discount = player.economicEffect.discount;
+    for(let i = 0; i < 2 ; i++) {
+        let resources = [];
+        let data = {
+            "player" : neighbors[i].getState(),
+            "resources" : null
+        };
+        let r = neighbors[i].getCurrentResources();
+        for (let resourceName of resources.keys()){
+            if(discount.length > 0){
+                if(discount.includes("left") && i === 0 && isResource(resourceName)){
+                    map1.set(resourceName, resources.get(resourceName) + (map1.has(resourceName)? map1.get(resourceName) : 0));
+                }
+                else if(discount.includes("right") && i === 1 && isResource(resourceName)){
+                    map1.set(resourceName, resources.get(resourceName) + (map1.has(resourceName)? map1.get(resourceName) : 0));
+                }
+                else if(discount.includes("both") && isProduct(resourceName)){
+                    map1.set(resourceName, resources.get(resourceName) + (map1.has(resourceName)? map1.get(resourceName) : 0));
+                }
+                else
+                    map2.set(resourceName, resources.get(resourceName) + (map2.has(resourceName)? map2.get(resourceName) : 0));
+            }
+            else {
+                map2.set(resourceName, resources.get(resourceName) + (map2.has(resourceName)? map2.get(resourceName) : 0));
+            }
+        }
+        res.push(data);
+    }
 }
 
 function computePrices(player, neighbors) {
