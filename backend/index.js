@@ -15,8 +15,7 @@ let server = https.createServer({
 server.listen(8080);
 //communication objects
 let io = require('socket.io')({
-    transports: ["xhr-polling"],
-    requestTimeout: 10
+    transports: ["websocket"]
 }).listen(server);
 let numConnection;
 let table;
