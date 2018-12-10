@@ -60,7 +60,7 @@ class Card {
         //getting all Combinations with player's resources only
         let combInit = [];
         combInit.push(new Map());
-        let combinations = getCombinations(playerResources, combInit);
+        let combinations = getCombinations(player.getCurrentResources(), combInit);
         //finding working combinations with player's resources only
         if(card.cost){
             let solutions = getSolutions(combinations, card.cost, [], 0);
@@ -76,7 +76,7 @@ class Card {
                 }
                 else {
                     cardResources["isPlayable"] = true;
-                    let result = getUsefullAndMissingPersonalResources(playerResources, card.cost);
+                    let result = getUsefullAndMissingPersonalResources(player.getCurrentResources(), card.cost);
                     cardResources["usefullResources"] = strMapToArray(result.usefullResources); //resources used to build card
                     cardResources["missingRessources"] = strMapToArray(result.missingRessources);// resources needed but not owned
                     cardResources["stayingResources"] = strMapToArray(result.stayingResources); //resources useless + or resources
@@ -113,10 +113,10 @@ function getUsefullAndMissingPersonalResources(playerResources, cost) {
         tmpCost.push({quantity: resource.quantity, name: resource.name});
     }
     for(let resourceName of playerResources.keys()) {
-        stayingResources.set(resourceName, playerResources.get(resourceName).quantity);
+        stayingResources.set(resourceName, playerResources.get(resourceName));
     }
     for(let resource of tmpCost){
-        if (playerResources.has(resource.name) && playerResources.get(resource.name).quantity >= resource.quantity) {
+        if (playerResources.has(resource.name) && playerResources.get(resource.name) >= resource.quantity) {
             usefullResources.set(resource.name, resource.quantity);
             stayingResources.set(resource.name, stayingResources.get(resource.name) - resource.quantity);
             if(stayingResources.get(resource.name) === 0){
@@ -124,8 +124,8 @@ function getUsefullAndMissingPersonalResources(playerResources, cost) {
             }
             resource["quantity"] = 0;
         }
-        else if (playerResources.has(resource.name) && playerResources.get(resource.name).quantity < resource.quantity) {
-            resource.quantity = resource.quantity - playerResources.get(resource.name).quantity;
+        else if (playerResources.has(resource.name) && playerResources.get(resource.name) < resource.quantity) {
+            resource.quantity = resource.quantity - playerResources.get(resource.name);
             missingRessources.set(resource.name, resource.quantity);
             stayingResources.delete(resource.name);
         }
@@ -289,7 +289,7 @@ function strMapToArray(strMap) {
         // We don’t escape the key '__proto__'
         // which can cause problems on older engines
         obj["type"] = k;
-        obj["quantity"] = v["quantity"] ? v.quantity : v;
+        obj["quantity"] = v+-["quantity"] ? v.quantity : v;
         v["cost"]? obj["cost"] = v.cost : null;
         result.push(obj);
     }

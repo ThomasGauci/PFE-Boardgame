@@ -78,15 +78,41 @@
 .cardInfosTree {
     position: absolute;
     right: 5px;
+    top: 90px;
+    z-index: 9000;
+}
+.cardInfosHelp {
+    position: absolute;
+    right: 5px;
     top: 50px;
     z-index: 9000;
 }
-
 .treeDiv {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     height: 70%;
+}
 
+.infosDialog {
+    z-index: 99999;
+    position: absolute;
+    top: 40%;
+    left: 20%;
+    margin-right: auto!important;
+    margin-left: auto!important;
+    width: 60%!important;
+}
+
+.infosLabel {
+    margin-top: 5px!important;
+    background-color: transparent!important;
+    color: #282c34!important;
+    text-wrap: normal;
+    white-space: pre-wrap!important;
+}
+.backWhite {
+    background-color: white!important;
+    border: none !important;
 }

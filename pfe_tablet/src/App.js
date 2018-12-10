@@ -106,7 +106,8 @@ class App extends Component {
                 age: data.age,
                 ip: this.state.data.ip,
                 socket: this.state.data.socket,
-                money: data.money
+                money: data.money,
+                points: data.points
             };
             this.changeData(newData);
             this.changeComponent("HandView");

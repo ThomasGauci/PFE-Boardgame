@@ -52,6 +52,7 @@ let fsm = new StateMachine({
                     "turn": board.turn,
                     "cards": board.getPlayerAvailableMoves(i),
                     "money": board.players[i].gold,
+                    "points": board.players[i].getPoints()
                 };
                 if(board.players[i].socket != null)
                     board.players[i].socket.emit('newTurn',data);
@@ -129,7 +130,8 @@ let fsm = new StateMachine({
                 data={"age": board.age,
                     "turn":board.turn,
                     "cards":board.getPlayerAvailableMoves(i),
-                    "money": board.players[i].gold
+                    "money": board.players[i].gold,
+                    "points": board.players[i].getPoints()
                 };
                 if(board.players[i].socket != null){
                     board.players[i].socket.emit('newTurn',data);

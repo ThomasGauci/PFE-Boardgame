@@ -1,45 +1,65 @@
 import React, {Component} from "react";
-
+import * as descriptions from "../../assets/labels/CardDescriptions";
 import './CardDetails.css'
-import {Check, X, Info} from "react-feather";
-import {Button, Image} from "react-bootstrap";
+import {Check, X, Info, HelpCircle} from "react-feather";
+import {Button, Image, Label} from "react-bootstrap";
+import Modal from "react-bootstrap/es/Modal";
 
 class CardDetails extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            tree: false
+            tree: false,
+            infos: false
         };
         this.showTree = this.showTree.bind(this);
+        this.cardInfos = this.cardInfos.bind(this);
+        this.handleDismiss = this.handleDismiss.bind(this);
     }
 
     showTree(){
         this.setState({
-            tree: true
+            tree: true,
         })
     }
 
     handleDismiss(){
         this.setState({
-            tree: false
+            tree: false,
+            infos: false
+        })
+    }
+
+    cardInfos(id){
+        this.setState({
+            infos: true
         })
     }
 
     render(){
         return (
             <div id="mainDiv">
-                {this.state.tree ? <div className="treeInfos"><div onClick={this.handleDismiss.bind(this)} className="cardInfosContent">
-                    <X className="cardInfosClose1" color={"white"} size={40} onClick={this.handleDismiss.bind(this)}/>
+                {this.state.infos ? <Modal.Dialog bsClass="infosDialog">
+                    <Modal.Body className="backWhite">
+                        <HelpCircle className="helpIcon" color="green" size={100}/>
+                        <div className="infosLabel">{descriptions.getDescriptions(this.props.card.id[0])}</div>
+                    </Modal.Body>
+                    <Modal.Footer className="backWhite">
+                        <Button bsStyle="primary" onClick={()=>this.handleDismiss()}>OK</Button>
+                    </Modal.Footer>
+                </Modal.Dialog>:null}
+                {this.state.tree ? <div className="treeInfos"><div onClick={()=>this.handleDismiss()} className="cardInfosContent">
+                    <X className="cardInfosClose1" color={"white"} size={40} onClick={()=>this.handleDismiss()}/>
                     <div className="treeDiv"><Image src={require("../../assets/trees/" + this.props.card.id + "Tree.png")}/></div>
                 </div></div>: null}
                 <div className="cardInfos">
 
                     <div className="cardInfosContent">
                         <div className="cardInfosBox">
-                            <X className="cardInfosClose" color={"white"} size={40} onClick={this.props.close}/>
-                            {console.log("hoy",this.props.card)}
-                            {this.props.card.offer ? <Info className="cardInfosTree" color={"white"} size={35} onClick={this.showTree}/>:null}
+                            <X className="cardInfosClose" color="white" size={40} onClick={this.props.close}/>
+                            <HelpCircle className="cardInfosHelp" color="white" size={35} onClick={()=>this.cardInfos()}/>
+                            {this.props.card.offer ? <Info className="cardInfosTree" color={"white"} size={35} onClick={()=>this.showTree()}/>:null}
                             <img
                                 className="cardInfosCard"
                                 src={require(`../../assets/cards/${this.props.card.id}.jpg`)}

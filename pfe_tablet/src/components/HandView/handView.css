@@ -9,30 +9,32 @@
 #handDiv {
     display: inline-block;
     text-align: center;
+    margin-top: auto;
+    margin-bottom: auto;
 }
 
 .card {
     height: 100%;
     width: 13%;
     margin-right: 5px;
-    border-radius: 10px;
+    border-radius: 20px;
 }
 .labels {
     color: white;
     font-size: 200%!important;
 }
 
-#labelsDiv {
-    display: flex;
-    flex-direction: row;
+.labelsDiv {
+    margin-right: auto;
+    margin-left: auto;
+    margin-top: 40px;
+}
+
+.labelsDiv1 {
     margin-right: auto;
     margin-left: auto;
     margin-top: 10px;
-    margin-bottom: 10px;
-}
-
-.label1 {
-    margin-bottom: 15%;
+    height: 5%;
 }
 
 .modal-dialog {
@@ -108,4 +110,30 @@
 
 .tradingModalLabel1 {
     text-align: right!important;
+}
+.pointsImg {
+    height: 80%;
+    transform: translate(0%, -10%) !important;
+    margin-right: 10px;
+    margin-left: 5px;
+}
+.labelDiv {
+    display: inline-block;
+    text-align: center;
+}
+.label1 {
+    position: absolute;
+    top: 25%;
+    left: 50%;
+    transform: translateX(-50%);
+}
+.nopad {
+    padding: 0!important;
+}
+body {
+    overflow-y: hidden;
+}
+.totalLabel{
+    color: white;
+    font-size: 150%!important;
 }

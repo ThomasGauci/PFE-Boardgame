@@ -142,5 +142,23 @@ class Player {
     getCurrentResources(){
         return this.resources;
     }
+    getVictoryPoints(){
+        return this.victory + this.getWarPoints() + this.getGoldPoints() + this.getSciencePoints();//TODO Ajouter cartes jaunes, guildes et merveilles
+    }
+    getEconomyPoints(){
+        //TODO
+        return 0;
+    }
+    getGuildPoints(){
+        //TODO
+        return 0;
+    }
+    getWonderPoints(){
+        //TODO
+        return 0;
+    }
+    getPoints(){
+        return {victory: this.getVictoryPoints(), science: this.getSciencePoints(), war: this.getWarPoints(), economy: this.getEconomyPoints(), guild: this.getGuildPoints(), wonder: this.getWonderPoints(), civil: this.victory}
+    }
 }
 module.exports = Player;
