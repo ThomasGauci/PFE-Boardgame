@@ -12,7 +12,7 @@ let server = https.createServer({
     requestCert: false,
     rejectUnauthorized: false
 },app);
-server.listen(8000);
+server.listen(8080);
 //communication objects
 let io = require('socket.io').listen(server);
 let numConnection;
