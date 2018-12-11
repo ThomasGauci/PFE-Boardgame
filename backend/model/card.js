@@ -61,12 +61,10 @@ class Card {
         let combInit = [];
         combInit.push(new Map());
         let combinations = getCombinations(player.getAllResources(), combInit);
-        console.log(card.getInfos().id + "comb", combinations);
         //finding working combinations with player's resources only
         if(card.cost){
             let solutions = getSolutions(combinations, card.cost, [], 0);
             if(solutions.length > 0) {
-                console.log(card.getInfos().id, solutions);
                 cardResources["isPlayable"] = true;
             }
             else {

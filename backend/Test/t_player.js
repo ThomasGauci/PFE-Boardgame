@@ -34,7 +34,7 @@ for(let act of actions1){
     act.do();
 }
 
-player.economicEffect.discount.splice(player.economicEffect.discount.indexOf("left"),1);
+player.effect.discount.splice(player.effect.discount.indexOf("left"),1);
 console.log(Card.test(player,neighbors));
 
 /*console.log("test is already built");

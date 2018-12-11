@@ -87,6 +87,13 @@ class Action {
                 }
                 break;
             case("guild"):
+                if(target === "science"){
+                    this.player.science.multiple++;
+                }
+                else{
+                    this.player.effect.guild.push({"target":target,"value":value});
+                    console.log(this.player.effect.guild);
+                }
                 break;
         }
         if(this.player.cardsPerType.get(type)){
@@ -105,7 +112,9 @@ class Action {
             case("dynamicGold"):
                 let goldWon;
                 goldWon = this.board.getNeighborsNumberCards(this.player.position,value);
-                goldWon += this.player.cardsPerType.get(value);
+                if(this.player.cardsPerType.get(value)){
+                    goldWon += this.player.cardsPerType.get(value);
+                }
                 if(value === "product")
                     goldWon *= 2;
                 this.player.gold += goldWon;
