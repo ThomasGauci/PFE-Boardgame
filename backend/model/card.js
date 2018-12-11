@@ -61,10 +61,12 @@ class Card {
         let combInit = [];
         combInit.push(new Map());
         let combinations = getCombinations(player.getAllResources(), combInit);
+        console.log(card.getInfos().id + "comb", combinations);
         //finding working combinations with player's resources only
         if(card.cost){
             let solutions = getSolutions(combinations, card.cost, [], 0);
             if(solutions.length > 0) {
+                console.log(card.getInfos().id, solutions);
                 cardResources["isPlayable"] = true;
             }
             else {
@@ -186,7 +188,7 @@ function getCombinations(resources, combinations) {
         }
         else  {
             for(let combination of combinations) {
-                combination.set(resourceName, resources.get(resourceName).quantity + (combination.has(resourceName) ? combination.get(resourceName) : 0));
+                combination.set(resourceName, resources.get(resourceName) + (combination.has(resourceName) ? combination.get(resourceName) : 0));
             }
         }
     }

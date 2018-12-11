@@ -131,7 +131,7 @@ class Resource extends Component {
             }
             this.props.purchases.splice(index, 1);
             this.props.changeState({
-                money: this.props.money + this.props.resource.cost,
+                money: this.props.resource.cost ? this.props.money + this.props.resource.cost: this.props.money,
                 titleText: "Il vous manque des ressources pour construire ce bâtiment. Vous pouvez en acheter à vos voisins"
             });
             console.log(this.props.purchases);
