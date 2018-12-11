@@ -97,6 +97,7 @@ class App extends Component {
             data: newData
         });
         socket.on('newTurn', (data) => {
+            window.navigator.vibrate(500);
             console.log("data",data);
             let newData = {
                 position: position,
