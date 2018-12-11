@@ -14,10 +14,8 @@
 }
 
 .card {
-    height: 100%;
-    width: 13%;
-    margin-right: 5px;
     border-radius: 20px;
+    width: 100%;
 }
 .labels {
     color: white;
@@ -114,7 +112,7 @@
 .pointsImg {
     height: 80%;
     transform: translate(0%, -10%) !important;
-    margin-right: 10px;
+    margin-right: 30px;
     margin-left: 5px;
 }
 .labelDiv {
@@ -136,4 +134,21 @@ body {
 .totalLabel{
     color: white;
     font-size: 150%!important;
+}
+#playableCheck {
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+#playableCross {
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+.playableDiv {
+    position: relative;
+    display: inline-block;
+    width: 13%;
+    margin-right: 10px;
 }
