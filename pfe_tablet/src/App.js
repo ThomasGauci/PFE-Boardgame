@@ -23,7 +23,7 @@ class App extends Component {
     constructor() {
         super();
         this.state = {
-            componentName: "HandView",
+            componentName: "QRView",
             data: {},
             showModal: true,
             fullScreen: false,
@@ -97,6 +97,7 @@ class App extends Component {
             data: newData
         });
         socket.on('newTurn', (data) => {
+            window.navigator.vibrate(500);
             console.log("data",data);
             let newData = {
                 position: position,
