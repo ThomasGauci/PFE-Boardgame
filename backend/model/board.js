@@ -134,8 +134,9 @@ class Board {
         let res = [];
         let sum = 0;
         for(let player of this.players){
+            let guildPoints = this.getGuildPoints(player.effect.guild,player);
             sum = 0;
-            sum = player.victory + player.getWarPoints() + player.getGoldPoints() + player.getSciencePoints();
+            sum = player.victory + player.getWarPoints() + player.getGoldPoints() + player.getSciencePoints() + guildPoints;
             let data = {
                 "player" : {
                     position: player.position,
@@ -148,7 +149,7 @@ class Board {
                 science : player.getSciencePoints(),
                 economy:0,
                 total : sum,
-                guild : 0,
+                guild : guildPoints,
                 rank : player.position
             };
             res.push(data);
@@ -164,6 +165,47 @@ class Board {
         return res;
     }
 
+    getGuildPoints(guilds,player){
+        let res = 0;
+        for(let guild of guilds){
+            res += this.calculateGuildPoint(guild,player);
+        }
+        return res;
+    }
+    calculateGuildPoint(guild,player){
+        let target = guild.target;
+        let value = guild.value;
+        let points =  0 ;
+
+        switch (target) {
+            case("neighbors"):
+                if(value === "lost"){
+                    points += this.getNeighborsNumberLost(player.position);
+                }else if(value === "product"){
+                    points += this.getNeighborsNumberCards(player.position,value);
+                    points *= 2;
+                }
+                else{
+                    points += this.getNeighborsNumberCards(player.position,value);
+                }
+                break;
+            case("self"):
+                for(let type of value){
+                    if(player.cardsPerType.get(type)){
+                        points += player.cardsPerType.get(type);
+                    }
+                }
+                break;
+            case("all"):
+                points += this.getNeighborsNumberWondersBuilt(player.position);
+                points += player.city.numberWonderBuit;
+                break;
+            default:
+                break;
+        }
+        return points;
+    }
+
     getPlayerNeighbors(playerPosition){
         let neighbors = [];
         neighbors.push(this.players[playerPosition%4]);
@@ -171,10 +213,30 @@ class Board {
         return neighbors;
     }
 
+    getNeighborsNumberLost(position){
+        let neighbors = this.getPlayerNeighbors(position);
+        let res = 0;
+        res+= neighbors[0].lostWars;
+        res+= neighbors[1].lostWars;
+        return res;
+    }
+
+    getNeighborsNumberWondersBuilt(position){
+        let neighbors = this.getPlayerNeighbors(position);
+        let res = 0;
+        res+= neighbors[0].city.numberWonderBuit;
+        res+= neighbors[1].city.numberWonderBuit;
+        return res;
+    }
+
     getNeighborsNumberCards(position, cardType){
         let neighbors = this.getPlayerNeighbors(position);
-        let number = neighbors[0].cardsPerType.get(cardType) + neighbors[1].cardsPerType.get(cardType);
-        return number;
+        let res = 0;
+        if(neighbors[0].cardsPerType.get(cardType))
+            res+= neighbors[0].cardsPerType.get(cardType);
+        if(neighbors[1].cardsPerType.get(cardType))
+            res+= neighbors[1].cardsPerType.get(cardType);
+        return res;
     }
 
     getPlayerAvailableMoves(playerIndex){ //TODO: ici Pierre

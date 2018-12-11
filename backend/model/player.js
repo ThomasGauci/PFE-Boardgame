@@ -12,7 +12,8 @@ class Player {
         this.freeCards =[];
         this.effect = {
             discount : [],
-            resources : []
+            resources : [],
+            guild : [],
         };
 
         this.socket = socket;
@@ -20,7 +21,8 @@ class Player {
         this.science = {
             gear : 0,
             compass : 0,
-            tablet : 0
+            tablet : 0,
+            multiple : 0
         };
         this.gold = 3;
         this.army = 0;

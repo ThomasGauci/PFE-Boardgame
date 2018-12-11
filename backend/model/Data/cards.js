@@ -955,8 +955,8 @@ addCard(guilds, {
     age: 3,
     type: "guild",
     effect: {
-        target: "",
-        value: 0,
+        target: "neighbors",
+        value : "resource"
     },
     cost: [{name: "ore", quantity: 2},{name: "clay", quantity: 1},{name: "stone", quantity: 1},{name: "wood", quantity: 1}],
 
@@ -968,8 +968,8 @@ addCard(guilds, {
     age: 3,
     type: "guild",
     effect: {
-        target: "",
-        value: 0,
+        target: "neighbors",
+        value: "product"
     },
     cost: [{name: "ore", quantity: 2},{name: "stone", quantity: 2}],
 });
@@ -980,8 +980,8 @@ addCard(guilds, {
     age: 3,
     type: "guild",
     effect: {
-        target: "",
-        value: 0,
+        target: "neighbors",
+        value : "economic"
     },
     cost: [{name: "glass", quantity: 1},{name: "loom", quantity: 1},{name: "papyrus", quantity: 1}],
 });
@@ -992,8 +992,8 @@ addCard(guilds, {
     age: 3,
     type: "guild",
     effect: {
-        target: "",
-        value: 0,
+        target: "neighbors",
+        type : "science"
     },
     cost: [{name: "clay", quantity: 3},{name: "loom", quantity: 1},{name: "papyrus", quantity: 1}],
 });
@@ -1004,8 +1004,8 @@ addCard(guilds, {
     age: 3,
     type: "guild",
     effect: {
-        target: "",
-        value: 0,
+        target: "neighbors",
+        value : "army"
     },
     cost: [{name: "clay", quantity: 3},{name: "glass", quantity: 1}],
 });
@@ -1016,8 +1016,8 @@ addCard(guilds, {
     age: 3,
     type: "guild",
     effect: {
-        target: "",
-        value: 0,
+        target: "neighbors",
+        value : "lost"
     },
     cost: [{name: "ore", quantity: 2},{name: "stone", quantity: 1},{name: "loom", quantity: 1}],
 });
@@ -1028,8 +1028,8 @@ addCard(guilds, {
     age: 3,
     type: "guild",
     effect: {
-        target: "",
-        value: 0,
+        target: "self",
+        value : ["resource","product","guild"]
     },
     cost: [{name: "wood", quantity: 3},{name: "glass", quantity: 1},{name: "papyrus", quantity: 1}],
 });
@@ -1040,8 +1040,8 @@ addCard(guilds, {
     age: 3,
     type: "guild",
     effect: {
-        target: "",
-        value: 0,
+        target: "science",
+        value: "compass/tablet/gear"
     },
     cost: [{name: "wood", quantity: 2},{name: "ore", quantity: 2},{name: "papyrus", quantity: 1}],
 });
@@ -1052,8 +1052,8 @@ addCard(guilds, {
     age: 3,
     type: "guild",
     effect: {
-        target: "",
-        value: 0,
+        target: "neighbors",
+        value: "building",
     },
     cost: [{name: "wood", quantity: 3},{name: "stone", quantity: 1},{name: "loom", quantity: 1}],
 });
@@ -1064,8 +1064,8 @@ addCard(guilds, {
     age: 3,
     type: "guild",
     effect: {
-        target: "",
-        value: 0,
+        target: "all",
+        value: "wonder",
     },
     cost: [{name: "stone", quantity: 2},{name: "clay", quantity: 2},{name: "glass", quantity: 1}],
 });

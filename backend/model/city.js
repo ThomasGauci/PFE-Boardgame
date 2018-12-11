@@ -9,6 +9,7 @@ class City {
         this.faceB = faceB;
         this.currentFace = null;
         this.id = id;
+        this.numberWonderBuit = 0;
     }
     //face : String "A" or "B"
     chooseFace(face){
