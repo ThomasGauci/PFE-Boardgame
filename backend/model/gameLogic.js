@@ -21,7 +21,8 @@ let fsm = new StateMachine({
         { name: 'startTurn', from: 'endTurn', to: 'turn'},
         { name: 'battle', from: 'endTurn', to: 'endAge'},
         { name: 'restartAge', from: 'endAge', to: 'newAge'},
-        { name: 'findWinner', from: 'endAge', to: 'end'}
+        { name: 'findWinner', from: 'endAge', to: 'end'},
+        { name: 'restart', from: '*', to: 'wait'}
     ],
     methods: {
         onSetUp:  function(lifecycle,client,board) {

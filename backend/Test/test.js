@@ -102,4 +102,4 @@ if(automate.ifGoNextAge(board)){
 if(board.age === 3){
     automate.fsm.findWinner(null,board);
 }
- console.log(p1);
+ //console.log(p1);

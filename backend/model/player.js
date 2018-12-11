@@ -10,7 +10,7 @@ class Player {
         this.lostWars = 0;
         this.city = null;
         this.freeCards =[];
-        this.economicEffect = {
+        this.effect = {
             discount : [],
             resources : []
         };
@@ -120,28 +120,20 @@ class Player {
         };
     }
 
-    getCurrentResources2(){
-        let resources = new Map();
-        for(let card of this.cards){
-            if(card.effectTarget && card.effectTarget !== "tablet" && card.effectTarget !== "compass" && card.effectTarget !== "gear" && card.effectTarget !== "army" && card.effectTarget !== "victory" ){
-                if(resources.has(card.effectTarget)){
-                    resources.set(card.effectTarget, {quantity: resources.get(card.effectTarget).quantity + card.effectValue, cost: 2});
-                }
-                else{
-                    resources.set(card.effectTarget, {quantity: card.effectValue, cost: 2});
-                }
-            }
-        }
-        if(resources.has(this.city.baseRessource))
-            resources.set(this.city.baseRessource, {quantity: resources.get(this.city.baseRessource).quantity + 1, cost: 2});
-        else
-            resources.set(this.city.baseRessource, {quantity: 1, cost: 2});
-        return resources;
-    }
-
     getCurrentResources(){
         return this.resources;
     }
+
+    getAllResources(){
+        let allRes = new Map(this.resources);
+        for(let effect of this.effect.resources){
+            if(allRes.get(effect))
+                allRes.set(effect,allRes.get(effect) + 1);
+            else allRes.set(effect,1);
+        }
+        return allRes;
+    }
+
     getVictoryPoints(){
         return this.victory + this.getWarPoints() + this.getGoldPoints() + this.getSciencePoints();//TODO Ajouter cartes jaunes, guildes et merveilles
     }

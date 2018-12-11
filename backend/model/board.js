@@ -144,10 +144,11 @@ class Board {
                 victory : player.victory,
                 war : player.getWarPoints(),
                 gold : player.getGoldPoints(),
-                wonder: null,
+                wonder: 0,
                 science : player.getSciencePoints(),
-                economy:null,
+                economy:0,
                 total : sum,
+                guild : 0,
                 rank : player.position
             };
             res.push(data);

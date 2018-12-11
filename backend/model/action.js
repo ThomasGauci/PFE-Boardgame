@@ -11,7 +11,7 @@ class Action {
         return {
             "player": this.player.getState(),
             "action": this.type,
-            "cardId": this.card.id,
+            "cardId": this.card,
             "purchases": this.purchases
         };
     }
@@ -111,17 +111,17 @@ class Action {
                 this.player.gold += goldWon;
                 break;
             case("discount"):
-                this.player.economicEffect.discount.push(value);
+                this.player.effect.discount.push(value);
                 break;
             case("resources"):
-                this.player.economicEffect.resources.push(value);
+                this.player.effect.resources.push(value);
                 break;
             default:
                 /*let effect = {
                     target: target,
                     value: value
                 };
-                this.player.economicEffect.push(effect);*/
+                this.player.effect.push(effect);*/
                 break
         }
     }
