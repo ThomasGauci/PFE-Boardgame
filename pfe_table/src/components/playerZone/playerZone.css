@@ -84,7 +84,7 @@
     width: 96px;
     --background: red;
     position: absolute;
-    top: 96px;
+    --top: 96px;
     text-align: left;
 }
 

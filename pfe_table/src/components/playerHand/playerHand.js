@@ -16,7 +16,9 @@ const Card = posed.div({
         position: 'relative',
         top:0,
         left:0,
-        width: 140
+        width: 140,
+        opacity: 1,
+        transition: { duration: 0 }
     },
     hidden: {
         opacity: 0
@@ -37,23 +39,33 @@ class PlayerHand extends Component {
     state={
         cardImage: null,
         returned: false,
-        played: false
+        played: false,
+        nbCards: 0
     }
 
     componentWillMount(){
-        this.setState({cardImage: require(`../../assets/cards/back${this.props.age}.jpg`)});
-    }
-
-    displayCards(){
         let nbCards = 7 - (this.props.turn-1);
         if(this.props.isReady)
             nbCards = 1;
+        this.setState({nbCards: nbCards, cardImage: require(`../../assets/cards/back${this.props.age}.jpg`)});
+    }
+
+    componentWillReceiveProps(nextProps){
+        let nbCards = 7 - (nextProps.turn-1);
+        if(nextProps.isReady)
+            nbCards = 1;
+        if(nbCards !==1 && this.state.played === true)
+            this.setState({played: false, returned: false});
+        this.setState({nbCards: nbCards, cardImage: require(`../../assets/cards/back${nextProps.age}.jpg`)});
+    }
+
+    displayCards(){
         let result = [];
-        for (let i = 0; i < nbCards; i++) {
-            const startRotation = Math.floor(nbCards/2) * -5;
+        for (let i = 0; i < this.state.nbCards; i++) {
+            const startRotation = Math.floor(this.state.nbCards/2) * -5;
             let rotation = startRotation + (i*5);
             result.push(
-                <Card key={`card${this.props.position}${i}`} className='playerHandCard' pose={this.getAnimation(this.props.action)} onPoseComplete={() => {
+                <Card key={`card${this.props.position}${i}`} className='playerHandCard' pose={this.getAnimation()} onPoseComplete={() => {
                     if(this.props.action && this.props.action.action === 'building') {
                         if (!this.state.returned) {
                             this.setState({
@@ -62,16 +74,16 @@ class PlayerHand extends Component {
                             })
                         } else {
                             setTimeout(() => {
-                                this.setState({played: true}, () => {
-                                    setTimeout(() => {
-                                        this.setState({returned: false, played: false});
-                                    }, 2000);
+                                this.setState({played: true, returned: false}, () => {
+                                    this.props.callback();
                                 });
                             }, 2000);
                         }
-                    } else {
+                    } else if(this.props.action) {
                         setTimeout(() => {
-                            this.setState({played: true});
+                            this.setState({played: true}, () => {
+                                this.props.callback();
+                            });
                         }, 2000);
                     }
                 }
@@ -96,14 +108,14 @@ class PlayerHand extends Component {
         );
     }
 
-    getAnimation(action){
+    getAnimation(){
         if(this.state.played)
             return 'hidden';
         if(this.state.returned)
             return 'play';
-        if(!action)
+        if(!this.props.isAnimated)
             return 'waiting';
-        switch(action.action){
+        switch(this.props.action.action){
             case 'building':
                 return 'return';
             case 'discarding':

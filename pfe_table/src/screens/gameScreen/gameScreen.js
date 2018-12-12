@@ -7,16 +7,17 @@ import './gameScreen.css';
 class GameScreen extends Component {
 
     state={
-        currentAction: null,
+        currentAnimation: null,
         currentBattle: null
     }
     getPlayerOn = this.getPlayerOn.bind(this);
+    getAction = this.getAction.bind(this);
     sleep = this.sleep.bind(this);
 
     async componentWillReceiveProps(nextProps) {
         if(nextProps.latestActions) {
             for (let action of nextProps.latestActions) {
-                this.setState({currentAction: action});
+                this.setState({currentAnimation: action.player.position});
                 await this.sleep(3000);
             }
             this.setState({currentAction: null});
@@ -49,7 +50,8 @@ class GameScreen extends Component {
                                 age={this.props.age}
                                 turn={this.props.turn}
                                 isReady={this.props.playerReady[1]}
-                                action={this.state.currentAction && this.state.currentAction.player.position === 1 ? this.state.currentAction : null}/>
+                                action={this.getAction(1)}
+                                isAnimated={this.state.currentAnimation === 1}/>
                         </Col>
                         <Col md={6} className='territory territory2 upsideDown'>
                             <PlayerZone
@@ -59,7 +61,8 @@ class GameScreen extends Component {
                                 age={this.props.age}
                                 turn={this.props.turn}
                                 isReady={this.props.playerReady[2]}
-                                action={this.state.currentAction && this.state.currentAction.player.position === 2 ? this.state.currentAction : null}/>
+                                action={this.getAction(2)}
+                                isAnimated={this.state.currentAnimation === 2}/>
                         </Col>
                     </Row>
                     <Row className='territoryRow'>
@@ -71,7 +74,8 @@ class GameScreen extends Component {
                                 age={this.props.age}
                                 turn={this.props.turn}
                                 isReady={this.props.playerReady[4]}
-                                action={this.state.currentAction && this.state.currentAction.player.position === 4 ? this.state.currentAction : null}/>
+                                action={this.getAction(4)}
+                                isAnimated={this.state.currentAnimation === 4}/>
                         </Col>
                         <Col md={6} className='territory territory4'>
                             <PlayerZone
@@ -81,27 +85,11 @@ class GameScreen extends Component {
                                 age={this.props.age}
                                 turn={this.props.turn}
                                 isReady={this.props.playerReady[3]}
-                                action={this.state.currentAction && this.state.currentAction.player.position === 3 ? this.state.currentAction : null}/>
+                                action={this.getAction(3)}
+                                isAnimated={this.state.currentAnimation === 3}/>
                         </Col>
                     </Row>
                 </div>
-                { /*this.state.currentAction ?
-                    <div>
-                        <Modal.Dialog className='actionModal'>
-                            <h1 className='actionTextZone upsideDown'>
-                                <span className='actionPlayer' style={{color: this.getPlayerColor(this.state.currentAction.player.position)}}>{this.state.currentAction.player.name}</span> a {this.getActionLabel(this.state.currentAction.action)}
-                            </h1>
-                            <div>
-                                <img className='gameCard actionCard' src={this.getActionImage(this.state.currentAction.action, this.state.currentAction.cardId)}/>
-                                <img className='gameCard actionCard upsideDown' src={this.getActionImage(this.state.currentAction.action, this.state.currentAction.cardId)}/>
-                            </div>
-                            <h1 className='actionTextZone'>
-                                <span className='actionPlayer' style={{color: this.getPlayerColor(this.state.currentAction.player.position)}}>{this.state.currentAction.player.name}</span> a {this.getActionLabel(this.state.currentAction.action)}
-                            </h1>
-                        </Modal.Dialog>
-                    </div>
-                    : null*/
-                }
                 {this.state.currentBattle ?
                     <div>
                         <Modal.Dialog className='actionModal'>
@@ -141,25 +129,10 @@ class GameScreen extends Component {
         return null;
     }
 
-    getActionLabel(action){
-        switch (action) {
-            case 'building':
-                return 'construit';
-            case 'wonderStep':
-                return 'amélioré sa merveille';
-            case 'discarding':
-                return 'vendu une carte';
-            default:
-                return "utilisé une technique secrète qui n'est pas sensé exister";
-        }
-    }
-
-    getActionImage(action, cardId){
-        if(action === 'building')
-            return require(`../../assets/cards/${this.state.currentAction.cardId}.jpg`);
-        else{
-            const age = cardId.charAt(1);
-            return require(`../../assets/cards/back${age}.jpg`);
+    getAction(position){
+        for(let action of this.props.latestActions){
+            if(action.player.position === position)
+                return action;
         }
     }
 
