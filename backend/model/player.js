@@ -139,6 +139,7 @@ class Player {
     getVictoryPoints(){
         return this.victory + this.getWarPoints() + this.getGoldPoints() + this.getSciencePoints();//TODO Ajouter cartes jaunes, guildes et merveilles
     }
+
     getEconomyPoints(){
         //TODO
         return 0;

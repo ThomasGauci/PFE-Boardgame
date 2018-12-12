@@ -7,7 +7,7 @@ class City {
         this.baseRessource = baseRessource;
         this.faceA = faceA;
         this.faceB = faceB;
-        this.currentFace = null;
+        this.currentFace = faceA;
         this.id = id;
         this.numberWonderBuit = 0;
     }

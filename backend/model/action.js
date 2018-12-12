@@ -22,6 +22,13 @@ class Action {
         this.player.hand.splice(this.player.hand.indexOf(playedCard),1);
         switch (this.type) {
             case("wonderStep"):
+                if(this.purchases) //Switch money from buyer to seller
+                    for(let purchase of this.purchases){
+                        let seller = this.board.findPlayer(purchase.seller);
+                        this.player.gold -= purchase.price;
+                        seller.gold += purchase.price;
+                    }
+                this.build();
                 break;
             case("building"):
                 this.player.addCard(playedCard);
@@ -44,7 +51,8 @@ class Action {
         }
     }
 
-    undo(){
+    build(){
+
     }
 
     play(playedCard){
@@ -92,7 +100,6 @@ class Action {
                 }
                 else{
                     this.player.effect.guild.push({"target":target,"value":value});
-                    console.log(this.player.effect.guild);
                 }
                 break;
         }
