@@ -72,7 +72,9 @@ let fsm = new StateMachine({
                 "gameState": {
                     "players": players,
                     "turn": board.turn,
-                    "age" : board.age
+                    "age" : board.age,
+                    "discarded" : board.discarded
+
                 }
             };
             if(table != null){
@@ -113,7 +115,8 @@ let fsm = new StateMachine({
                 "gameState": {
                     "players": players,
                     "turn": board.turn,
-                    "age" : board.age
+                    "age" : board.age,
+                    "discarded" : board.discarded
                 }
             };
             if(client != null){
@@ -170,7 +173,8 @@ let fsm = new StateMachine({
                 "gameState":
                     {"players" : players,
                         "turn": board.turn,
-                        "age" : board.age
+                        "age" : board.age,
+                        "discarded" : board.discarded
                     }
             };
             if(table != null){

@@ -49,7 +49,12 @@ player2.hand = ag3Cards.slice();
 player3.hand = ag3Cards.slice();
 
 
-let actions2 = [];
+console.log(player.getState());
+let wonderstep = new Action("wonderStep",player.hand[0].id,player,null,null);
+wonderstep.do();
+console.log(player.getState());
+
+/*let actions2 = [];
 for(let i = 0 ; i < player.hand.length; i++){
     actions2.push(new Action("building",player.hand[i].id,player,null,null));
 
@@ -61,8 +66,12 @@ for(let act of actions2){
 player2.lostWars = 4;
 player3.lostWars = 2;
 
-console.log(board.getGuildPoints(player.effect.guild,player));
 
-console.log(player.city.currentFace);
-player.city.chooseFace("A");
-console.log(player.city.currentFace);
+console.log(board.getGuildPoints(player.effect.guild,player));
+//player.city.chooseFace("B");
+
+/*console.log(player.city.name);
+for(let wonder of player.city.currentFace){
+    console.log(wonder.cost);
+    console.log(wonder.power);
+}*/

@@ -30,6 +30,7 @@ class Board {
     distributeCities(cities){
         for(let i = 0; i<this.players.length;i++){
             this.players[i].setCity(cities[i]);
+            this.players[i].city.chooseFace("B");
         }
     }
 

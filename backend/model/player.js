@@ -118,7 +118,8 @@ class Player {
             "army": this.army,
             "playedCards": this.cards,
             "warPointsDisplay": this.warPointsDisplay,
-            "victory" : this.victory
+            "victory" : this.victory,
+            "wonderStep" : this.city.currentStep
         };
     }
 
