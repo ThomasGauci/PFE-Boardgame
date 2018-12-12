@@ -224,8 +224,10 @@ class Board {
     getNeighborsNumberWondersBuilt(position){
         let neighbors = this.getPlayerNeighbors(position);
         let res = 0;
-        res+= neighbors[0].city.numberWonderBuit;
-        res+= neighbors[1].city.numberWonderBuit;
+        if(neighbors[0].city.numberWonderBuit)
+            res+= neighbors[0].city.numberWonderBuit;
+        if(neighbors[1].city.numberWonderBuit)
+            res+= neighbors[1].city.numberWonderBuit;
         return res;
     }
 

@@ -993,7 +993,7 @@ addCard(guilds, {
     type: "guild",
     effect: {
         target: "neighbors",
-        type : "science"
+        value : "science"
     },
     cost: [{name: "clay", quantity: 3},{name: "loom", quantity: 1},{name: "papyrus", quantity: 1}],
 });
@@ -1005,7 +1005,7 @@ addCard(guilds, {
     type: "guild",
     effect: {
         target: "neighbors",
-        value : "army"
+        value : "military"
     },
     cost: [{name: "clay", quantity: 3},{name: "glass", quantity: 1}],
 });
