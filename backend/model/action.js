@@ -22,6 +22,7 @@ class Action {
         this.player.hand.splice(this.player.hand.indexOf(playedCard),1);
         switch (this.type) {
             case("wonderStep"):
+                console.log("une étape de merveille");
                 if(this.purchases) //Switch money from buyer to seller
                     for(let purchase of this.purchases){
                         let seller = this.board.findPlayer(purchase.seller);
@@ -52,7 +53,53 @@ class Action {
     }
 
     build(){
+        let wonder = this.player.city.getCurrentstep();
+        let type;
+        for(let power of wonder.power){
+            type = power.type;
+            switch(type){
+                case("victory"):
+                    this.player.victory += power.quantity;
+                    break;
+                case("gold"):
+                    this.player.gold += power.quantity;
+                    break;
+                case("army"):
+                    this.player.army += power.quantity;
+                    break;
+                case("effect"):
+                    this.addEffect(power);
+                    break;
+                default:
+                    break;
+            }
+        }
+        this.player.city.nextStep();
+    }
 
+    addEffect(power){
+        let effect = power.effect;
+        switch(effect){
+            case("science"):
+                this.player.science.multiple ++;
+                break;
+            case("resource"):
+                let value = power.value;
+                this.player.effect.resources.push(value);
+                break;
+            case("discount"):
+                this.player.effect.discount.push("right");
+                this.player.effect.discount.push("left");
+                break;
+            case("freeCard"):
+                break;
+            case("lastCard"):
+                break;
+            case("copyGuild"):
+                break;
+            default:
+                break;
+        }
     }
 
     play(playedCard){
