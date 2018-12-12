@@ -451,7 +451,7 @@ class HandView extends Component {
     }
 
     componentDidMount() {
-        /*this.setState({
+        this.setState({
             cards: this.props.data.cards,
             turn: this.props.data.turn,
             age: this.props.data.age,
@@ -463,7 +463,7 @@ class HandView extends Component {
             wonderPoints: this.props.data.points.wonder,
             guildPoints: this.props.data.points.guild,
             civilPoints: this.props.data.points.civil
-        });*/
+        });
     }
 
     submitPurchases(){
@@ -579,7 +579,7 @@ class HandView extends Component {
 
     render() {
         var divStyle = {
-            background: utils.intToColor(1)//utils.intToColor(this.props.data.position)
+            background: utils.intToColor(this.props.data.position)
         };
         const hand = this.state.cards.map((infos, index) => <div className="playableDiv" key={index}>
                                                                 {this.state.cards[index].isPlayable?<Check id="playableCheck" color={"white"} size={35}/>:<X id="playableCross" color={"white"} size={35}/>}
