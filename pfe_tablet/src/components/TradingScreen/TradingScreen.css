@@ -1,6 +1,6 @@
 .tradingScreen{
     position: absolute;
-    z-index: 99999;
+    z-index: 99990;
     width: 100vw;
     height: 100vh;
     background: rgba(50, 50, 50, 0.7);

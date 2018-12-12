@@ -19,6 +19,7 @@ class HandView extends Component {
                         offer: ["B201"]
                     },
                     isPlayable: true,
+                    tree: true,
                     missingResources: [
                         {
                             type: 'wood',
@@ -450,7 +451,7 @@ class HandView extends Component {
     }
 
     componentDidMount() {
-        this.setState({
+        /*this.setState({
             cards: this.props.data.cards,
             turn: this.props.data.turn,
             age: this.props.data.age,
@@ -462,7 +463,7 @@ class HandView extends Component {
             wonderPoints: this.props.data.points.wonder,
             guildPoints: this.props.data.points.guild,
             civilPoints: this.props.data.points.civil
-        });
+        });*/
     }
 
     submitPurchases(){
@@ -578,10 +579,11 @@ class HandView extends Component {
 
     render() {
         var divStyle = {
-            background: utils.intToColor(this.props.data.position)
+            background: utils.intToColor(1)//utils.intToColor(this.props.data.position)
         };
         const hand = this.state.cards.map((infos, index) => <div className="playableDiv" key={index}>
-                                                                {this.state.cards[index].isPlayable?<Check id="playableCheck" color={"green"} size={35}/>:<X id="playableCross" color={"red"} size={35}/>}
+                                                                {this.state.cards[index].isPlayable?<Check id="playableCheck" color={"white"} size={35}/>:<X id="playableCross" color={"white"} size={35}/>}
+                                                                {this.state.cards[index].tree?<Image className="treeImg" src={require("../../assets/cartes.png")}/>:null}
                                                                 <Image  src={require("../../assets/cards/" + infos.card.id + ".jpg")}
                                                                         id={infos.card.id} className="card"
                                                                         onClick={() => this.showModal(infos)}/>
@@ -597,6 +599,7 @@ class HandView extends Component {
                                  buildWonder={() => this.validateTurn("wonderStep")}
                                  sell={() => this.validateTurn("discarding")}
                                  validated={this.state.validated}
+                                 tangible={false}
                     type="red"/>
                     : null
                 }
@@ -606,8 +609,8 @@ class HandView extends Component {
                 }
                 <div id="container" style={divStyle}>
                     <div className="labelsDiv">
-                            <Label className="labels transparent">Âge {this.state.age === 1 ? "I" : this.state.age === 2 ? "II" : "III" }</Label>
-                            <Label className="labels transparent">Tour {this.state.turn} </Label>
+                        <Label className="labels transparent">Âge {this.state.age === 1 ? "I" : this.state.age === 2 ? "II" : "III" }</Label>
+                        <Label className="labels transparent">Tour {this.state.turn} </Label>
                     </div>
                     <div className="labelsDiv1">
                         <Label className="labels nopad transparent">{this.state.warPoints}</Label>

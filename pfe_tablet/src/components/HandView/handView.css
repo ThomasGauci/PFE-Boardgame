@@ -26,6 +26,7 @@
     margin-right: auto;
     margin-left: auto;
     margin-top: 40px;
+    margin-bottom: 1%;
 }
 
 .labelsDiv1 {
@@ -138,17 +139,23 @@ body {
 #playableCheck {
     position: absolute;
     top: 0;
-    right: 0;
+    right: 1%;
 }
 
 #playableCross {
     position: absolute;
     top: 0;
-    right: 0;
+    right: 1%
 }
 .playableDiv {
     position: relative;
     display: inline-block;
     width: 13%;
     margin-right: 10px;
+}
+.treeImg {
+    position: absolute;
+    top: 8%;
+    right: 1%;
+    width: 10%;
 }

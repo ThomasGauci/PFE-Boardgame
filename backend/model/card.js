@@ -42,6 +42,7 @@ class Card {
         //if we can build the card for free
         if(player.isFreeToBuild(card.id)){
             cardResources["isPlayable"] = true;
+            cardResources["tree"] = true;
             return cardResources;
         }
         //card cost is money only

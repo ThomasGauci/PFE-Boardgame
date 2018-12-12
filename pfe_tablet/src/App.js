@@ -23,7 +23,7 @@ class App extends Component {
     constructor() {
         super();
         this.state = {
-            componentName: "QRView",
+            componentName: "HandView",
             data: {},
             showModal: true,
             fullScreen: false,
@@ -125,7 +125,7 @@ class App extends Component {
             this.changeComponent("WaitScreen");
         });
         socket.on('cardInformation', data => {
-            this.setState({cardDetails: data});
+            this.setState({cardDetails: data, tangible: true});
         });
     }
 
@@ -152,7 +152,7 @@ class App extends Component {
                                changeComponent={this.changeComponent.bind(this)}/>
                 {
                     this.state.cardDetails ?
-                        <CardDetails card={this.state.cardDetails} close={() => this.setState({cardDetails: null})}/>
+                        <CardDetails tangible={true}  card={this.state.cardDetails} close={() => this.setState({cardDetails: null})}/>
                         : null
                 }
             </div>

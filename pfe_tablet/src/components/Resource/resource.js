@@ -13,7 +13,8 @@ class Resource extends Component {
             chooseResource: false,
             errorModal: false,
             errorModalText: "",
-            choice: ""
+            choice: "",
+            isChecked: false
         };
         this.buyResource = this.buyResource.bind(this);
         this.buyOrResource = this.buyOrResource.bind(this);
@@ -176,7 +177,7 @@ class Resource extends Component {
                            style={this.state.isChecked ? {filter: "grayscale(100%)",
                                "WebkitFilter": "grayscale(100%)",
                                "MozFilter": "grayscale(100%)"}: null}
-                           onClick={() => this.buyResource()} />
+                           onClick={() => !this.state.isChecked ? this.buyResource() : this.cancelChoice()}/>
                 </div>
             </div>
         )
