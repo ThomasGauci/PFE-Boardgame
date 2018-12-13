@@ -200,8 +200,6 @@ class PlayerZone extends Component {
         const cardAge = card.id.charAt(1);
         if (cardType === 'A'){
             return require(`../../assets/cards/${cardType}${cardAge}.jpg`);
-        } else if(cardType === 'E' || cardType === 'G'){
-            return require(`../../assets/cards/${cardType}.jpg`);
         } else
             return require(`../../assets/cards/${card.id}_min.jpg`);
 
