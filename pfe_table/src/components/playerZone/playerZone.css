@@ -68,6 +68,34 @@
     top: 55px;
 }
 
+.wonders{
+    width: 100%;
+    text-align: left;
+}
+
+.wonders div{
+    width: 143px;
+    height: 40px;
+    text-align: center;
+    display: inline-block;
+    margin-left: 19px;
+    vertical-align: bottom;
+}
+
+.wonders div:first-child{
+    margin-left: 35px;
+}
+
+.wonders div:last-child{
+    margin-left: 17px;
+}
+
+.wonders img{
+    width: 100%;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+
 .playerBoardImage{
     position: relative;
 }

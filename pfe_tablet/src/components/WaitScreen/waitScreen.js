@@ -1,8 +1,7 @@
 import React, {Component} from "react";
 import "./waitScreen.css";
-import * as utils from "../../utils"
-import * as Icon from 'react-feather';
-import {Label} from 'react-bootstrap';
+import * as utils from "../../utils";
+import {Label, Image} from 'react-bootstrap';
 
 class WaitScreen extends Component{
 
@@ -11,9 +10,12 @@ class WaitScreen extends Component{
             background: utils.intToColor(this.props.data.position)
         };
         return (
-            <div id="container" style={divStyle}>
-                <Icon.Clock id="clockIcon" size={500}/>
-                <Label id="waitLabel" style={divStyle}>{this.props.data.label}</Label>
+            <div id="container1" style={divStyle}>
+                <div id="subContainer">
+                    <Label className="waitLabel" id="waitLabel1">{this.props.data.label}</Label>
+                    <Label className="waitLabel">Affichage en cours sur la table</Label>
+                    <Image className="tableImg" src={require("../../assets/table.svg")}/>
+                </div>
             </div>
         );
     }

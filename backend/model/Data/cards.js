@@ -98,7 +98,7 @@ addCard(age1, {
     age: 1,
     effect: {
         target: "discount",
-        value: "left"
+        value: "right"
     },
     type: "economic",
     offer: ["E203"]
@@ -109,7 +109,7 @@ addCard(age1, {
     age: 1,
     effect: {
         target: "discount",
-        value: "right"
+        value: "left"
     },
     type: "economic",
     offer: ["E203"]
@@ -326,7 +326,7 @@ addCard(age2, {
         value: 2,
     },
     cost: [{name: "clay", quantity: 1},{name: "wood", quantity: 1},{name: "ore", quantity: 1}],
-    offer: []
+
 });
 
 addCard(age2, {
@@ -352,7 +352,7 @@ addCard(age2, {
         value: 2,
     },
     cost: [{name: "wood", quantity: 2},{name: "ore", quantity: 1}],
-    offer: []
+
 });
 
 addCard(age2, {
@@ -378,7 +378,7 @@ addCard(age2, {
         value: 4,
     },
     cost: [{name: "clay", quantity: 2},{name: "loom", quantity: 1}],
-    offer: []
+
 });
 
 addCard(age2, {
@@ -430,7 +430,7 @@ addCard(age2, {
         value: 5,
     },
     cost: [{name: "stone", quantity: 3}],
-    offer: []
+
 });
 
 addCard(age2, {
@@ -439,10 +439,10 @@ addCard(age2, {
     age: 2,
     effect: {
         target: "dynamicGold",
-        value: "ressource"
+        value: "resource"
     },
     type: "economic",
-    offer: []
+
 });
 
 addCard(age2, {
@@ -454,7 +454,7 @@ addCard(age2, {
         value: "product"
     },
     type: "economic",
-    offer: []
+
 });
 
 addCard(age2, {
@@ -462,8 +462,8 @@ addCard(age2, {
     name: "Forum",
     age: 2,
     effect: {
-        target: "glass/loom/papyrus",
-        value: 1
+        target: "resources",
+        value: "glass/loom/papyrus"
     },
     type: "economic",
     cost: [{name: "clay", quantity: 2}],
@@ -475,8 +475,8 @@ addCard(age2, {
     name: "Caravansérail",
     age: 2,
     effect: {
-        target: "wood/stone/ore/clay",
-        value: 1
+        target: "resources",
+        value: "wood/stone/ore/clay"
     },
     type: "economic",
     cost: [{name: "wood", quantity: 2}],
@@ -675,7 +675,7 @@ addCard(age3, {
         value: 3,
     },
     cost: [{name: "stone", quantity: 3},{name: "ore", quantity: 1}],
-    offer: []
+
 });
 
 addCard(age3, {
@@ -688,7 +688,7 @@ addCard(age3, {
         value: 3,
     },
     cost: [{name: "wood", quantity: 2},{name: "ore", quantity: 1},{name: "loom", quantity: 1}],
-    offer: []
+
 });
 
 addCard(age3, {
@@ -701,7 +701,7 @@ addCard(age3, {
         value: 3,
     },
     cost: [{name: "wood", quantity: 2},{name: "ore", quantity: 1},{name: "loom", quantity: 1}],
-    offer: []
+
 });
 
 addCard(age3, {
@@ -714,7 +714,7 @@ addCard(age3, {
         value: 3,
     },
     cost: [{name: "ore", quantity: 3},{name: "stone", quantity: 1}],
-    offer: []
+
 });
 
 addCard(age3, {
@@ -727,7 +727,7 @@ addCard(age3, {
         value: 3,
     },
     cost: [{name: "clay", quantity: 3},{name: "wood", quantity: 1}],
-    offer: []
+
 });
 
 addCard(age3, {
@@ -740,7 +740,7 @@ addCard(age3, {
         value: 8,
     },
     cost: [{name: "stone", quantity: 1},{name: "ore", quantity: 1},{name: "wood", quantity: 1},{name: "clay", quantity: 1},{name: "glass", quantity: 1},{name: "papyrus", quantity: 1},{name: "loom", quantity: 1}],
-    offer: []
+
 });
 
 addCard(age3, {
@@ -753,7 +753,7 @@ addCard(age3, {
         value: 5,
     },
     cost: [{name: "clay", quantity: 2},{name: "wood", quantity: 1}],
-    offer: []
+
 });
 
 addCard(age3, {
@@ -766,7 +766,7 @@ addCard(age3, {
         value: 5,
     },
     cost: [{name: "clay", quantity: 2},{name: "wood", quantity: 1}],
-    offer: []
+
 });
 
 addCard(age3, {
@@ -779,7 +779,7 @@ addCard(age3, {
         value: 7,
     },
     cost: [{name: "clay", quantity: 2},{name: "ore", quantity: 1},{name: "loom", quantity: 1},{name: "glass", quantity: 1},{name: "papyrus", quantity: 1}],
-    offer: []
+
 });
 
 addCard(age3, {
@@ -792,7 +792,7 @@ addCard(age3, {
         value: 6,
     },
     cost: [{name: "stone", quantity: 2},{name: "ore", quantity: 1},{name: "glass", quantity: 1}],
-    offer: []
+
 });
 
 addCard(age3, {
@@ -805,7 +805,7 @@ addCard(age3, {
         value: 6,
     },
     cost: [{name: "wood", quantity: 2},{name: "ore", quantity: 1},{name: "stone", quantity: 1}],
-    offer: []
+
 });
 
 addCard(age3, {
@@ -818,7 +818,7 @@ addCard(age3, {
     },
     type: "economic",
     cost: [{name: "ore", quantity: 1},{name: "stone", quantity: 2}],
-    offer: []
+
 });
 
 addCard(age3, {
@@ -831,7 +831,7 @@ addCard(age3, {
     },
     type: "economic",
     cost: [{name: "papyrus", quantity: 1},{name: "clay", quantity: 2}],
-    offer: []
+
 });
 
 addCard(age3, {
@@ -844,7 +844,7 @@ addCard(age3, {
     },
     type: "economic",
     cost: [{name: "wood", quantity: 1},{name: "ore", quantity: 1},{name: "loom", quantity: 1}],
-    offer: []
+
 });
 
 addCard(age3, {
@@ -857,7 +857,7 @@ addCard(age3, {
     },
     type: "economic",
     cost: [{name: "stone", quantity: 1},{name: "glass", quantity: 1}],
-    offer: []
+
 });
 
 addCard(age3, {
@@ -865,7 +865,7 @@ addCard(age3, {
     name: "Phare",
     age: 3,
     type: "economic",
-    offer: []
+
 });
 
 addCard(age3, {
@@ -878,7 +878,7 @@ addCard(age3, {
         value: 1,
     },
     cost: [{name: "ore", quantity: 2},{name: "glass", quantity: 1},{name: "loom", quantity: 1}],
-    offer: []
+
 });
 
 addCard(age3, {
@@ -891,7 +891,7 @@ addCard(age3, {
         value: 1,
     },
     cost: [{name: "stone", quantity: 3},{name: "glass", quantity: 1}],
-    offer: []
+
 });
 
 addCard(age3, {
@@ -904,7 +904,7 @@ addCard(age3, {
         value: 1,
     },
     cost: [{name: "wood", quantity: 2},{name: "glass", quantity: 1},{name: "papyrus", quantity: 1}],
-    offer: []
+
 });
 
 addCard(age3, {
@@ -917,7 +917,7 @@ addCard(age3, {
         value: 1,
     },
     cost: [{name: "wood", quantity: 2},{name: "glass", quantity: 1},{name: "papyrus", quantity: 1}],
-    offer: []
+
 });
 
 addCard(age3, {
@@ -930,7 +930,7 @@ addCard(age3, {
         value: 1,
     },
     cost: [{name: "clay", quantity: 2},{name: "loom", quantity: 1},{name: "papyrus", quantity: 1}],
-    offer: []
+
 });
 
 addCard(age3, {
@@ -943,7 +943,7 @@ addCard(age3, {
         value: 1,
     },
     cost: [{name: "wood", quantity: 1},{name: "loom", quantity: 1},{name: "papyrus", quantity: 1}],
-    offer: []
+
 });
 
 
@@ -955,11 +955,11 @@ addCard(guilds, {
     age: 3,
     type: "guild",
     effect: {
-        target: "",
-        value: 0,
+        target: "neighbors",
+        value : "resource"
     },
     cost: [{name: "ore", quantity: 2},{name: "clay", quantity: 1},{name: "stone", quantity: 1},{name: "wood", quantity: 1}],
-    offer: []
+
 });
 
 addCard(guilds, {
@@ -968,11 +968,10 @@ addCard(guilds, {
     age: 3,
     type: "guild",
     effect: {
-        target: "",
-        value: 0,
+        target: "neighbors",
+        value: "product"
     },
     cost: [{name: "ore", quantity: 2},{name: "stone", quantity: 2}],
-    offer: []
 });
 
 addCard(guilds, {
@@ -981,11 +980,10 @@ addCard(guilds, {
     age: 3,
     type: "guild",
     effect: {
-        target: "",
-        value: 0,
+        target: "neighbors",
+        value : "economic"
     },
     cost: [{name: "glass", quantity: 1},{name: "loom", quantity: 1},{name: "papyrus", quantity: 1}],
-    offer: []
 });
 
 addCard(guilds, {
@@ -994,11 +992,10 @@ addCard(guilds, {
     age: 3,
     type: "guild",
     effect: {
-        target: "",
-        value: 0,
+        target: "neighbors",
+        value : "science"
     },
     cost: [{name: "clay", quantity: 3},{name: "loom", quantity: 1},{name: "papyrus", quantity: 1}],
-    offer: []
 });
 
 addCard(guilds, {
@@ -1007,11 +1004,10 @@ addCard(guilds, {
     age: 3,
     type: "guild",
     effect: {
-        target: "",
-        value: 0,
+        target: "neighbors",
+        value : "military"
     },
     cost: [{name: "clay", quantity: 3},{name: "glass", quantity: 1}],
-    offer: []
 });
 
 addCard(guilds, {
@@ -1020,11 +1016,10 @@ addCard(guilds, {
     age: 3,
     type: "guild",
     effect: {
-        target: "",
-        value: 0,
+        target: "neighbors",
+        value : "lost"
     },
     cost: [{name: "ore", quantity: 2},{name: "stone", quantity: 1},{name: "loom", quantity: 1}],
-    offer: []
 });
 
 addCard(guilds, {
@@ -1033,11 +1028,10 @@ addCard(guilds, {
     age: 3,
     type: "guild",
     effect: {
-        target: "",
-        value: 0,
+        target: "self",
+        value : ["resource","product","guild"]
     },
     cost: [{name: "wood", quantity: 3},{name: "glass", quantity: 1},{name: "papyrus", quantity: 1}],
-    offer: []
 });
 
 addCard(guilds, {
@@ -1046,11 +1040,10 @@ addCard(guilds, {
     age: 3,
     type: "guild",
     effect: {
-        target: "",
-        value: 0,
+        target: "science",
+        value: "compass/tablet/gear"
     },
     cost: [{name: "wood", quantity: 2},{name: "ore", quantity: 2},{name: "papyrus", quantity: 1}],
-    offer: []
 });
 
 addCard(guilds, {
@@ -1059,11 +1052,10 @@ addCard(guilds, {
     age: 3,
     type: "guild",
     effect: {
-        target: "",
-        value: 0,
+        target: "neighbors",
+        value: "building",
     },
     cost: [{name: "wood", quantity: 3},{name: "stone", quantity: 1},{name: "loom", quantity: 1}],
-    offer: []
 });
 
 addCard(guilds, {
@@ -1072,11 +1064,10 @@ addCard(guilds, {
     age: 3,
     type: "guild",
     effect: {
-        target: "",
-        value: 0,
+        target: "all",
+        value: "wonder",
     },
     cost: [{name: "stone", quantity: 2},{name: "clay", quantity: 2},{name: "glass", quantity: 1}],
-    offer: []
 });
 
 shuffleArray(guilds);

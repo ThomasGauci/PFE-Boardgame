@@ -12,7 +12,7 @@ class QrView extends Component{
             delay: 300
         };
         this.handleScan = this.handleScan.bind(this);
-        /*this.props.changeData({ipAdress: "https://192.168.1.9:8000;1"});
+        /*this.props.changeData({ipAdress: "https://192.168.1.10:8000;1"});
         this.props.changeComponent("Join");*/
     }
 

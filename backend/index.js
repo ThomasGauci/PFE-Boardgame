@@ -28,6 +28,7 @@ io.on('connection', (client) => {
         //Create game
         board = new Board();
         numConnection = 0;
+        automate.fsm.restart();
         table = client;
         callback({"data":"OK"});
     });
@@ -103,4 +104,3 @@ io.on('connection', (client) => {
         automate.fsm.startTurn(client,board);
     });
 });
-

@@ -1,9 +1,16 @@
-#container {
+#container1 {
     height: 100%;
     position: absolute;
     width: 100%;
+    background: dodgerblue;
     display: flex;
     flex-direction: column;
+}
+#subContainer {
+    display: flex;
+    flex-direction: column;
+    margin-top: auto;
+    margin-bottom: auto;
 }
 #clockIcon {
     color: white;
@@ -12,6 +19,14 @@
     display: block;
     margin-top: 5%;
 }
-#waitLabel {
-    font-size: 20px;
+.waitLabel {
+    font-size: 30px!important;
+    margin-top: 10px;
+    background-color: transparent!important;
+}
+.tableImg {
+    width: 40%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 5%;
 }

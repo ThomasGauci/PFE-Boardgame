@@ -15,3 +15,18 @@
     margin: 10px;
     width: 50%;
 }
+
+.goldCoin{
+    position: relative;
+    text-align: center;
+    font-weight: bold;
+    color: black;
+}
+
+.price{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+

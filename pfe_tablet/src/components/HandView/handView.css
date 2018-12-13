@@ -7,35 +7,33 @@
 }
 
 #handDiv {
-    display: flex;
-    flex-direction: row;
-    margin-left: auto;
-    margin-right: auto;
+    display: inline-block;
+    text-align: center;
+    margin-top: auto;
+    margin-bottom: auto;
 }
 
 .card {
-    display: block;
-    object-fit: contain;
-    height: 100%;
-    width: 120%;
-    margin-right: 5px;
+    border-radius: 20px;
+    width: 100%;
 }
 .labels {
     color: white;
     font-size: 200%!important;
 }
 
-#labelsDiv {
-    display: flex;
-    flex-direction: row;
+.labelsDiv {
+    margin-right: auto;
+    margin-left: auto;
+    margin-top: 40px;
+    margin-bottom: 1%;
+}
+
+.labelsDiv1 {
     margin-right: auto;
     margin-left: auto;
     margin-top: 10px;
-    margin-bottom: 10px;
-}
-
-.label1 {
-    margin-bottom: 15%;
+    height: 5%;
 }
 
 .modal-dialog {
@@ -111,4 +109,53 @@
 
 .tradingModalLabel1 {
     text-align: right!important;
+}
+.pointsImg {
+    height: 80%;
+    transform: translate(0%, -10%) !important;
+    margin-right: 30px;
+    margin-left: 5px;
+}
+.labelDiv {
+    display: inline-block;
+    text-align: center;
+}
+.label1 {
+    position: absolute;
+    top: 25%;
+    left: 50%;
+    transform: translateX(-50%);
+}
+.nopad {
+    padding: 0!important;
+}
+body {
+    overflow-y: hidden;
+}
+.totalLabel{
+    color: white;
+    font-size: 150%!important;
+}
+#playableCheck {
+    position: absolute;
+    top: 0;
+    right: 1%;
+}
+
+#playableCross {
+    position: absolute;
+    top: 0;
+    right: 1%
+}
+.playableDiv {
+    position: relative;
+    display: inline-block;
+    width: 13%;
+    margin-right: 10px;
+}
+.treeImg {
+    position: absolute;
+    top: 8%;
+    right: 1%;
+    width: 10%;
 }

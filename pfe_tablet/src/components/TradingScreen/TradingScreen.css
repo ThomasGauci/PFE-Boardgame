@@ -1,6 +1,6 @@
 .tradingScreen{
     position: absolute;
-    z-index: 99999;
+    z-index: 99990;
     width: 100vw;
     height: 100vh;
     background: rgba(50, 50, 50, 0.7);
@@ -82,7 +82,15 @@
     display: flex;
     flex-direction: row;
     align-items: center;
+    justify-content: space-between;
 }
+
+.resources {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
 .resourcesDiv {
     display: flex;
     flex-direction: column;
@@ -91,9 +99,11 @@
     display: flex;
     flex-direction: column;
 }
+
 .titleLabel {
     background: transparent!important;
 }
+
 #money {
     display: flex;
     flex-direction: row;

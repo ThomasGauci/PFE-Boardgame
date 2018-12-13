@@ -9,30 +9,42 @@ class Player {
         this.warPointsDisplay = [];
         this.lostWars = 0;
         this.city = null;
+        this.freeCards =[];
+        this.effect = {
+            discount : [],
+            resources : [],
+            guild : [],
+        };
+
         this.socket = socket;
 
         this.science = {
             gear : 0,
             compass : 0,
-            tablet : 0
+            tablet : 0,
+            multiple : 0
         };
         this.gold = 3;
         this.army = 0;
         this.victory = 0;
 
-        this.freeCards =[];
-
-        this.economicEffect = [];
+        this.cardsPerType = new Map();
+        this.resources = new Map();
     }
 
     setCity(city){
         this.city = city;
+        if(this.resources.get(city.baseRessource)){
+            this.resources.set(city.baseRessource,this.resources.get(city.baseRessource) + 1);
+        }
+        else{
+            this.resources.set(city.baseRessource, 1);
+        }
     }
 
     setHand(cards){
         this.hand = cards;
     }
-    
 
     isFreeToBuild(id){
         for(let card of this.freeCards){
@@ -106,27 +118,43 @@ class Player {
             "army": this.army,
             "playedCards": this.cards,
             "warPointsDisplay": this.warPointsDisplay,
-            "victory" : this.victory
+            "victory" : this.victory,
+            "wonders" : this.city.usedCards
         };
     }
 
     getCurrentResources(){
-        let resources = new Map();
-        for(let card of this.cards){
-            if(card.effectTarget && card.effectTarget !== "tablet" && card.effectTarget !== "compass" && card.effectTarget !== "gear" && card.effectTarget !== "army" && card.effectTarget !== "victory" ){
-                if(resources.has(card.effectTarget)){
-                    resources.set(card.effectTarget, {quantity: resources.get(card.effectTarget).quantity + card.effectValue, cost: 2});
-                }
-                else{
-                    resources.set(card.effectTarget, {quantity: card.effectValue, cost: 2});
-                }
-            }
+        return this.resources;
+    }
+
+    getAllResources(){
+        let allRes = new Map(this.resources);
+        for(let effect of this.effect.resources){
+            if(allRes.get(effect))
+                allRes.set(effect,allRes.get(effect) + 1);
+            else allRes.set(effect,1);
         }
-        if(resources.has(this.city.baseRessource))
-            resources.set(this.city.baseRessource, {quantity: resources.get(this.city.baseRessource).quantity + 1, cost: 2});
-        else
-            resources.set(this.city.baseRessource, {quantity: 1, cost: 2});
-        return resources;
+        return allRes;
+    }
+
+    getVictoryPoints(){
+        return this.victory + this.getWarPoints() + this.getGoldPoints() + this.getSciencePoints();//TODO Ajouter cartes jaunes, guildes et merveilles
+    }
+
+    getEconomyPoints(){
+        //TODO
+        return 0;
+    }
+    getGuildPoints(){
+        //TODO
+        return 0;
+    }
+    getWonderPoints(){
+        //TODO
+        return 0;
+    }
+    getPoints(){
+        return {victory: this.getVictoryPoints(), science: this.getSciencePoints(), war: this.getWarPoints(), economy: this.getEconomyPoints(), guild: this.getGuildPoints(), wonder: this.getWonderPoints(), civil: this.victory}
     }
 }
 module.exports = Player;

@@ -9,13 +9,12 @@ class Resource extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            choice1: "",
-            choice2: "",
             choiceCost: 0,
             chooseResource: false,
             errorModal: false,
             errorModalText: "",
-            choice: ""
+            choice: "",
+            isChecked: false
         };
         this.buyResource = this.buyResource.bind(this);
         this.buyOrResource = this.buyOrResource.bind(this);
@@ -32,6 +31,7 @@ class Resource extends Component {
 
 
     buyOrResource(cost, type){
+        console.log(cost);
         this.setState({
             chooseResource: false
         });
@@ -55,7 +55,7 @@ class Resource extends Component {
                 purchases.push({seller: this.props.seller, resource: type, price: cost});
             }
             this.props.changeState({
-                cost: cost ? this.props.money - cost : this.props.money
+                money: cost ? this.props.money - cost : this.props.money
             });
             this.setState({
                 isChecked: true,
@@ -77,16 +77,19 @@ class Resource extends Component {
                 errorModalText: "Vous n'avez pas assez d'argent pour acheter cette ressource"
             })
         }
-        else if(this.props.resource.type.includes("/") && !this.props.missingResources.has(this.props.resource.type.split("/")[0]) && !this.props.missingResources.has(this.props.resource.type.split("/")[1])){
+        else if(this.props.resource.type.includes("/") && !this.props.missingResources.has(this.props.resource.type.split("/")[0]) && !this.props.missingResources.has(this.props.resource.type.split("/")[1])&& !this.props.missingResources.has(this.props.resource.type.split("/")[2]) && !this.props.missingResources.has(this.props.resource.type.split("/")[3])){
             this.setState({
                 errorModal: true,
                 errorModalText: "Vous n'avez pas besoin de cette ressource"
             })
         }
         else if(this.props.resource.type.includes("/")){
+            let choices = [];
+            for(let i = 0; i < this.props.resource.type.split("/").length; i++){
+                choices.push(this.props.resource.type.split("/")[i]);
+            }
             this.setState({
-                choice1: this.props.resource.type.split("/")[0],
-                choice2: this.props.resource.type.split("/")[1],
+                choices: choices,
                 chooseResource: true,
                 choiceCost: this.props.resource.cost
             });
@@ -131,7 +134,7 @@ class Resource extends Component {
             }
             this.props.purchases.splice(index, 1);
             this.props.changeState({
-                money: this.props.money + this.props.resource.cost,
+                money: this.props.resource.cost ? this.props.money + this.props.resource.cost: this.props.money,
                 titleText: "Il vous manque des ressources pour construire ce bâtiment. Vous pouvez en acheter à vos voisins"
             });
             console.log(this.props.purchases);
@@ -161,8 +164,9 @@ class Resource extends Component {
                         <Modal.Title>Choisissez la resource</Modal.Title>
                     </Modal.Header>
                     <Modal.Footer bsClass="modalStyle1">
-                        <Button className="resButton" onClick={()=>this.buyOrResource(this.state.choiceCost, this.state.choice1)}><Image src={require("../../assets/" + this.state.choice1 + ".png")} bsStyle="primary"/></Button>
-                        <Button className="resButton" onClick={()=>this.buyOrResource(this.state.choiceCost, this.state.choice2)}> <Image src={require("../../assets/" + this.state.choice2 + ".png")} bsStyle="primary"/></Button>
+                        {this.state.choices.map((choice) =>
+                            <Button className="resButton" onClick={()=>this.buyOrResource(this.state.choiceCost, choice)}><Image src={require("../../assets/" + choice + ".png")} bsStyle="primary"/></Button>
+                        )}
                     </Modal.Footer>
                 </Modal.Dialog>:null}
                 <div className='overlayDiv'>
@@ -173,7 +177,7 @@ class Resource extends Component {
                            style={this.state.isChecked ? {filter: "grayscale(100%)",
                                "WebkitFilter": "grayscale(100%)",
                                "MozFilter": "grayscale(100%)"}: null}
-                           onClick={() => this.buyResource()} />
+                           onClick={() => !this.state.isChecked ? this.buyResource() : this.cancelChoice()}/>
                 </div>
             </div>
         )
@@ -185,13 +189,24 @@ function getCardPath(cardType) {
         return cardType
     }
     else {
-        let cardPath = cardType.split("/")[0] + "." + cardType.split("/")[1];
-        try{
-            require("../../assets/"+cardPath+".png");
+        let split = cardType.split("/");
+        if(split.length > 2){
+            let cardPath = "";
+            for(let i = 0; i < split.length; i++){
+                cardPath += split[i] + ".";
+            }
+            cardPath = cardPath.substring(0, cardPath.length - 1);
             return cardPath;
         }
-        catch (e) {
-            return cardType.split("/")[1] + "." + cardType.split("/")[0];
+        else {
+            let cardPath = cardType.split("/")[0] + "." + cardType.split("/")[1];
+            try{
+                require("../../assets/"+cardPath+".png");
+                return cardPath;
+            }
+            catch (e) {
+                return cardType.split("/")[1] + "." + cardType.split("/")[0];
+            }
         }
     }
 }

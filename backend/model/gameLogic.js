@@ -21,7 +21,8 @@ let fsm = new StateMachine({
         { name: 'startTurn', from: 'endTurn', to: 'turn'},
         { name: 'battle', from: 'endTurn', to: 'endAge'},
         { name: 'restartAge', from: 'endAge', to: 'newAge'},
-        { name: 'findWinner', from: 'endAge', to: 'end'}
+        { name: 'findWinner', from: 'endAge', to: 'end'},
+        { name: 'restart', from: '*', to: 'wait'}
     ],
     methods: {
         onSetUp:  function(lifecycle,client,board) {
@@ -40,20 +41,44 @@ let fsm = new StateMachine({
             console.log("Start new Age");
             board.newAge(cards);
         },
-        onStart: function(lifecycle,client,board){
+        onStart: function(lifecycle,table,board){
             console.log("Start turn");
             board.turn++;
             playerPlayed = [];
             currentActions = new Map();
             let data;
             for(let i=0;i<4;i++){
-                data={"age": board.age,
+                data={
+                    "age": board.age,
                     "turn": board.turn,
                     "cards": board.getPlayerAvailableMoves(i),
                     "money": board.players[i].gold,
+                    "points": board.players[i].getPoints()
                 };
                 if(board.players[i].socket != null)
                     board.players[i].socket.emit('newTurn',data);
+            }
+
+            let latestActions = [];
+            for(let i = 0; i<4;i++){
+                latestActions.push(board.players[i].actions[board.players[i].actions.length - 1]);
+            }
+            let players = [];
+            for(let i = 0; i<4;i++){
+                players.push(board.players[i].getState());
+            }
+            data= {
+                "latestActions":latestActions,
+                "gameState": {
+                    "players": players,
+                    "turn": board.turn,
+                    "age" : board.age,
+                    "discarded" : board.discarded
+
+                }
+            };
+            if(table != null){
+                table.emit("newTurn",data);
             }
         },
         onPlayerPlayed: function(lifecycle,board,data,table){
@@ -63,13 +88,12 @@ let fsm = new StateMachine({
                 console.log("erreur: player not found");
             }else{
                 let action = new Action(data.action,data.cardId,player,board, data.purchases);
-                console.log(action);
                 if(!playerPlayed.includes(data.position)){
                     playerPlayed.push(data.position);
                 }
                 currentActions.set(data.position,action);
                 if(table != null){
-                    table.emit("playedPlayed",data.position);
+                    table.emit("playerPlayed",data.position);
                 }
             }
         },
@@ -88,14 +112,18 @@ let fsm = new StateMachine({
             }
             let data= {
                 "latestActions":latestActions,
-                "gameState":
-                    {"players":players}
+                "gameState": {
+                    "players": players,
+                    "turn": board.turn,
+                    "age" : board.age,
+                    "discarded" : board.discarded
+                }
             };
             if(client != null){
                 client.emit("endTurn",data);
                 client.broadcast.emit("endTurn",data);
             }
-        },onStartTurn: function(lifecycle,client,board){
+        },onStartTurn: function(lifecycle,table,board){
             console.log("Restart turn");
             playerPlayed = [];
             currentActions = new Map();
@@ -106,12 +134,33 @@ let fsm = new StateMachine({
                 data={"age": board.age,
                     "turn":board.turn,
                     "cards":board.getPlayerAvailableMoves(i),
-                    "money": board.players[i].gold
+                    "money": board.players[i].gold,
+                    "points": board.players[i].getPoints()
                 };
                 if(board.players[i].socket != null){
                     board.players[i].socket.emit('newTurn',data);
                 }
             }
+
+            let latestActions = [];
+            for(let i = 0; i<4;i++){
+                latestActions.push(board.players[i].actions[board.players[i].actions.length - 1]);
+            }
+            let players = [];
+            for(let i = 0; i<4;i++){
+                players.push(board.players[i].getState());
+            }
+            data= {
+                "latestActions":latestActions,
+                "gameState": {
+                    "players": players,
+                    "turn": board.turn,
+                    "age" : board.age,
+                    "discarded" : board.discarded
+                }
+            };
+            if(table != null)
+                table.emit("newTurn",data);
         },
         onBattle: function(lifecycle,table,board){
             console.log("End of age: battle");
@@ -123,7 +172,11 @@ let fsm = new StateMachine({
             let data= {
                 "war": wars,
                 "gameState":
-                    {"players" : players}
+                    {"players" : players,
+                        "turn": board.turn,
+                        "age" : board.age,
+                        "discarded" : board.discarded
+                    }
             };
             if(table != null){
                 table.emit('battle',data);
@@ -132,7 +185,6 @@ let fsm = new StateMachine({
         onFindWinner: function(lifecycle,table,board){
             console.log("End of game");
             let res = board.calculateWinner();
-            console.log(res);
             if(table != null){
                 table.emit("result",res);
             }
@@ -151,7 +203,6 @@ let fsm = new StateMachine({
 function ifGoNextAge(board){
     return (board.turn === 6 && ifGoNextTurn());
 }
-
 
 module.exports = { fsm: fsm,
     ifGoNextTurn : ifGoNextTurn,

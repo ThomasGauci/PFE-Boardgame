@@ -97,6 +97,7 @@ class App extends Component {
             data: newData
         });
         socket.on('newTurn', (data) => {
+            window.navigator.vibrate(500);
             console.log("data",data);
             let newData = {
                 position: position,
@@ -106,7 +107,8 @@ class App extends Component {
                 age: data.age,
                 ip: this.state.data.ip,
                 socket: this.state.data.socket,
-                money: data.money
+                money: data.money,
+                points: data.points
             };
             this.changeData(newData);
             this.changeComponent("HandView");
@@ -123,7 +125,7 @@ class App extends Component {
             this.changeComponent("WaitScreen");
         });
         socket.on('cardInformation', data => {
-            this.setState({cardDetails: data});
+            this.setState({cardDetails: data, tangible: true});
         });
     }
 
@@ -150,7 +152,7 @@ class App extends Component {
                                changeComponent={this.changeComponent.bind(this)}/>
                 {
                     this.state.cardDetails ?
-                        <CardDetails card={this.state.cardDetails} close={() => this.setState({cardDetails: null})}/>
+                        <CardDetails tangible={true}  card={this.state.cardDetails} close={() => this.setState({cardDetails: null})}/>
                         : null
                 }
             </div>

@@ -8,7 +8,10 @@ class City {
         this.faceA = faceA;
         this.faceB = faceB;
         this.currentFace = null;
+        this.currentStep = 0;
         this.id = id;
+        this.numberWonderBuit = 0;
+        this.usedCards = [];
     }
     //face : String "A" or "B"
     chooseFace(face){
@@ -17,7 +20,16 @@ class City {
         }else if(face === "B"){
             this.currentFace = this.faceB;
         }
-        else return "error: must choose A or B"
+        else return "error: must choose A or B";
+    }
+
+    nextStep(){
+        this.currentFace[this.currentStep].built = "true";
+        this.currentStep++;
+    }
+
+    getCurrentstep(){
+        return this.currentFace[this.currentStep];
     }
 
     //wonder : int "1", "2" or "3"

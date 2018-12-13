@@ -30,8 +30,7 @@ class Card {
     }
 
     getCardResources(card, player, neighbors) {
-        let playerResources = player.getCurrentResources();
-        let prices = computePrices(playerResources, neighbors);
+        let prices = computePrices(player, neighbors);
         let playerMoney = player.getState()["money"];
         let cardResources = {};
         //if we already got the card we can't build it
@@ -43,6 +42,7 @@ class Card {
         //if we can build the card for free
         if(player.isFreeToBuild(card.id)){
             cardResources["isPlayable"] = true;
+            cardResources["tree"] = true;
             return cardResources;
         }
         //card cost is money only
@@ -58,11 +58,11 @@ class Card {
                 return cardResources;
             }
         }
-        //getting all Combinations with player's ressources only
+        //getting all Combinations with player's resources only
         let combInit = [];
         combInit.push(new Map());
-        let combinations = getCombinations(playerResources, combInit);
-        //finding working combinations with player's ressources only
+        let combinations = getCombinations(player.getAllResources(), combInit);
+        //finding working combinations with player's resources only
         if(card.cost){
             let solutions = getSolutions(combinations, card.cost, [], 0);
             if(solutions.length > 0) {
@@ -77,16 +77,12 @@ class Card {
                 }
                 else {
                     cardResources["isPlayable"] = true;
-                    let result = getUsefullAndMissingPersonalResources(playerResources, card.cost);
+                    let result = getUsefullAndMissingPersonalResources(player.getAllResources(), card.cost);
                     cardResources["usefullResources"] = strMapToArray(result.usefullResources); //resources used to build card
                     cardResources["missingRessources"] = strMapToArray(result.missingRessources);// resources needed but not owned
-                    cardResources["stayingResources"] = strMapToArray(result.stayingResources); //resources useless + or resources
-                    let availableResources = [];
-                    for(let neighbor of neighbors){
-                        let obj = {player: neighbor.getState(), resources: strMapToArray(neighbor.getCurrentResources())};
-                        availableResources.push(obj);
-                    }
-                    cardResources["availableResources"] = availableResources;
+                    cardResources["stayingResources"] = strMapToArray(result.stayingResources); //resources useless + or resource
+
+                    cardResources["availableResources"] = getNeighborResources(player,neighbors);
                 }
             }
         }
@@ -96,8 +92,8 @@ class Card {
         return cardResources;
     }
 
-    play(action){
-
+    static test(player, neighbors){
+        return computePrices(player,neighbors);
     }
 }
 module.exports = Card;
@@ -114,10 +110,10 @@ function getUsefullAndMissingPersonalResources(playerResources, cost) {
         tmpCost.push({quantity: resource.quantity, name: resource.name});
     }
     for(let resourceName of playerResources.keys()) {
-        stayingResources.set(resourceName, playerResources.get(resourceName).quantity);
+        stayingResources.set(resourceName, playerResources.get(resourceName));
     }
     for(let resource of tmpCost){
-        if (playerResources.has(resource.name) && playerResources.get(resource.name).quantity >= resource.quantity) {
+        if (playerResources.has(resource.name) && playerResources.get(resource.name) >= resource.quantity) {
             usefullResources.set(resource.name, resource.quantity);
             stayingResources.set(resource.name, stayingResources.get(resource.name) - resource.quantity);
             if(stayingResources.get(resource.name) === 0){
@@ -125,8 +121,8 @@ function getUsefullAndMissingPersonalResources(playerResources, cost) {
             }
             resource["quantity"] = 0;
         }
-        else if (playerResources.has(resource.name) && playerResources.get(resource.name).quantity < resource.quantity) {
-            resource.quantity = resource.quantity - playerResources.get(resource.name).quantity;
+        else if (playerResources.has(resource.name) && playerResources.get(resource.name) < resource.quantity) {
+            resource.quantity = resource.quantity - playerResources.get(resource.name);
             missingRessources.set(resource.name, resource.quantity);
             stayingResources.delete(resource.name);
         }
@@ -191,31 +187,103 @@ function getCombinations(resources, combinations) {
         }
         else  {
             for(let combination of combinations) {
-                combination.set(resourceName, resources.get(resourceName).quantity + (combination.has(resourceName) ? combination.get(resourceName) : 0));
+                combination.set(resourceName, resources.get(resourceName) + (combination.has(resourceName) ? combination.get(resourceName) : 0));
             }
         }
     }
     return combinations;
 }
 
-function computePrices(playerResources, neighbors) {
+function isResource(name){
+    return (name === "stone" || name === "wood" || name === "ore" || name === "clay"  || name === "stone/wood"  || name === "stone/clay"|| name === "clay/ore");
+}
+
+function isProduct(name){
+    return (name === "loom" || name === "glass" || name === "papyrus");
+}
+
+function getNeighborResources(player, neighbors) {
+    let res = [];
+    let discount = player.effect.discount;
+    let map1;
+    let map2;
+    let obj;
+    for(let i = 0; i < 2 ; i++) {
+        map1 = new Map();
+        map2 = new Map();
+        let resources = neighbors[i].getCurrentResources();
+        let data = {
+            "player" : neighbors[i].getState(),
+            "resources" : []
+        };
+
+        for (let resourceName of resources.keys()){
+            obj = {
+                "cost" : 2,
+                "quantity" : 0
+            };
+            if(discount.length > 0){
+                obj.cost = 1;
+                if(discount.includes("left") && i === 0 && isResource(resourceName)){
+                    obj.quantity =  resources.get(resourceName) + (map1.has(resourceName)? map1.get(resourceName) : 0);
+                    map1.set(resourceName,obj);
+                }
+                else if(discount.includes("right") && i === 1 && isResource(resourceName)){
+                    obj.quantity =  resources.get(resourceName) + (map1.has(resourceName)? map1.get(resourceName) : 0);
+                    map1.set(resourceName,obj);
+                }
+                else if(discount.includes("both") && isProduct(resourceName)){
+                    obj.quantity =  resources.get(resourceName) + (map1.has(resourceName)? map1.get(resourceName) : 0);
+                    map1.set(resourceName,obj);
+                }
+                else{
+                    obj.cost = 2;
+                    obj.quantity =  resources.get(resourceName) + (map2.has(resourceName)? map2.get(resourceName) : 0);
+                    map2.set(resourceName,obj);
+                }
+            }
+            else {
+                obj.cost = 2;
+                obj.quantity =  resources.get(resourceName) + (map2.has(resourceName)? map2.get(resourceName) : 0);
+                map2.set(resourceName,obj);            }
+        }
+        data.resources.push.apply(data.resources,strMapToArray(map1));
+        data.resources.push.apply(data.resources,strMapToArray(map2));
+        res.push(data);
+    }
+    return res;
+}
+
+function computePrices(player, neighbors) {
+    let playerResources = player.getAllResources();
     let prices = [];
+    let discount = player.effect.discount;
     let map0 = new Map();
     for(let resourceName of playerResources.keys()){
         if(resourceName !== "gold" && resourceName !== "victory"){
-            map0.set(resourceName, playerResources.get(resourceName).quantity)
+            map0.set(resourceName, playerResources.get(resourceName));
         }
     }
     let map1 = new Map();
     let map2 = new Map();
-    for(let neighbor of neighbors) {
-        let resources = neighbor.getCurrentResources();
+    for(let i = 0; i < 2 ; i++) {
+        let resources = neighbors[i].getCurrentResources();
         for (let resourceName of resources.keys()){
-            if(resources.get(resourceName).cost === 1){
-                map1.set(resourceName, resources.get(resourceName).quantity + map1.has(resourceName)? map1.get(resourceName) : 0);
+            if(discount.length > 0){
+                if(discount.includes("left") && i === 0 && isResource(resourceName)){
+                    map1.set(resourceName, resources.get(resourceName) + (map1.has(resourceName)? map1.get(resourceName) : 0));
+                }
+                else if(discount.includes("right") && i === 1 && isResource(resourceName)){
+                    map1.set(resourceName, resources.get(resourceName) + (map1.has(resourceName)? map1.get(resourceName) : 0));
+                }
+                else if(discount.includes("both") && isProduct(resourceName)){
+                    map1.set(resourceName, resources.get(resourceName) + (map1.has(resourceName)? map1.get(resourceName) : 0));
+                }
+                else
+                    map2.set(resourceName, resources.get(resourceName) + (map2.has(resourceName)? map2.get(resourceName) : 0));
             }
             else {
-                map2.set(resourceName, resources.get(resourceName).quantity + (map2.has(resourceName)? map2.get(resourceName) : 0));
+                map2.set(resourceName, resources.get(resourceName) + (map2.has(resourceName)? map2.get(resourceName) : 0));
             }
         }
     }
@@ -270,7 +338,7 @@ function strMapToArray(strMap) {
         // We don’t escape the key '__proto__'
         // which can cause problems on older engines
         obj["type"] = k;
-        obj["quantity"] = v["quantity"] ? v.quantity : v;
+        obj["quantity"] = v+-["quantity"] ? v.quantity : v;
         v["cost"]? obj["cost"] = v.cost : null;
         result.push(obj);
     }
