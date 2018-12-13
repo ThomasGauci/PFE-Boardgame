@@ -91,12 +91,12 @@ class PlayerHand extends Component {
                         } else if(this.props.action && this.props.action.action === 'building' && this.state.animationPhase === 2){
                             this.props.callback();
                         } else if(this.props.action && (this.props.action.action === 'discarding' || this.props.action.action === 'wonderStep') && this.state.animationPhase === 0){
-                            this.setState({animationPhase: 1});
+                            setTimeout(() => {
+                                this.setState({animationPhase: 1});
+                            }, 2000);
                         } else if(this.props.action && (this.props.action.action === 'discarding' || this.props.action.action === 'wonderStep') && this.state.animationPhase === 1){
                             this.props.callback();
-                            setTimeout(() => {
-                                this.setState({animationPhase: 2});
-                            }, 2000);
+                            this.setState({animationPhase: 2});
                         }
                     }
                 }>
