@@ -50,7 +50,7 @@ class DiscardedCards extends Component {
             if (discardedCards)
                 return discardedCards.map((card, index) => {
                     return (
-                        <DiscardedCard pose={card.isHidden ? 'hidden' : 'visible'}>
+                        <DiscardedCard key={index} pose={card.isHidden ? 'hidden' : 'visible'}>
                             <img
                                 alt="discardedCard"
                                 key={index} className='gameCard discardedCard'

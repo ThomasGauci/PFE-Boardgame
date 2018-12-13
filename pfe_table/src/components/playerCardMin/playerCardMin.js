@@ -30,34 +30,18 @@ class PlayerCardMin extends Component {
 
     getAnimation(){
         if(this.props.card.isLast) {
-            if (this.props.isAnimated) {
-                if(this.props.action){
-                    if(this.props.action.action === 'building'){
-                        if(this.props.animationPhase !== 0) {
-                            return 'visible';
-                        } else {
-                            return 'hidden';
-                        }
-                    } else {
+            if(this.props.action){
+                if(this.props.action.action === 'building'){
+                    if(this.props.animationPhase !== 0) {
                         return 'visible';
+                    } else {
+                        return 'hidden';
                     }
                 } else {
-                    return 'visible'
+                    return 'visible';
                 }
             } else {
-                if(this.props.action){
-                    if(this.props.action.action === 'building'){
-                        if(this.props.animationPhase !== 0) {
-                            return 'visible';
-                        } else {
-                            return 'hidden';
-                        }
-                    } else {
-                        return 'visible';
-                    }
-                } else {
-                    return 'visible'
-                }
+                return 'visible'
             }
         } else {
             return 'visible';
@@ -69,8 +53,6 @@ class PlayerCardMin extends Component {
         const cardAge = card.id.charAt(1);
         if (cardType === 'A'){
             return require(`../../assets/cards/${cardType}${cardAge}.jpg`);
-        } else if(cardType === 'E' || cardType === 'G'){
-            return require(`../../assets/cards/${cardType}.jpg`);
         } else
             return require(`../../assets/cards/${card.id}_min.jpg`);
     }

@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import './playerZone.css'
 import PlayerHand from "../playerHand/playerHand";
 import PlayerCardMin from "../playerCardMin/playerCardMin";
+import WonderStep from "../wonderStep/wonderStep";
 
 class PlayerZone extends Component {
 
@@ -87,8 +88,7 @@ class PlayerZone extends Component {
                                                     card={card}
                                                     key={`${this.props.player.position}${index}`}
                                                     animationPhase={this.state.animationPhase}
-                                                    action={this.props.action}
-                                                    isAnimated={this.props.isAnimated}/>
+                                                    action={this.props.action}/>
                                             );
                                         })
                                     }
@@ -104,8 +104,7 @@ class PlayerZone extends Component {
                                                     card={card}
                                                     key={`${this.props.player.position}${index}`}
                                                     animationPhase={this.state.animationPhase}
-                                                    action={this.props.action}
-                                                    isAnimated={this.props.isAnimated}/>
+                                                    action={this.props.action}/>
                                             );
                                         })
                                     }
@@ -122,8 +121,7 @@ class PlayerZone extends Component {
                                                         card={card}
                                                         key={`${this.props.player.position}${index}`}
                                                         animationPhase={this.state.animationPhase}
-                                                        action={this.props.action}
-                                                        isAnimated={this.props.isAnimated}/>
+                                                        action={this.props.action}/>
                                                 );
                                             })
                                         }
@@ -139,8 +137,7 @@ class PlayerZone extends Component {
                                                         card={card}
                                                         key={`${this.props.player.position}${index}`}
                                                         animationPhase={this.state.animationPhase}
-                                                        action={this.props.action}
-                                                        isAnimated={this.props.isAnimated}/>
+                                                        action={this.props.action}/>
                                                 );
                                             })
                                         }
@@ -156,8 +153,7 @@ class PlayerZone extends Component {
                                                         card={card}
                                                         key={`${this.props.player.position}${index}`}
                                                         animationPhase={this.state.animationPhase}
-                                                        action={this.props.action}
-                                                        isAnimated={this.props.isAnimated}/>
+                                                        action={this.props.action}/>
                                                 );
                                             })
                                         }
@@ -173,12 +169,12 @@ class PlayerZone extends Component {
                                     this.props.player.wonders ?
                                         this.props.player.wonders.map((card, index) => {
                                             return (
-                                                <div key={index}>
-                                                    <img
-                                                        className='shadow'
-                                                        alt="wonderImage"
-                                                        src={require(`../../assets/cards/back${card.age}_min.jpg`)}/>
-                                                </div>
+                                                <WonderStep
+                                                    key={index}
+                                                    age={card.age}
+                                                    action={this.props.action}
+                                                    animationPhase={this.state.animationPhase}
+                                                    isLast={index === this.props.player.wonders.length-1}/>
                                             );
                                         })
                                         : null
@@ -193,8 +189,7 @@ class PlayerZone extends Component {
                                                     card={card}
                                                     key={`${this.props.player.position}${index}`}
                                                     animationPhase={this.state.animationPhase}
-                                                    action={this.props.action}
-                                                    isAnimated={this.props.isAnimated}/>
+                                                    action={this.props.action}/>
                                             );
                                         })
                                     }
@@ -212,8 +207,7 @@ class PlayerZone extends Component {
                                                     card={card}
                                                     key={`${this.props.player.position}${index}`}
                                                     animationPhase={this.state.animationPhase}
-                                                    action={this.props.action}
-                                                    isAnimated={this.props.isAnimated}/>
+                                                    action={this.props.action}/>
                                             );
                                         })
                                     }

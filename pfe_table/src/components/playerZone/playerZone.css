@@ -83,12 +83,12 @@
     vertical-align: bottom;
 }
 
-.wonders div:first-child{
-    margin-left: 35px;
-}
-
 .wonders div:last-child{
     margin-left: 17px;
+}
+
+.wonders div:first-child{
+    margin-left: 35px;
 }
 
 .wonders img{
