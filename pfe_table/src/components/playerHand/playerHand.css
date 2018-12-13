@@ -3,10 +3,10 @@
     bottom: 0;
     height: 70px;
     width: 100%;
+    z-index: 11;
 }
 
 .playerHandCard{
     display: inline-block;
     margin-left: -75px;
-    z-index: 9999;
 }

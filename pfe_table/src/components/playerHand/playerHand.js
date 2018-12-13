@@ -23,10 +23,17 @@ const Card = posed.div({
     hidden: {
         opacity: 0
     },
-    discard: {
+    discardLeft: {
         position: 'absolute',
-        top:-525,
-        left: 500
+        top:-571,
+        left: 512,
+        right: 'auto'
+    },
+    discardRight: {
+        position: 'absolute',
+        top:-571,
+        left: 'auto',
+        right: 448
     },
     wonder: {
         position: 'absolute',
@@ -38,9 +45,8 @@ class PlayerHand extends Component {
 
     state={
         cardImage: null,
-        returned: false,
-        played: false,
-        nbCards: 0
+        nbCards: 0,
+        animationPhase: 0
     }
 
     componentWillMount(){
@@ -54,9 +60,12 @@ class PlayerHand extends Component {
         let nbCards = 7 - (nextProps.turn-1);
         if(nextProps.isReady)
             nbCards = 1;
-        if(nbCards !==1 && this.state.played === true)
-            this.setState({played: false, returned: false});
-        this.setState({nbCards: nbCards, cardImage: require(`../../assets/cards/back${nextProps.age}.jpg`)});
+        if(nbCards !==1 && this.state.animationPhase === 2) {
+            this.setState({animationPhase: 0, cardImage: require(`../../assets/cards/back${nextProps.age}.jpg`)}, () => {
+                this.props.resetAnimation();
+            });
+        }
+        this.setState({nbCards: nbCards});
     }
 
     displayCards(){
@@ -65,28 +74,31 @@ class PlayerHand extends Component {
             const startRotation = Math.floor(this.state.nbCards/2) * -5;
             let rotation = startRotation + (i*5);
             result.push(
-                <Card key={`card${this.props.position}${i}`} className='playerHandCard' pose={this.getAnimation()} onPoseComplete={() => {
-                    if(this.props.action && this.props.action.action === 'building') {
-                        if (!this.state.returned) {
+                <Card
+                    key={`card${this.props.position}${i}`}
+                    className='playerHandCard'
+                    pose={this.getAnimation()}
+                    onPoseComplete={() => {
+                        if(this.props.action && this.props.action.action === 'building' && this.state.animationPhase === 0){
                             this.setState({
-                                returned: true,
+                                animationPhase: 1,
                                 cardImage: require(`../../assets/cards/${this.props.action.cardId}.jpg`)
-                            })
-                        } else {
+                            });
+                        } else if(this.props.action && this.props.action.action === 'building' && this.state.animationPhase === 1){
                             setTimeout(() => {
-                                this.setState({played: true, returned: false}, () => {
-                                    this.props.callback();
-                                });
+                                this.setState({animationPhase: 2});
+                            }, 2000);
+                        } else if(this.props.action && this.props.action.action === 'building' && this.state.animationPhase === 2){
+                            this.props.callback();
+                        } else if(this.props.action && (this.props.action.action === 'discarding' || this.props.action.action === 'wonderStep') && this.state.animationPhase === 0){
+                            this.setState({animationPhase: 1});
+                        } else if(this.props.action && (this.props.action.action === 'discarding' || this.props.action.action === 'wonderStep') && this.state.animationPhase === 1){
+                            this.props.callback();
+                            setTimeout(() => {
+                                this.setState({animationPhase: 2});
                             }, 2000);
                         }
-                    } else if(this.props.action) {
-                        setTimeout(() => {
-                            this.setState({played: true}, () => {
-                                this.props.callback();
-                            });
-                        }, 2000);
                     }
-                }
                 }>
                     <img alt="card"
                          className='gameCard'
@@ -109,21 +121,44 @@ class PlayerHand extends Component {
     }
 
     getAnimation(){
-        if(this.state.played)
-            return 'hidden';
-        if(this.state.returned)
-            return 'play';
-        if(!this.props.isAnimated)
-            return 'waiting';
-        switch(this.props.action.action){
-            case 'building':
-                return 'return';
-            case 'discarding':
-                return 'discard';
-            case 'wonderStep':
-                return 'wonder';
-            default:
+        console.log(this.props.isAnimated, this.state.animationPhase, this.props.action);
+        if(this.props.isAnimated || this.state.animationPhase !== 0) {
+            if(this.props.action) {
+                if (this.props.action.action === 'building') {
+                    switch (this.state.animationPhase) {
+                        case 0:
+                            return 'return';
+                        case 1:
+                            return 'play';
+                        case 2:
+                            return 'hidden';
+                        default:
+                            return 'hidden';
+                    }
+                } else if (this.props.action.action === 'discarding') {
+                    switch (this.state.animationPhase) {
+                        case 0:
+                            return this.props.action.player.position === 1 || this.props.action.player.position === 3 ? 'discardRight' : 'discardLeft';
+                        case 1:
+                            return 'hidden';
+                        default:
+                            return 'hidden';
+                    }
+                } else if (this.props.action.action === 'wonderStep') {
+                    switch (this.state.animationPhase) {
+                        case 0:
+                            return 'wonder';
+                        case 1:
+                            return 'hidden';
+                        default:
+                            return 'hidden';
+                    }
+                }
+            } else {
                 return 'waiting';
+            }
+        } else {
+            return 'waiting';
         }
     }
 }

@@ -87,8 +87,8 @@ class PlayerZone extends Component {
                                                     card={card}
                                                     key={`${this.props.player.position}${index}`}
                                                     animationPhase={this.state.animationPhase}
-                                                    callback={() => this.setAnimationPhase(0)}
-                                                    action={this.props.action}/>
+                                                    action={this.props.action}
+                                                    isAnimated={this.props.isAnimated}/>
                                             );
                                         })
                                     }
@@ -104,8 +104,8 @@ class PlayerZone extends Component {
                                                     card={card}
                                                     key={`${this.props.player.position}${index}`}
                                                     animationPhase={this.state.animationPhase}
-                                                    callback={() => this.setAnimationPhase(0)}
-                                                    action={this.props.action}/>
+                                                    action={this.props.action}
+                                                    isAnimated={this.props.isAnimated}/>
                                             );
                                         })
                                     }
@@ -122,8 +122,8 @@ class PlayerZone extends Component {
                                                         card={card}
                                                         key={`${this.props.player.position}${index}`}
                                                         animationPhase={this.state.animationPhase}
-                                                        callback={() => this.setAnimationPhase(0)}
-                                                        action={this.props.action}/>
+                                                        action={this.props.action}
+                                                        isAnimated={this.props.isAnimated}/>
                                                 );
                                             })
                                         }
@@ -139,8 +139,8 @@ class PlayerZone extends Component {
                                                         card={card}
                                                         key={`${this.props.player.position}${index}`}
                                                         animationPhase={this.state.animationPhase}
-                                                        callback={() => this.setAnimationPhase(0)}
-                                                        action={this.props.action}/>
+                                                        action={this.props.action}
+                                                        isAnimated={this.props.isAnimated}/>
                                                 );
                                             })
                                         }
@@ -156,8 +156,8 @@ class PlayerZone extends Component {
                                                         card={card}
                                                         key={`${this.props.player.position}${index}`}
                                                         animationPhase={this.state.animationPhase}
-                                                        callback={() => this.setAnimationPhase(0)}
-                                                        action={this.props.action}/>
+                                                        action={this.props.action}
+                                                        isAnimated={this.props.isAnimated}/>
                                                 );
                                             })
                                         }
@@ -177,8 +177,8 @@ class PlayerZone extends Component {
                                                     card={card}
                                                     key={`${this.props.player.position}${index}`}
                                                     animationPhase={this.state.animationPhase}
-                                                    callback={() => this.setAnimationPhase(0)}
-                                                    action={this.props.action}/>
+                                                    action={this.props.action}
+                                                    isAnimated={this.props.isAnimated}/>
                                             );
                                         })
                                     }
@@ -196,8 +196,8 @@ class PlayerZone extends Component {
                                                     card={card}
                                                     key={`${this.props.player.position}${index}`}
                                                     animationPhase={this.state.animationPhase}
-                                                    callback={() => this.setAnimationPhase(0)}
-                                                    action={this.props.action}/>
+                                                    action={this.props.action}
+                                                    isAnimated={this.props.isAnimated}/>
                                             );
                                         })
                                     }
@@ -213,7 +213,13 @@ class PlayerZone extends Component {
                         isReady={this.props.isReady}
                         action={this.props.action}
                         isAnimated={this.props.isAnimated}
-                        callback={() => {this.setAnimationPhase(1)}}/>
+                        callback={() => {
+                            this.setAnimationPhase(1);
+                            this.props.animationCallback();
+                        }}
+                        resetAnimation={() => {
+                            this.setAnimationPhase(0);
+                        }}/>
                 </div>
             );
         }

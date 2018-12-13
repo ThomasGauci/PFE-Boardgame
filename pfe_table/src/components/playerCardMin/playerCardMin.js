@@ -18,7 +18,8 @@ class PlayerCardMin extends Component {
 
     render() {
         return (
-            <CardMin pose={this.getAnimation()} className="playerCardMinDiv">
+            <CardMin pose={this.getAnimation()}
+                     className="playerCardMinDiv">
                 <img alt={`${this.props.card.type}_card_min`}
                      id={this.props.card.id}
                      className='gameCardMin playerCardMin shadow'
@@ -28,17 +29,39 @@ class PlayerCardMin extends Component {
     }
 
     getAnimation(){
-        if(this.props.card.isLast)
-            if(this.props.action.action === 'building')
-                if(this.props.animationPhase === 1)
-                    return 'visible';
-                else
-                    return 'hidden'
-            else
-                return 'visible';
-        else
+        if(this.props.card.isLast) {
+            if (this.props.isAnimated) {
+                if(this.props.action){
+                    if(this.props.action.action === 'building'){
+                        if(this.props.animationPhase !== 0) {
+                            return 'visible';
+                        } else {
+                            return 'hidden';
+                        }
+                    } else {
+                        return 'visible';
+                    }
+                } else {
+                    return 'visible'
+                }
+            } else {
+                if(this.props.action){
+                    if(this.props.action.action === 'building'){
+                        if(this.props.animationPhase !== 0) {
+                            return 'visible';
+                        } else {
+                            return 'hidden';
+                        }
+                    } else {
+                        return 'visible';
+                    }
+                } else {
+                    return 'visible'
+                }
+            }
+        } else {
             return 'visible';
-
+        }
     }
 
     getCardImage(card){
