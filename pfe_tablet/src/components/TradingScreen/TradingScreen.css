@@ -82,7 +82,15 @@
     display: flex;
     flex-direction: row;
     align-items: center;
+    justify-content: space-between;
 }
+
+.resources {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
 .resourcesDiv {
     display: flex;
     flex-direction: column;
@@ -91,9 +99,11 @@
     display: flex;
     flex-direction: column;
 }
+
 .titleLabel {
     background: transparent!important;
 }
+
 #money {
     display: flex;
     flex-direction: row;

@@ -23,12 +23,14 @@ class Action {
         switch (this.type) {
             case("wonderStep"):
                 console.log("une étape de merveille");
-                if(this.purchases) //Switch money from buyer to seller
-                    for(let purchase of this.purchases){
+                if(this.purchases) { //Switch money from buyer to seller
+                    for (let purchase of this.purchases) {
                         let seller = this.board.findPlayer(purchase.seller);
                         this.player.gold -= purchase.price;
                         seller.gold += purchase.price;
                     }
+                }
+                this.player.city.usedCards.push(playedCard);
                 this.build();
                 break;
             case("building"):
