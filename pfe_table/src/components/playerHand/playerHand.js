@@ -121,7 +121,6 @@ class PlayerHand extends Component {
     }
 
     getAnimation(){
-        console.log(this.props.isAnimated, this.state.animationPhase, this.props.action);
         if(this.props.isAnimated || this.state.animationPhase !== 0) {
             if(this.props.action) {
                 if (this.props.action.action === 'building') {
