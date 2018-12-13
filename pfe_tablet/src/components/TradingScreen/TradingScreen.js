@@ -49,6 +49,7 @@ class TradingScreen extends Component {
     }
 
     displayResource(resource, isChecked, seller) {
+        console.log(resource);
         let result = [];
         for (let i = 0; i < resource.quantity; i++) {
             result.push(<Resource changeState={this.changeState.bind(this)} key={i} resource={resource}
@@ -116,6 +117,10 @@ class TradingScreen extends Component {
                                     {this.props.currentCard.availableResources[0].resources.map((availableResource,index) =>
                                         <div className="resourceDiv" key={index}>
                                             {this.displayResource(availableResource, false, this.props.currentCard.availableResources[0].player.position)}
+                                            <div className="goldCoin">
+                                                <Image style={{height: "3vh"}} src={require("../../assets/or.png")}/>
+                                                <div className="price">{availableResource.cost}</div>
+                                            </div>
                                         </div>
                                     )}
                                 </div>
@@ -123,10 +128,17 @@ class TradingScreen extends Component {
                             <div className="tradingScreenResourcesCol">
                                 Ressources de {this.props.currentCard.availableResources[1].player.name} :
                                 <div className="resourcesDiv">
-                                    {this.props.currentCard.availableResources[1].resources.map((availableResource,index) =>
-                                        <div className="resourceDiv" key={index}>
-                                            {this.displayResource(availableResource, false, this.props.currentCard.availableResources[1].player.position)}
-                                        </div>
+                                    {
+                                        this.props.currentCard.availableResources[1].resources.map((availableResource,index) =>
+                                            <div className="resourceDiv">
+                                                <div className="resources" key={index}>
+                                                {this.displayResource(availableResource, false, this.props.currentCard.availableResources[1].player.position)}
+                                                </div>
+                                                <div className="goldCoin">
+                                                    <Image style={{height: "3vh"}} src={require("../../assets/or.png")}/>
+                                                    <div className="price">{availableResource.cost}</div>
+                                                </div>
+                                            </div>
                                     )}
                                 </div>
                             </div>
