@@ -11,6 +11,7 @@ class City {
         this.currentStep = 0;
         this.id = id;
         this.numberWonderBuit = 0;
+        this.usedCards = [];
     }
     //face : String "A" or "B"
     chooseFace(face){
