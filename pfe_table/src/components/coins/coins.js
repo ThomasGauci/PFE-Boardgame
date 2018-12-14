@@ -12,7 +12,7 @@ class Coins extends Component {
     async componentWillReceiveProps(nextProps){
         if(nextProps.isAnimated && nextProps.action && nextProps.action.purchases){
             let purchaseIndex = 0;
-            for(let purchase of this.props.action.purchases){
+            for(let purchase of nextProps.action.purchases){
                 for (let i = 0; i < purchase.price; i++) {
                     this.setState({currentPurchase: purchaseIndex, currentCoinAnimated: i});
                     await this.sleep(700);
