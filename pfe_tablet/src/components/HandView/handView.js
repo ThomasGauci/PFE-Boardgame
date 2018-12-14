@@ -186,6 +186,7 @@ class HandView extends Component {
     }
 
     componentWillMount() {
+        console.log(this.props.data.neighbors);
         this.setState({
             cards: this.props.data.cards,
             wonderStepResources: this.props.data.wonderStepResources,
@@ -199,7 +200,8 @@ class HandView extends Component {
             economyPoints: this.props.data.points.economy,
             wonderPoints: this.props.data.points.wonder,
             guildPoints: this.props.data.points.guild,
-            civilPoints: this.props.data.points.civil
+            civilPoints: this.props.data.points.civil,
+            neighbors: this.props.data.neighbors
         });
     }
 

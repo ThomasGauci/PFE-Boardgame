@@ -101,7 +101,6 @@ class App extends Component {
         });
         socket.on('newTurn', (data) => {
             window.navigator.vibrate(500);
-            console.log("data",data);
             let newData = {
                 position: position,
                 pseudo: this.state.data.pseudo,
@@ -117,6 +116,7 @@ class App extends Component {
                 isWonderStepBuildable: data.isWonderStepBuildable,
                 neighbors: data.neighbors
             };
+            console.log(newData.neighbors);
             this.changeData(newData);
             this.changeComponent("HandView");
         });

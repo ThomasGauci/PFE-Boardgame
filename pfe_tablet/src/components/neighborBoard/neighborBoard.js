@@ -13,9 +13,9 @@ class NeighborBoard extends Component{
         };
     }
 
-    rendrCards(type){
+    renderCards(type){
         let res = [];
-        if(this.props.data){
+        if(this.props.data && this.props.data.playedCards){
             for(let card of this.props.data.playedCards){
                 if(card.type === type){
                     res.push(card);
@@ -27,6 +27,7 @@ class NeighborBoard extends Component{
 
 
     render(){
+        console.log(this.props);
         return (
             <div>
                 <Modal
@@ -36,48 +37,48 @@ class NeighborBoard extends Component{
                     <Modal.Body bsClass="my-modal-body">
                         <div className="board">
                             {
-                                this.props.data ? <Image src={require("../../assets/boards/" + this.props.data.city + "A.jpg")} responsive/> : null
+                                (this.props.data && this.props.data.city ) ? <Image src={require("../../assets/boards/" + this.props.data.city + "A.jpg")} responsive/> : null
                             }
 
                             <div id="cards">
                                 <div className="cardsDiv" >
-                                    {this.rendrCards("resource").map((card,index) =>
+                                    {this.renderCards("resource").map((card,index) =>
                                         <Image key={index} className="res" src={require("../../assets/minCards/"+ card.id + "_min.jpg")} onClick={() => this.setState({cardDetails: card, tangible: true})}/>
                                     )}
                                 </div>
 
                                 <div className="cardsDiv">
-                                    {this.rendrCards("product").map((card,index) =>
+                                    {this.renderCards("product").map((card,index) =>
                                         <Image key={index} className="res" src={require("../../assets/minCards/"+ card.id + "_min.jpg")} onClick={() => this.setState({cardDetails: card, tangible: true})}/>
                                     )}
                                 </div>
 
                                 <div className="cardsDiv">
-                                    {this.rendrCards("military").map((card,index) =>
+                                    {this.renderCards("military").map((card,index) =>
                                         <Image key={index} className="res" src={require("../../assets/minCards/A"+ card.effect.value + ".jpg")} onClick={() => this.setState({cardDetails: card, tangible: true})}/>
                                     )}
                                 </div>
 
                                 <div className="cardsDiv">
-                                    {this.rendrCards("building").map((card,index) =>
+                                    {this.renderCards("building").map((card,index) =>
                                         <Image key={index} className="res" src={require("../../assets/minCards/"+ card.id + "_min.jpg")} onClick={() => this.setState({cardDetails: card, tangible: true})}/>
                                     )}
                                 </div>
 
                                 <div className="cardsDiv">
-                                    {this.rendrCards("science").map((card,index) =>
+                                    {this.renderCards("science").map((card,index) =>
                                         <Image key={index} className="res" src={require("../../assets/minCards/"+ card.id + "_min.jpg")} onClick={() => this.setState({cardDetails: card, tangible: true})}/>
                                     )}
                                 </div>
 
                                 <div className="cardsDiv">
-                                    {this.rendrCards("economic").map((card,index) =>
+                                    {this.renderCards("economic").map((card,index) =>
                                         <Image key={index} className="res" src={require("../../assets/minCards/E.jpg")} onClick={() => this.setState({cardDetails: card, tangible: true})}/>
                                     )}
                                 </div>
 
                                 <div className="cardsDiv">
-                                    {this.rendrCards("guild").map((card,index) =>
+                                    {this.renderCards("guild").map((card,index) =>
                                         <Image key={index} className="res" src={require("../../assets/minCards/G.jpg")} onClick={() => this.setState({cardDetails: card, tangible: true})}/>
                                     )}
                                 </div>

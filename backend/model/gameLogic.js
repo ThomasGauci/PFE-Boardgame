@@ -159,7 +159,7 @@ let fsm = new StateMachine({
                     "isWonderStepBuildable": wonderStepResources.isPlayable,
                     "money": board.players[i].gold,
                     "points": board.getPoints(board.players[i]),
-                    "neighbors" : board.getPlayerNeighbors(i).map((player) => player.getState().playedCards[0])
+                    "neighbors" : board.getPlayerNeighbors(i+1).map((player) => player.getState()),
                 };
                 if(board.players[i].socket != null){
                     board.players[i].socket.emit('newTurn',data);
