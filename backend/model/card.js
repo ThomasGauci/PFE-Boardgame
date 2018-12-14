@@ -34,7 +34,7 @@ class Card {
         let playerMoney = player.getState()["money"];
         let cardResources = {};
         //if we already got the card we can't build it
-        if(player.isAlreadyBuilt(card.id)){
+        if(player.isAlreadyBuilt(card.id) || card.id.includes("S3")) {
             cardResources["isPlayable"] = false;
             return cardResources;
         }
@@ -100,6 +100,9 @@ class Card {
         }
         let prices = computePrices(player, neighbors);
         let playerMoney = player.getState()["money"];
+        console.log("prices", prices);
+        console.log("playerMoney", playerMoney);
+        console.log("cost", cost);
 
         //getting all Combinations with player's resources only
         let combInit = [];
@@ -127,10 +130,6 @@ class Card {
             }
         }
         return wonderStepResources;
-    }
-
-    static test(player, neighbors){
-        return computePrices(player,neighbors);
     }
 }
 module.exports = Card;

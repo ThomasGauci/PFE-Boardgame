@@ -49,7 +49,9 @@ let fsm = new StateMachine({
             let data;
             let wonderStepResources;
             for(let i=0;i<4;i++){
-                wonderStepResources = (board.players[i].getHand()[0]).getWonderStepResources(board.players[i].city.hasFinish(), board.players[i].city.getCurrentstep().cost, board.players[i], board.getPlayerNeighbors(board.players[i].position));
+                let hasFinish = board.players[i].city.hasFinish();
+                let cost = hasFinish ? [] : board.players[i].city.getCurrentstep().cost;
+                wonderStepResources = (board.players[i].getHand()[0]).getWonderStepResources(hasFinish, cost, board.players[i], board.getPlayerNeighbors(board.players[i].position));
                 data = {
                     "age": board.age,
                     "turn": board.turn,
@@ -62,7 +64,7 @@ let fsm = new StateMachine({
                     },
                     "isWonderStepBuildable": wonderStepResources.isPlayable,
                     "money": board.players[i].gold,
-                    "neighbors" : board.getPlayerNeighbors(i).map((player) => player.getState())
+                    "neighbors" : board.getPlayerNeighbors(i).map((player) => player.getState()),
                     "points": board.getPoints(board.players[i])
                 };
                 if(board.players[i].socket != null)
@@ -142,7 +144,9 @@ let fsm = new StateMachine({
             let data;
             let wonderStepResources;
             for(let i=0;i<4;i++){
-                wonderStepResources = (board.players[i].getHand()[0]).getWonderStepResources(board.players[i].city.hasFinish(), board.players[i].city.getCurrentstep().cost, board.players[i], board.getPlayerNeighbors(board.players[i].position));
+                let hasFinish = board.players[i].city.hasFinish();
+                let cost = hasFinish ? [] : board.players[i].city.getCurrentstep().cost;
+                wonderStepResources = (board.players[i].getHand()[0]).getWonderStepResources(hasFinish, cost, board.players[i], board.getPlayerNeighbors(board.players[i].position));
                 data={"age": board.age,
                     "turn":board.turn,
                     "cards":board.getPlayerAvailableMoves(i),
@@ -154,7 +158,7 @@ let fsm = new StateMachine({
                     },
                     "isWonderStepBuildable": wonderStepResources.isPlayable,
                     "money": board.players[i].gold,
-                    "points": board.getPoints(board.players[i])
+                    "points": board.getPoints(board.players[i]),
                     "neighbors" : board.getPlayerNeighbors(i).map((player) => player.getState().playedCards[0])
                 };
                 if(board.players[i].socket != null){

@@ -61,7 +61,7 @@ class Action {
             type = power.type;
             switch(type){
                 case("victory"):
-                    this.player.victory += power.quantity;
+                    this.player.wonderPoints += power.quantity;
                     break;
                 case("gold"):
                     this.player.gold += power.quantity;

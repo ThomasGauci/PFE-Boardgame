@@ -267,6 +267,7 @@ class Board {
     getPoints(player){
         let points = player.getPlayerPoints();
         points["guild"] = this.getGuildPoints(player.effect.guild, player);
+        points["victory"] = player.getVictoryPoints() + points["guild"];
         return points;
     }
 }

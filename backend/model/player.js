@@ -2,6 +2,7 @@ class Player {
     constructor(name,position,socket) {
         this.name = name;
         this.position = position;
+        this.wonderPoints = 0;
         this.hand = [];
         this.cards = [];
         this.actions = [];
@@ -138,7 +139,7 @@ class Player {
     }
 
     getVictoryPoints(){
-        return this.victory + this.getWarPoints() + this.getGoldPoints() + this.getSciencePoints();//TODO Ajouter cartes jaunes, guildes et merveilles
+        return this.victory + this.getWarPoints() + this.getGoldPoints() + this.getSciencePoints() + this.getWonderPoints();//TODO Ajouter cartes jaunes, guildes et merveilles
     }
 
     getEconomyPoints(){
@@ -146,11 +147,10 @@ class Player {
         return 0;
     }
     getWonderPoints(){
-        //TODO
-        return 0;
+        return this.wonderPoints;
     }
     getPlayerPoints(){
-        return {victory: this.getVictoryPoints(), science: this.getSciencePoints(), war: this.getWarPoints(), economy: this.getEconomyPoints(), wonder: this.getWonderPoints(), civil: this.victory}
+        return {science: this.getSciencePoints(), war: this.getWarPoints(), economy: this.getEconomyPoints(), wonder: this.getWonderPoints(), civil: this.victory}
     }
 }
 module.exports = Player;
