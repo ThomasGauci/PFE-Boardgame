@@ -1,0 +1,13 @@
+.coin{
+    position: absolute;
+    top: 5px;
+    left: -25px;
+    right: 0;
+    padding: 0;
+    width: 50px;
+}
+
+.coin img{
+    width: 100%;
+    padding: 0;
+}

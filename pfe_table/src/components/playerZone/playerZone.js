@@ -4,6 +4,7 @@ import './playerZone.css'
 import PlayerHand from "../playerHand/playerHand";
 import PlayerCardMin from "../playerCardMin/playerCardMin";
 import WonderStep from "../wonderStep/wonderStep";
+import Coins from "../coins/coins";
 
 class PlayerZone extends Component {
 
@@ -59,6 +60,10 @@ class PlayerZone extends Component {
                             this.props.player.position === 1 || this.props.player.position === 3 ?
                                 <div className='playerMoney shadow'>
                                     <div>{this.props.player.money}</div>
+                                    <Coins
+                                        action={this.props.action}
+                                        player={this.props.player}
+                                        isAnimated={this.props.isAnimated}/>
                                 </div>
                                 : null
                         }
@@ -73,6 +78,10 @@ class PlayerZone extends Component {
                             this.props.player.position === 2 || this.props.player.position === 4 ?
                                 <div className='playerMoney shadow'>
                                     <div>{this.props.player.money}</div>
+                                    <Coins
+                                        action={this.props.action}
+                                        player={this.props.player}
+                                        isAnimated={this.props.isAnimated}/>
                                 </div>
                                 : null
                         }

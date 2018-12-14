@@ -27,7 +27,7 @@ class GameScreen extends Component {
             console.log("Emitting next turn demand");
             if(this.props.socket)
                 this.props.socket.emit('readyTurn');
-            this.props.resetLatestActions();
+            //this.props.resetLatestActions();
         }
         if(nextProps.war) {
             for (let battle of nextProps.war) {
