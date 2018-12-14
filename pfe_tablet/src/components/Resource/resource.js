@@ -147,6 +147,12 @@ class Resource extends Component {
     }
 
     render() {
+        let imgStyle = {
+            width: this.props.resource.type.includes("/") ? "50%" :"60%",
+            filter: this.state.isChecked ? "grayscale(100%)" :null,
+            WebkitFilter: this.state.isChecked ? "vbgrayscale(100%)":null,
+            MozFilter: this.state.isChecked ? "grayscale(100%)":null
+        };
         return (
             <div>
                 {
@@ -174,9 +180,7 @@ class Resource extends Component {
                     <Image rounded
                            src={require("../../assets/" + getCardPath(this.props.resource.type) + ".png")}
                            className="resource"
-                           style={this.state.isChecked ? {filter: "grayscale(100%)",
-                               "WebkitFilter": "grayscale(100%)",
-                               "MozFilter": "grayscale(100%)"}: null}
+                           style = {imgStyle}
                            onClick={() => !this.state.isChecked ? this.buyResource() : this.cancelChoice()}/>
                 </div>
             </div>

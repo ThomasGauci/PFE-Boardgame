@@ -18,13 +18,14 @@
     margin-left: auto;
     margin-right: auto;
     font-weight: bold;
-    width: 50%;
+    width: 60%;
 }
 #formControlPseudo {
     display: block;
     margin-left: auto;
     margin-right: auto;
-    width: 50%;
+    margin-bottom: 5px;
+    width: 60%;
 }
 #iconBack {
     margin-left: 10px;
@@ -42,4 +43,23 @@
 }
 #subDiv {
     margin: auto;
+}
+.checkBoxDiv {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 60%;
+}
+.checkBoxLabel {
+    color: white;
+    font-weight: bold!important;
+    font-size: 160%;
+    margin-left: 5%;
+    width: 100%;
+}
+.checkbox input[type=checkbox] {
+    height: 100%;
+    width: 100%;
+    left: -47%;
+    margin: 0!important;
 }

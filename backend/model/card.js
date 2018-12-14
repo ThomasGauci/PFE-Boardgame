@@ -92,6 +92,43 @@ class Card {
         return cardResources;
     }
 
+    getWonderStepResources(hasFinish, cost, player ,neighbors){
+        let wonderStepResources = {};
+        if(hasFinish){
+            wonderStepResources["isPlayable"] = false;
+            return wonderStepResources;
+        }
+        let prices = computePrices(player, neighbors);
+        let playerMoney = player.getState()["money"];
+
+        //getting all Combinations with player's resources only
+        let combInit = [];
+        combInit.push(new Map());
+        let combinations = getCombinations(player.getAllResources(), combInit);
+        //finding working combinations with player's resources only
+        let solutions = getSolutions(combinations, cost, [], 0);
+        if(solutions.length > 0) {
+            wonderStepResources["isPlayable"] = true;
+        }
+        else {
+            let allCombinations = getAllCombinations(combinations, neighbors);
+            let allSolutions = getSolutions(allCombinations, cost, prices, playerMoney);
+            if (allSolutions.length === 0) {
+                wonderStepResources["isPlayable"] = false;
+                return wonderStepResources;
+            }
+            else {
+                wonderStepResources["isPlayable"] = true;
+                let result = getUsefullAndMissingPersonalResources(player.getAllResources(), cost);
+                wonderStepResources["usefullResources"] = strMapToArray(result.usefullResources); //resources used to build card
+                wonderStepResources["missingRessources"] = strMapToArray(result.missingRessources);// resources needed but not owned
+                wonderStepResources["stayingResources"] = strMapToArray(result.stayingResources); //resources useless + or resource
+                wonderStepResources["availableResources"] = getNeighborResources(player, neighbors);
+            }
+        }
+        return wonderStepResources;
+    }
+
     static test(player, neighbors){
         return computePrices(player,neighbors);
     }

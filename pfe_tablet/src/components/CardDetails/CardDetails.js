@@ -52,7 +52,7 @@ class CardDetails extends Component {
         };
         return (
             <div id="mainDiv">
-                {this.state.infos ? <Modal.Dialog style={modalsStyle} bsClass="infosDialog">
+                {this.state.infos? <Modal.Dialog style={modalsStyle} bsClass="infosDialog">
                     <Modal.Body className="backWhite">
                         <HelpCircle className="helpIcon" color="green" size={100}/>
                         <div className="infosLabel">{descriptions.getDescriptions(this.props.card.id[0])}</div>
@@ -70,7 +70,7 @@ class CardDetails extends Component {
                     <div className="cardInfosContent">
                         <div className="cardInfosBox">
                             <X className="cardInfosClose" style={buttonsStyle} color="white" size={40} onClick={this.props.close}/>
-                            <HelpCircle className="cardInfosHelp" style={buttonsStyle} color="white" size={35} onClick={()=>this.cardInfos()}/>
+                            {this.props.help ?<HelpCircle className="cardInfosHelp" style={buttonsStyle} color="white" size={35} onClick={()=>this.cardInfos()}/> : null}
                             {this.props.card.offer ? <Info className="cardInfosTree" style={buttonsStyle} color={"white"} size={35} onClick={()=>this.showTree()}/>:null}
                             <img
                                 className="cardInfosCard"
@@ -89,7 +89,7 @@ class CardDetails extends Component {
                                     <Button disabled={this.props.isPlayable ? null : true} className="cardInfosButton shadow" onClick={this.props.build}>
                                         <Image src={require("../../assets/hammer.svg")} width={35}/>
                                     </Button>
-                                    <Button className="cardInfosButton shadow" onClick={this.props.buildWonder}>
+                                    <Button disabled={!this.props.isWonderStepBuildable} className="cardInfosButton shadow" onClick={this.props.buildWonder}>
                                         <Image src={require("../../assets/wonder.png")}/>
                                     </Button>
                                     <Button className="cardInfosButton shadow" onClick={this.props.sell}>
