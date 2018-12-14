@@ -30,7 +30,7 @@ class Board {
     distributeCities(cities){
         for(let i = 0; i<this.players.length;i++){
             this.players[i].setCity(cities[i]);
-            this.players[i].city.chooseFace("B");
+            this.players[i].city.chooseFace("A");
         }
     }
 
@@ -247,18 +247,27 @@ class Board {
         const playerNeighbors = this.getPlayerNeighbors(this.players[playerIndex].position);
         let availableMoves = [];
         for(let card of playerHand){
-            let resources = card.getCardResources(card, this.players[playerIndex], playerNeighbors);
+            let cardResources = card.getCardResources(card, this.players[playerIndex], playerNeighbors);
+            let wonderStepResources = card.getWonderStepResources(this.players[playerIndex].city.getCurrentstep().cost, this.players[playerIndex], playerNeighbors);
             availableMoves.push({
                 card: card.getInfos(),
-                isPlayable: resources.isPlayable,
-                missingResources: resources.missingRessources,
-                usefullResources: resources.usefullResources,
-                stayingResources: resources.stayingResources,
-                availableResources: resources.availableResources
+                isPlayable: cardResources.isPlayable,
+                cardResources: {
+                    missingResources: cardResources.missingRessources,
+                    usefullResources: cardResources.usefullResources,
+                    stayingResources: cardResources.stayingResources,
+                    availableResources: cardResources.availableResources
+                }
 
             });
         }
         return availableMoves;
+    }
+
+    getPoints(player){
+        let points = player.getPlayerPoints();
+        points["guild"] = this.getGuildPoints(player.effect.guild, player);
+        return points;
     }
 }
 module.exports = Board;

@@ -145,16 +145,12 @@ class Player {
         //TODO
         return 0;
     }
-    getGuildPoints(){
-        //TODO
-        return 0;
-    }
     getWonderPoints(){
         //TODO
         return 0;
     }
-    getPoints(){
-        return {victory: this.getVictoryPoints(), science: this.getSciencePoints(), war: this.getWarPoints(), economy: this.getEconomyPoints(), guild: this.getGuildPoints(), wonder: this.getWonderPoints(), civil: this.victory}
+    getPlayerPoints(){
+        return {victory: this.getVictoryPoints(), science: this.getSciencePoints(), war: this.getWarPoints(), economy: this.getEconomyPoints(), wonder: this.getWonderPoints(), civil: this.victory}
     }
 }
 module.exports = Player;

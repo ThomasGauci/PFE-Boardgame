@@ -31,6 +31,10 @@ class City {
         return this.currentFace[this.currentStep];
     }
 
+    hasFinish() {
+        return (this.currentFace.length === this.numberWonderBuit)
+    }
+
     //wonder : int "1", "2" or "3"
     build(wonder){
         if(this.currentFace[wonder].built === true){
