@@ -23,11 +23,14 @@ class App extends Component {
     constructor() {
         super();
         this.state = {
-            componentName: "HandView",
-            data: {},
+            componentName: "QRView",
+            data: {
+                help: false
+            },
             showModal: true,
             fullScreen: false,
-            cardDetails: null
+            cardDetails: null,
+            help: false
         };
         this.exitHandler = this.exitHandler.bind(this);
         if (document.addEventListener) {
@@ -109,6 +112,9 @@ class App extends Component {
                 socket: this.state.data.socket,
                 money: data.money,
                 points: data.points,
+                help: this.state.data.help,
+                wonderStepResources: data.wonderStepResources,
+                isWonderStepBuildable: data.isWonderStepBuildable,
                 neighbors: data.neighbors
             };
             this.changeData(newData);

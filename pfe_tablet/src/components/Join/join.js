@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import { Button, Modal, FormControl } from 'react-bootstrap';
+import { Button, Modal, FormControl, Checkbox} from 'react-bootstrap';
 import "./join.css";
 import * as utils from "../../utils";
 import * as Icon from 'react-feather';
@@ -53,7 +53,8 @@ class Join extends Component{
                 ip: this.props.data.ip,
                 pseudo: this.state.pseudo,
                 label: "Bienvenue " + this.state.pseudo + ", en attente des autres joueurs",
-                socket: this.props.data.socket
+                socket: this.props.data.socket,
+                help: this.props.data.help
             };
             this.props.changeData(data);
             this.props.changeComponent("WaitScreen");
@@ -63,6 +64,12 @@ class Join extends Component{
                 emptyPseudo: true
             });
         }
+    }
+
+    setHelp() {
+        let newData = this.props.data;
+        newData["help"] = !this.props.data.help;
+        this.props.changeData(newData);
     }
 
     render(){
@@ -81,10 +88,11 @@ class Join extends Component{
                      </Modal.Dialog>
                         : null
                 }
-                    <div id="inputPseudo" style={divStyle}>
+                    <div className="container-fluid" id="inputPseudo" style={divStyle}>
                         <Icon.ArrowLeftCircle id="iconBack" size={50} onClick={this.goBack}/>
                         <div id="subDiv">
                             <label id="bienvenue">Bienvenue, pour jouer, entrez votre pseudo</label>
+                            <Checkbox className="checkBoxDiv input-sm" onChange={this.setHelp.bind(this)}><div className="checkBoxLabel">Aide pendant le jeu</div></Checkbox>
                             <FormControl
                                 bsSize="lg"
                                 id="formControlPseudo"

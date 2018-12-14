@@ -253,7 +253,7 @@ faceB = [
         built:"false"
     },
     {
-        cost:[{name: "stone", quantity: 3},{name: "papyrus", quantity: 1}],
+        cost:[{name: "stone", quantity: 4},{name: "papyrus", quantity: 1}],
         power:[{type:"victory",quantity:7}],
         built:"false"
     }];
