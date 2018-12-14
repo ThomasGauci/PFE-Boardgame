@@ -53,7 +53,8 @@ let fsm = new StateMachine({
                     "turn": board.turn,
                     "cards": board.getPlayerAvailableMoves(i),
                     "money": board.players[i].gold,
-                    "points": board.players[i].getPoints()
+                    "points": board.players[i].getPoints(),
+                    "neighbors" : board.getPlayerNeighbors(i).map((player) => player.getState())
                 };
                 if(board.players[i].socket != null)
                     board.players[i].socket.emit('newTurn',data);
@@ -135,13 +136,14 @@ let fsm = new StateMachine({
                     "turn":board.turn,
                     "cards":board.getPlayerAvailableMoves(i),
                     "money": board.players[i].gold,
-                    "points": board.players[i].getPoints()
+                    "points": board.players[i].getPoints(),
+                    "neighbors" : board.getPlayerNeighbors(i).map((player) => player.getState().playedCards[0])
                 };
                 if(board.players[i].socket != null){
                     board.players[i].socket.emit('newTurn',data);
                 }
             }
-
+            console.log(data);
             let latestActions = [];
             for(let i = 0; i<4;i++){
                 latestActions.push(board.players[i].actions[board.players[i].actions.length - 1]);

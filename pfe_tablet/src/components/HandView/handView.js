@@ -1,10 +1,12 @@
 import React, {Component} from "react";
 import "./handView.css";
 import * as utils from "../../utils"
-import {Label, Image} from 'react-bootstrap';
+import {Label, Image, Button} from 'react-bootstrap';
 import CardDetails from "../CardDetails/CardDetails";
 import TradingScreen from "../TradingScreen/TradingScreen";
 import {Check, X} from "react-feather";
+import NeighborBoard from "../neighborBoard/neighborBoard";
+import Modal from "react-bootstrap/es/Modal";
 
 class HandView extends Component {
 
@@ -420,6 +422,35 @@ class HandView extends Component {
                     ]
                 },
             ],
+            neighbors: [{
+                name: 'jean',
+                position: 1,
+                money: 1,
+                city: 5,
+                army: 2,
+                playedCards: [{
+                    id: "A101",
+                    name: "Caserne",
+                    age: 1,
+                    type: "military",
+                    effect: {
+                        target: "army",
+                        value: 1,
+                    },
+                    cost: [{name: "ore", quantity: 1}]
+                },{type:"economic",id: 'E101'},{type:"science",id: 'S101'},{type:"guild",id: 'G302'},{type:"building",id: 'B303'},{type:"product",id: 'P101'},{type:"resource",id: 'R101'}],
+                victory: 7,
+                wonders: []},
+                {
+                name: 'kader',
+                position: 3,
+                money: 5,
+                city: 3,
+                army: 6,
+                playedCards: [{type:"resource",id: 'R107'},{type:"resource",id: 'R108'},{type:"resource",id: 'R201'},{type:"building",id: 'B303'}],
+                victory: 2,
+                wonders: [] }],
+            current : undefined,
             victoryPoints: 0,
             sciencePoints: 0,
             economyPoints: 0,
@@ -429,6 +460,7 @@ class HandView extends Component {
             civilPoints: 0,
             currentCard: "R101",
             modal: false,
+            showBoard : false,
             turn: 0,
             age: 1,
             modalText: "Veuillez choisir une action",
@@ -443,6 +475,8 @@ class HandView extends Component {
             },
             purchases: []
         };
+
+        this.closeNeighborBoard = this.closeNeighborBoard.bind(this);
         this.handleDismissModal = this.handleDismissModal.bind(this);
         this.showModal = this.showModal.bind(this);
         this.validateTurn = this.validateTurn.bind(this);
@@ -451,7 +485,7 @@ class HandView extends Component {
     }
 
     componentDidMount() {
-        this.setState({
+        /*this.setState({
             cards: this.props.data.cards,
             turn: this.props.data.turn,
             age: this.props.data.age,
@@ -463,7 +497,7 @@ class HandView extends Component {
             wonderPoints: this.props.data.points.wonder,
             guildPoints: this.props.data.points.guild,
             civilPoints: this.props.data.points.civil
-        });
+        });*/
     }
 
     submitPurchases(){
@@ -577,9 +611,23 @@ class HandView extends Component {
         this.setState({trading: false});
     }
 
+    showNeighborBoard(neighbor){
+        console.log("dans handView",neighbor);
+        this.setState({
+            showBoard: true,
+            current : neighbor
+        })
+    }
+
+    closeNeighborBoard(){
+        this.setState({
+            showBoard: false
+        })
+    }
+
     render() {
         var divStyle = {
-            background: utils.intToColor(this.props.data.position)
+            background: "grey"//utils.intToColor(this.props.data.position)
         };
         const hand = this.state.cards.map((infos, index) => <div className="playableDiv" key={index}>
                                                                 {this.state.cards[index].isPlayable?<Check id="playableCheck" color={"white"} size={35}/>:<X id="playableCross" color={"white"} size={35}/>}
@@ -607,6 +655,9 @@ class HandView extends Component {
                     <TradingScreen purchases={this.state.purchases} submitPurchases={this.submitPurchases} money={this.state.money} currentCard={this.state.currentCard}  close={this.closeTrading}/>
                     : null
                 }
+
+                <NeighborBoard show={this.state.showBoard} close={this.closeNeighborBoard} data={this.state.current}/>
+
                 <div id="container" style={divStyle}>
                     <div className="labelsDiv">
                         <Label className="labels transparent">Âge {this.state.age === 1 ? "I" : this.state.age === 2 ? "II" : "III" }</Label>
@@ -631,7 +682,15 @@ class HandView extends Component {
                     <div className="labelsDiv1">
                         <Label className="transparent nopad totalLabel">Total actuel: {this.state.victoryPoints}</Label>
                     </div>
+
+                    <div className="labelsDiv1 label2" id="visualisation">
+                        <Image className="visImg" src={require("../../assets/left.png")} onClick={() => this.showNeighborBoard(this.state.neighbors[0])}/>
+                        <Label className="transparent nopad totalLabel">Visualiser les plateaux de vos voisins</Label>
+                        <Image className="visImg" src={require("../../assets/right.png")} onClick={() => this.showNeighborBoard(this.state.neighbors[1])}/>
+                    </div>
+
                     <Label text-center="true" className="labels label1 transparent">Choisissez une carte puis une action</Label>
+
                     <div id="handDiv">
                         {hand}
                     </div>

@@ -23,7 +23,7 @@ class App extends Component {
     constructor() {
         super();
         this.state = {
-            componentName: "QRView",
+            componentName: "HandView",
             data: {},
             showModal: true,
             fullScreen: false,
@@ -108,7 +108,8 @@ class App extends Component {
                 ip: this.state.data.ip,
                 socket: this.state.data.socket,
                 money: data.money,
-                points: data.points
+                points: data.points,
+                neighbors: data.neighbors
             };
             this.changeData(newData);
             this.changeComponent("HandView");
