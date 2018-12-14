@@ -174,7 +174,8 @@ class HandView extends Component {
             trading: false,
             money: 5,
             action: "",
-            purchases: []
+            purchases: [],
+            isWonderStepBuildable: true
         };
 
         this.closeNeighborBoard = this.closeNeighborBoard.bind(this);
@@ -186,7 +187,6 @@ class HandView extends Component {
     }
 
     componentWillMount() {
-        console.log(this.props.data.neighbors);
         this.setState({
             cards: this.props.data.cards,
             wonderStepResources: this.props.data.wonderStepResources,
@@ -223,7 +223,6 @@ class HandView extends Component {
         this.setState({action: action});
         if (action === "building" || action === "wonderStep") {
             if ((action === "building" && cardObject.isPlayable && !(cardObject.cardResources.hasOwnProperty("availableResources"))) || (action === "wonderStep" && this.state.isWonderStepBuildable && !(this.state.wonderStepResources.hasOwnProperty("availableResources")))) {
-                console.log("actionOk",action);
                 this.setState({
                     validated: true,
                     modalText: "Action validée"
@@ -248,7 +247,6 @@ class HandView extends Component {
             }
         }
         else {
-            console.log("other",action);
             let newbuttons = {
                 building: false,
                 wonderStep: false,

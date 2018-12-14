@@ -2,6 +2,7 @@ import React, {Component} from "react";
 import {Button, Image, Label, Modal} from "react-bootstrap";
 import './TradingScreen.css'
 import Resource from "../Resource/resource"
+import * as utils from "../../utils"
 
 class TradingScreen extends Component {
 
@@ -110,21 +111,21 @@ class TradingScreen extends Component {
                                     )}
                                 </div>
                             </div>
-                            <div className="tradingScreenResourcesCol">
+                            <div style={{background: utils.intToColor(this.props.resourcesObject.availableResources[0].player.position)}} className="tradingScreenResourcesCol">
                                 Ressources de {this.props.resourcesObject.availableResources[0].player.name} :
                                 <div className="resourcesDiv">
                                     {this.props.resourcesObject.availableResources[0].resources.map((availableResource,index) =>
                                         <div className="resourceDiv" key={index}>
                                             {this.displayResource(availableResource, false, this.props.resourcesObject.availableResources[0].player.position)}
                                             <div className="goldCoin">
-                                                <Image style={{height: "3vh"}} src={require("../../assets/or.png")}/>
+                                                <Image style={{height: "4vh"}} src={require("../../assets/or.png")}/>
                                                 <div className="price">{availableResource.cost}</div>
                                             </div>
                                         </div>
                                     )}
                                 </div>
                             </div>
-                            <div className="tradingScreenResourcesCol">
+                            <div style={{background: utils.intToColor(this.props.resourcesObject.availableResources[1].player.position)}} className="tradingScreenResourcesCol">
                                 Ressources de {this.props.resourcesObject.availableResources[1].player.name} :
                                 <div className="resourcesDiv">
                                     {
@@ -134,7 +135,7 @@ class TradingScreen extends Component {
                                                 {this.displayResource(availableResource, false, this.props.resourcesObject.availableResources[1].player.position)}
                                                 </div>
                                                 <div className="goldCoin">
-                                                    <Image style={{height: "3vh"}} src={require("../../assets/or.png")}/>
+                                                    <Image style={{height: "4vh"}} src={require("../../assets/or.png")}/>
                                                     <div className="price">{availableResource.cost}</div>
                                                 </div>
                                             </div>

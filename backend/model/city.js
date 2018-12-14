@@ -10,7 +10,6 @@ class City {
         this.currentFace = null;
         this.currentStep = 0;
         this.id = id;
-        this.numberWonderBuit = 0;
         this.usedCards = [];
     }
     //face : String "A" or "B"
@@ -33,7 +32,7 @@ class City {
     }
 
     hasFinish() {
-        return (this.currentFace.length === this.numberWonderBuit)
+        return (this.currentFace.length === this.currentStep)
     }
 
     //wonder : int "1", "2" or "3"

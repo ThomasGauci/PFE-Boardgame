@@ -74,12 +74,12 @@
 .cardInfosTree {
     position: absolute;
     right: 5px;
-    top: 90px;
+    top: 50px;
 }
 .cardInfosHelp {
     position: absolute;
     right: 5px;
-    top: 50px;
+    top: 90px;
 }
 .treeDiv {
     position: absolute;

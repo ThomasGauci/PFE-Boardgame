@@ -248,7 +248,6 @@ class Board {
         let availableMoves = [];
         for(let card of playerHand){
             let cardResources = card.getCardResources(card, this.players[playerIndex], playerNeighbors);
-            let wonderStepResources = card.getWonderStepResources(this.players[playerIndex].city.getCurrentstep().cost, this.players[playerIndex], playerNeighbors);
             availableMoves.push({
                 card: card.getInfos(),
                 isPlayable: cardResources.isPlayable,

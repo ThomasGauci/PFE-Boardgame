@@ -70,8 +70,8 @@ class CardDetails extends Component {
                     <div className="cardInfosContent">
                         <div className="cardInfosBox">
                             <X className="cardInfosClose" style={buttonsStyle} color="white" size={40} onClick={this.props.close}/>
-                            {this.props.help ?<HelpCircle className="cardInfosHelp" style={buttonsStyle} color="white" size={35} onClick={()=>this.cardInfos()}/> : null}
                             {this.props.card.offer ? <Info className="cardInfosTree" style={buttonsStyle} color={"white"} size={35} onClick={()=>this.showTree()}/>:null}
+                            {this.props.help ?<HelpCircle className="cardInfosHelp" style={buttonsStyle} color="white" size={35} onClick={()=>this.cardInfos()}/> : null}
                             <img
                                 className="cardInfosCard"
                                 src={require(`../../assets/cards/${this.props.card.id}.jpg`)}

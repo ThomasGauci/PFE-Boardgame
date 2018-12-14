@@ -34,7 +34,7 @@ class Card {
         let playerMoney = player.getState()["money"];
         let cardResources = {};
         //if we already got the card we can't build it
-        if(player.isAlreadyBuilt(card.id) || card.id.includes("S3")) {
+        if(player.isAlreadyBuilt(card.id) || card.id.includes("E3")) {
             cardResources["isPlayable"] = false;
             return cardResources;
         }
@@ -340,25 +340,21 @@ function checkSolutionPrice(combination, prices) {
     for(let resourceName of combination.keys()){
         for(let price of prices1){
             for(let priceName of price.keys()){
-                if(priceName.includes(resourceName)){
-                    resourceName = priceName;
-                    break
-                }
-            }
-            if(price.has(resourceName)){
-                let quantity;
-                if(price.get(resourceName) >= combination.get(resourceName)){
-                   quantity = combination.get(resourceName);
-                   combination.delete(resourceName);
-                   quantity === price.get(resourceName) ? price.delete(resourceName) : price.set(resourceName, price.get(resourceName) - quantity);
-                   finalPrice += (value * quantity);
-                   break
-                }
-                else if(price.get(resourceName) >= 0) {
-                    quantity = price.get(resourceName);
-                    combination.set(resourceName, combination.get(resourceName) - quantity);
-                    price.delete(resourceName);
-                    finalPrice += (value * quantity);
+                if(priceName.includes(resourceName) || priceName === resourceName){
+                    let quantity;
+                    if(price.get(priceName) >= combination.get(resourceName)){
+                        quantity = combination.get(resourceName);
+                        combination.delete(resourceName);
+                        quantity === price.get(priceName) ? price.delete(priceName) : price.set(priceName, price.get(priceName) - quantity);
+                        finalPrice += (value * quantity);
+                        break
+                    }
+                    else if(price.get(priceName) >= 0) {
+                        quantity = price.get(priceName);
+                        combination.set(resourceName, combination.get(resourceName) - quantity);
+                        price.delete(priceName);
+                        finalPrice += (value * quantity);
+                    }
                 }
             }
             value++;
