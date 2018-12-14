@@ -142,6 +142,22 @@ class PlayerZone extends Component {
                                 <img className='gameBoard playerBoardImage shadow'
                                      src={require(`../../assets/boards/${this.props.player.city}A.jpg`)}/>
                             </div>
+                            <div className='wonders'>
+                                {
+                                    this.props.player.wonders ?
+                                        this.props.player.wonders.map((card, index) => {
+                                            return (
+                                                <div key={index}>
+                                                    <img
+                                                        className='shadow'
+                                                        alt="wonderImage"
+                                                        src={require(`../../assets/cards/back${card.age}_min.jpg`)}/>
+                                                </div>
+                                            );
+                                        })
+                                        : null
+                                }
+                            </div>
                             {sciences.length > 0 ?
                                 <div className='playedSciences'>
                                     {
@@ -184,8 +200,6 @@ class PlayerZone extends Component {
         const cardAge = card.id.charAt(1);
         if (cardType === 'A'){
             return require(`../../assets/cards/${cardType}${cardAge}.jpg`);
-        } else if(cardType === 'E' || cardType === 'G'){
-            return require(`../../assets/cards/${cardType}.jpg`);
         } else
             return require(`../../assets/cards/${card.id}_min.jpg`);
 

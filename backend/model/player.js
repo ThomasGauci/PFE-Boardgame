@@ -119,7 +119,7 @@ class Player {
             "playedCards": this.cards,
             "warPointsDisplay": this.warPointsDisplay,
             "victory" : this.victory,
-            "wonderStep" : this.city.currentStep
+            "wonders" : this.city.usedCards
         };
     }
 
