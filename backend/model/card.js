@@ -71,6 +71,7 @@ class Card {
             else {
                 let allCombinations = getAllCombinations(combinations, neighbors);
                 let allSolutions = getSolutions(allCombinations, card.cost, prices, playerMoney);
+
                 if(allSolutions.length === 0){
                     cardResources["isPlayable"] = false;
                     return cardResources;

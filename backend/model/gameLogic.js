@@ -64,7 +64,7 @@ let fsm = new StateMachine({
                     },
                     "isWonderStepBuildable": wonderStepResources.isPlayable,
                     "money": board.players[i].gold,
-                    "neighbors" : board.getPlayerNeighbors(i).map((player) => player.getState()),
+                    "neighbors" : board.getPlayerNeighbors(i+1).map((player) => player.getState()),
                     "points": board.getPoints(board.players[i])
                 };
                 if(board.players[i].socket != null)
