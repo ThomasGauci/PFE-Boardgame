@@ -89,6 +89,7 @@ class App extends Component {
         var io = require('socket.io-client');
         let ipAdress = this.state.data.ipAdress;
         let ip = ipAdress.split(";")[0];
+        //set ipAdress from qrcode infos
         let position = parseInt(ipAdress.split(";")[1]);
         const socket = io.connect(ip, {transports: ['websocket'], rejectUnauthorized: false});
         let newData = {

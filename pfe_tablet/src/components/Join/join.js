@@ -46,6 +46,7 @@ class Join extends Component{
     }
 
     handleValidate(){
+        //check that user entered a pseudo
         if(this.state.pseudo !== ""){
             this.props.data.socket.emit('newPlayer',{name: this.state.pseudo, position: this.state.data.position});
             let data = {

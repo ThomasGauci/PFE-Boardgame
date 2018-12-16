@@ -218,10 +218,15 @@ class HandView extends Component {
         this.props.data.socket.emit('turnValidated', dataToSend);
     }
 
+    /**
+     * compute what to do from user action (open trading screen, send infos to backend...)
+     * @param action (building/wonderStep/discarding)
+     */
     validateTurn(action) {
         let cardObject = this.state.currentCard;
         this.setState({action: action});
         if (action === "building" || action === "wonderStep") {
+            //the user can build the building with it's own resources
             if ((action === "building" && cardObject.isPlayable && !(cardObject.cardResources.hasOwnProperty("availableResources"))) || (action === "wonderStep" && this.state.isWonderStepBuildable && !(this.state.wonderStepResources.hasOwnProperty("availableResources")))) {
                 this.setState({
                     validated: true,
@@ -234,18 +239,21 @@ class HandView extends Component {
                 };
                 this.props.data.socket.emit('turnValidated', dataToSend);
             }
+            //the user needs neighbors resources
             else if ((action === "building" && cardObject.isPlayable) || (action === "wonderStep" && this.state.isWonderStepBuildable)) {
                 this.setState({
                     trading: true,
                     modalText: "Vous n'avez pas assez de ressources mais vous pouvez en acheter"
                 });
             }
+            //The user can't build the building
             else {
                 this.setState({
                     modalText: "Vous ne pouvez pas construire ce bâtiment"
                 })
             }
         }
+        //the user is discarding the card
         else {
             let newbuttons = {
                 building: false,
@@ -292,7 +300,6 @@ class HandView extends Component {
     }
 
     showNeighborBoard(neighbor){
-        console.log("dans handView",neighbor);
         this.setState({
             showBoard: true,
             current : neighbor

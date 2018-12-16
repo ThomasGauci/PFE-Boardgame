@@ -29,6 +29,12 @@ class Card {
         };
     }
 
+    /**     *
+     * @param card
+     * @param player
+     * @param neighbors
+     * return if the card is playable and with which resource it is playable
+     */
     getCardResources(card, player, neighbors) {
         let prices = computePrices(player, neighbors);
         let playerMoney = player.getState()["money"];
@@ -93,17 +99,23 @@ class Card {
         return cardResources;
     }
 
+    /**
+     *
+     * @param hasFinish
+     * @param cost
+     * @param player
+     * @param neighbors
+     * return if the wonderstep is playable and with which resource it is playable
+     */
     getWonderStepResources(hasFinish, cost, player ,neighbors){
         let wonderStepResources = {};
+        //the player has already built all wondersteps
         if(hasFinish){
             wonderStepResources["isPlayable"] = false;
             return wonderStepResources;
         }
         let prices = computePrices(player, neighbors);
         let playerMoney = player.getState()["money"];
-        console.log("prices", prices);
-        console.log("playerMoney", playerMoney);
-        console.log("cost", cost);
 
         //getting all Combinations with player's resources only
         let combInit = [];
@@ -136,9 +148,14 @@ class Card {
 module.exports = Card;
 
 /**
- * preselect personal resources
+ *
+ * @param playerResources
+ * @param cost of the card
+ * @returns {{missingRessources: Map<type, quantity>, usefullResources: Map<type, quantity>, stayingResources: Map<type, quantity>}}
+ * returning resources that the player need to buy, the ones which are useful and the ones that the user has and will use to build the building
  */
 function getUsefullAndMissingPersonalResources(playerResources, cost) {
+
     let missingRessources = new Map();
     let usefullResources = new Map();
     let stayingResources = new Map();
@@ -177,6 +194,15 @@ function copyMap(oldMap) {
     return newMap;
 }
 
+/**
+ * check in all combinations which ones are good and enable the player to build the building
+ * check that all needed resources are in the combination and the price of it is lesser or equal to the player money
+ * @param combinations
+ * @param cost
+ * @param prices
+ * @param playerMoney
+ * @returns {Array}
+ */
 function getSolutions(combinations, cost, prices, playerMoney) {
     let solutions = [];
     for(let combination of combinations) {
@@ -197,11 +223,23 @@ function getSolutions(combinations, cost, prices, playerMoney) {
     return solutions;
 }
 
+/**
+ * compute all resources combinations from the player and it's neighbor resources
+ * @param playerCombinations
+ * @param neighbors
+ * @returns {*[] | *}
+ */
 function getAllCombinations(playerCombinations, neighbors) {
     let c = getCombinations(neighbors[0].getCurrentResources(), playerCombinations);
     return getCombinations(neighbors[1].getCurrentResources(), c);
 }
 
+/**
+ * compute all resources combinations from the player
+ * @param resources
+ * @param combinations
+ * @returns {*}
+ */
 function getCombinations(resources, combinations) {
     for(let resourceName of resources.keys()) {
         if(resourceName.includes("/")) {
@@ -291,6 +329,12 @@ function getNeighborResources(player, neighbors) {
     return res;
 }
 
+/**
+ * return an array containing type and quantity of resources for each possible price (1,2 or 3 gold)
+ * @param player
+ * @param neighbors
+ * @returns {Array}
+ */
 function computePrices(player, neighbors) {
     let playerResources = player.getAllResources();
     let prices = [];
@@ -330,6 +374,12 @@ function computePrices(player, neighbors) {
     return prices;
 }
 
+/**
+ * check if the solution price is lesser or equal to the player moeny
+ * @param combination
+ * @param prices
+ * @returns {number}
+ */
 function checkSolutionPrice(combination, prices) {
     let prices1 = [];
     for(let price of prices){
@@ -337,9 +387,13 @@ function checkSolutionPrice(combination, prices) {
     }
     let value = 0;
     let finalPrice = 0;
+    //for each resource of the combination
     for(let resourceName of combination.keys()){
+        //for each price (1, 2 or 3 golds)
         for(let price of prices1){
+            //for each resource for that price
             for(let priceName of price.keys()){
+                //the resourcename contains / (it's a or resource) or it is equal
                 if(priceName.includes(resourceName) || priceName === resourceName){
                     let quantity;
                     if(price.get(priceName) >= combination.get(resourceName)){
