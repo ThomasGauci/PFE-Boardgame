@@ -5,13 +5,8 @@ const automate = require('./model/gameLogic');
 
 let fs = require( 'fs' );
 let app = require('express')();
-let https = require('https');
-let server = https.createServer({
-    key: fs.readFileSync('./key.pem', 'utf8'),
-    cert: fs.readFileSync('./server.crt', 'utf8'),
-    requestCert: false,
-    rejectUnauthorized: false
-},app);
+let http = require('http');
+let server = http.createServer(app);
 server.listen(8000);
 //communication objects
 let io = require('socket.io').listen(server);

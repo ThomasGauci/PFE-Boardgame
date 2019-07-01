@@ -14,7 +14,7 @@ const tuioManager = new TUIOManager();
 class App extends Component {
 
     state={
-        serverIp: 'wss://192.168.1.8:8000',
+        serverIp: 'ws://127.0.0.1:8000',
         socket: null,
         connectionError: false,
         gamePhase: 0,
