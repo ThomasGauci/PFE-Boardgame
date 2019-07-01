@@ -1,6 +1,11 @@
 # PFE-Boardgame
 
 ## Informations sur l'équipe
+   * [François Martin]
+   * [Hugo Beranger]
+   * [Thomas Gauci]
+    
+## Dépot original
 * Membres :
     * [Pierre Bonny](pbonny63@free.fr)
     * [Gregory Merlet](gregory.merlet@outlook.fr)
