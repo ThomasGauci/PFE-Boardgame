@@ -54,4 +54,4 @@ npm start
 
 [MIT](http://opensource.org/licenses/MIT)
 
-Copyright (c) 2019-present, MARTIN François - Beranger Hugo - GAUCI Thomas
+Copyright (c) 2019-present, MARTIN François - BERANGER Hugo - GAUCI Thomas
