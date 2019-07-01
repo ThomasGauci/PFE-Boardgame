@@ -6,9 +6,9 @@
 * Professeur encadrant : 
    * [M. Philippe RENEVIER GONIN](https://github.com/PhilippeRenevierGonin)
 * Membres :
-   * [François Martin](contact@francois-martin.com)
-   * [Hugo Beranger](hugo.brg@outlook.com)
-   * [Thomas Gauci](thomas.gauci06@laposte.net)
+   * [François Martin](https://github.com/artania06)
+   * [Hugo Beranger](https://github.com/HugoBrg)
+   * [Thomas Gauci](https://github.com/ThomasGauci)
     
 ## Dépot original
 * Membres :
