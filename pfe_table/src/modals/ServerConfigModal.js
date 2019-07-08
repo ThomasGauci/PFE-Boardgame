@@ -6,7 +6,8 @@ class StartScreen extends Component {
     constructor(props){
         super();
         this.state = {
-            serverIp: props.serverIp
+            serverIp: props.serverIp,
+            gameSeed: props.gameSeed
         }
     }
 
@@ -26,11 +27,19 @@ class StartScreen extends Component {
                                          value={this.state.serverIp}
                                          onChange={event => this.setState({serverIp: event.target.value})} />
                         </FormGroup>
+
+                        <FormGroup controlId="formControlsInput">
+                            <ControlLabel>Graine de jeu</ControlLabel>
+                            <FormControl componentClass="input"
+                                         placeholder="Graine"
+                                         value={this.state.gameSeed}
+                                         onChange={event => this.setState({gameSeed: event.target.value})} />
+                        </FormGroup>
                     </Modal.Body>
 
                     <Modal.Footer>
                         <Button onClick={this.props.close}>Annuler</Button>
-                        <Button bsStyle="primary" onClick={() => this.props.validate(this.state.serverIp)}>Enregistrer</Button>
+                        <Button bsStyle="primary" onClick={() => this.props.validate(this.state.serverIp, this.state.gameSeed)}>Enregistrer</Button>
                     </Modal.Footer>
                 </Modal.Dialog>
             </div>

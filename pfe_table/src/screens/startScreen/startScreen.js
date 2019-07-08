@@ -32,9 +32,10 @@ class StartScreen extends Component {
             <div className='startScreen'>
                 {this.state.showConfigModal ?
                     <ServerConfigModal serverIp={this.props.serverIp}
-                                       validate={newValue => {
+                                       gameSeed={this.props.gameSeed}
+                                       validate={(serverIp, gameSeed) => {
                                            this.toggleConfigModal();
-                                           this.props.changeServerIp(newValue);
+                                           this.props.changeConfig(serverIp, gameSeed);
                                        }}
                                        close={this.toggleConfigModal}/>
                     : null

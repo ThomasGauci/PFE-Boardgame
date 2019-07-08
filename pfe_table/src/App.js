@@ -15,6 +15,7 @@ class App extends Component {
 
     state={
         serverIp: 'ws://127.0.0.1:8000',
+        gameSeed: this.randomSeed(10),
         socket: null,
         connectionError: false,
         gamePhase: 0,
@@ -25,7 +26,7 @@ class App extends Component {
         war: null,
         resultPoints: []
     }
-    changeServerIp = this.changeServerIp.bind(this);
+    changeConfig = this.changeConfig.bind(this);
     setupSocket = this.setupSocket.bind(this);
 
     componentDidMount(){
@@ -45,9 +46,10 @@ class App extends Component {
                 {this.state.gamePhase === 0 ?
                     <StartScreen
                         serverIp={this.state.serverIp}
+                        gameSeed={this.state.gameSeed}
                         connectionError={this.state.connectionError}
                         players={this.state.players}
-                        changeServerIp={this.changeServerIp}/>
+                        changeConfig={this.changeConfig}/>
                     : this.state.gamePhase === 1 ?
                         <GameScreen
                             players={this.state.players}
@@ -63,10 +65,10 @@ class App extends Component {
         );
     }
 
-    changeServerIp(newIp){
+    changeConfig(newIp, newSeed){
         if(this.state.socket)
             this.state.socket.close();
-        this.setState({socket: null, serverIp: newIp}, () => {
+        this.setState({socket: null, serverIp: newIp, gameSeed: newSeed}, () => {
             this.setupSocket();
         });
     }
@@ -74,7 +76,7 @@ class App extends Component {
     setupSocket(){
         const socket = openSocket(this.state.serverIp, {transports: ['websocket', 'polling', 'flashsocket']});
         socket.on('connect', () => {
-            socket.emit('newGame', response => {
+            socket.emit('newGame', this.state.gameSeed, response => {
                 if (response.error)
                     console.error(response.error);
                 else
@@ -133,6 +135,18 @@ class App extends Component {
                 y2: card.getBoundingClientRect().y + 44
             });
         }
+        return result;
+    }
+
+    randomSeed(length) {
+        let result = '';
+        let chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+        let charsLength = chars.length;
+
+        for (let i = 0; i < length; i++) {
+            result += chars.charAt(Math.floor(Math.random() * charsLength));
+        }
+
         return result;
     }
 }
