@@ -3,6 +3,8 @@ const Board = require('./model/board');
 const Cards = require('./model/Data/cards');
 const automate = require('./model/gameLogic');
 
+const MAX_PLAYERS = 2;
+
 let fs = require( 'fs' );
 let app = require('express')();
 let http = require('http');
@@ -43,25 +45,24 @@ io.on('connection', (client) => {
 
     client.on('newPlayer', (data) => {
         console.log(data);
-        if(numConnection <= 2) {
+        if (numConnection < MAX_PLAYERS - 1) {
             console.log('Creating player');
-            let player = new Player(data.name,data.position,client);
+            let player = new Player(data.name, data.position, client);
             board.addPlayer(player);
             numConnection++;
 
             client.broadcast.emit('playerJoined', data);
             client.emit('newPlayer', 'OK');
-        }else if(numConnection === 3){
+        } else if (numConnection == MAX_PLAYERS - 1) {
             console.log('Creating LAST player');
-            let player = new Player(data.name,data.position,client);
+            let player = new Player(data.name, data.position, client);
             board.addPlayer(player);
             numConnection++;
 
             client.broadcast.emit('playerJoined', data);
-            automate.fsm.settingUp(client,board);
+            automate.fsm.settingUp(client, board);
             client.emit('newPlayer', 'OK');
-        }
-        else{
+        } else {
             client.emit('newPlayer', 'Rejected');
         }
     });
