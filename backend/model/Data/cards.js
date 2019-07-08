@@ -1070,12 +1070,6 @@ addCard(guilds, {
     cost: [{name: "stone", quantity: 2},{name: "clay", quantity: 2},{name: "glass", quantity: 1}],
 });
 
-shuffleArray(guilds);
-age3.push.apply(age3,guilds.slice(0,6));
-shuffleArray(age1);
-shuffleArray(age2);
-shuffleArray(age3);
-
 function addCard(list,cardInfos){
     list.push(new Card(cardInfos));
 }
@@ -1111,5 +1105,7 @@ module.exports = {
     age1: age1,
     age2: age2,
     age3: age3,
-    findCardFromId : findCardFromId
+    findCardFromId : findCardFromId,
+    guilds,
+    shuffleArray
 };

@@ -30,6 +30,13 @@ let fsm = new StateMachine({
             m_board = board;
             let selectedCities = cities.chooseRandomCities();
             board.distributeCities(selectedCities);
+
+            cards.shuffleArray(cards.guilds);
+            cards.age3.push.apply(cards.age3,cards.guilds.slice(0,6));
+            cards.shuffleArray(cards.age1);
+            cards.shuffleArray(cards.age2);
+            cards.shuffleArray(cards.age3);
+
             let data = [];
             for(let i = 0; i<4;i++){
                 data.push(board.players[i].getState());

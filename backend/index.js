@@ -6,6 +6,7 @@ const automate = require('./model/gameLogic');
 let fs = require( 'fs' );
 let app = require('express')();
 let http = require('http');
+let seedrandom = require('seedrandom');
 let server = http.createServer(app);
 server.listen(8000);
 //communication objects
@@ -18,8 +19,9 @@ let board;
 let played;
 
 io.on('connection', (client) => {
-    client.on('newGame', (callback) => {
-        console.log("Starting new game.");
+    client.on('newGame', (gameSeed, callback) => {
+        console.log(`Starting new game with seed ${gameSeed}.`);
+        seedrandom(gameSeed, { global: true });
         //Create game
         board = new Board();
         numConnection = 0;
