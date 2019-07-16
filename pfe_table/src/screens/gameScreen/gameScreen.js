@@ -3,25 +3,31 @@ import {Col, Row, Modal} from "react-bootstrap";
 
 import PlayerZone from "../../components/playerZone/playerZone";
 import './gameScreen.css';
+import DiscardedCards from "../../components/discardedCards/discardedCards";
 
 class GameScreen extends Component {
 
     state={
-        currentAction: null,
-        currentBattle: null
+        currentAnimation: null,
+        currentBattle: null,
+        playedActions: []
     }
     getPlayerOn = this.getPlayerOn.bind(this);
+    getAction = this.getAction.bind(this);
     sleep = this.sleep.bind(this);
 
     async componentWillReceiveProps(nextProps) {
+        this.setState({playedActions: []});
         if(nextProps.latestActions) {
             for (let action of nextProps.latestActions) {
-                this.setState({currentAction: action});
-                await this.sleep(3000);
+                this.setState({currentAnimation: action.player.position});
+                await this.sleep(3500);
             }
-            this.setState({currentAction: null});
-            console.log("Next turn plz");
-            this.props.socket.emit('readyTurn');
+            this.setState({currentAnimation: null});
+            console.log("Emitting next turn demand");
+            if(this.props.socket)
+                this.props.socket.emit('readyTurn');
+            //this.props.resetLatestActions();
         }
         if(nextProps.war) {
             for (let battle of nextProps.war) {
@@ -29,8 +35,9 @@ class GameScreen extends Component {
                 await this.sleep(3000);
             }
             this.setState({currentBattle: null});
-            console.log("Next age plz");
-            this.props.socket.emit('readyAge');
+            console.log("Emitting next age demand");
+            if(this.props.socket)
+                this.props.socket.emit('readyAge');
         }
     }
 
@@ -39,51 +46,88 @@ class GameScreen extends Component {
             <div className='gameScreen'>
                 <div className='territoryBackground'>
                     <Row className='territoryRow'>
-                        <Col md={6} className='territory territory1 upsideDown'>
+                        <Col md={6} className='territory territory1 upsideDown'></Col>
+                        <Col md={6} className='territory territory2 upsideDown'></Col>
+                    </Row>
+                    <Row className='territoryRow'>
+                        <Col md={6} className='territory territory3'></Col>
+                        <Col md={6} className='territory territory4'></Col>
+                    </Row>
+                </div>
+                <div className='territoryFront'>
+                    <Row className='territoryRow'>
+                        <Col md={6} className='territory upsideDown'>
                             <PlayerZone
                                 position={1}
                                 player={this.getPlayerOn(1)}
-                                serverIp={this.props.serverIp}/>
+                                serverIp={this.props.serverIp}
+                                age={this.props.age}
+                                turn={this.props.turn}
+                                isReady={this.props.playerReady[1]}
+                                action={this.getAction(1)}
+                                isAnimated={this.state.currentAnimation === 1}
+                                animationCallback={() => {
+                                    let playedActions = this.state.playedActions;
+                                    playedActions.push(this.getAction(1));
+                                    this.setState({playedActions: playedActions});
+                                }}/>
                         </Col>
-                        <Col md={6} className='territory territory2 upsideDown'>
+                        <Col md={6} className='territory upsideDown'>
                             <PlayerZone
                                 position={2}
                                 player={this.getPlayerOn(2)}
-                                serverIp={this.props.serverIp}/>
+                                serverIp={this.props.serverIp}
+                                age={this.props.age}
+                                turn={this.props.turn}
+                                isReady={this.props.playerReady[2]}
+                                action={this.getAction(2)}
+                                isAnimated={this.state.currentAnimation === 2}
+                                animationCallback={() => {
+                                    let playedActions = this.state.playedActions;
+                                    playedActions.push(this.getAction(2));
+                                    this.setState({playedActions: playedActions});
+                                }}/>
                         </Col>
                     </Row>
                     <Row className='territoryRow'>
-                        <Col md={6} className='territory territory3'>
+                        <Col md={6} className='territory'>
                             <PlayerZone
                                 position={4}
                                 player={this.getPlayerOn(4)}
-                                serverIp={this.props.serverIp}/>
+                                serverIp={this.props.serverIp}
+                                age={this.props.age}
+                                turn={this.props.turn}
+                                isReady={this.props.playerReady[4]}
+                                action={this.getAction(4)}
+                                isAnimated={this.state.currentAnimation === 4}
+                                animationCallback={() => {
+                                    let playedActions = this.state.playedActions;
+                                    playedActions.push(this.getAction(4));
+                                    this.setState({playedActions: playedActions});
+                                }}/>
                         </Col>
-                        <Col md={6} className='territory territory4'>
+                        <Col md={6} className='territory'>
                             <PlayerZone
                                 position={3}
                                 player={this.getPlayerOn(3)}
-                                serverIp={this.props.serverIp}/>
+                                serverIp={this.props.serverIp}
+                                age={this.props.age}
+                                turn={this.props.turn}
+                                isReady={this.props.playerReady[3]}
+                                action={this.getAction(3)}
+                                isAnimated={this.state.currentAnimation === 3}
+                                animationCallback={() => {
+                                    let playedActions = this.state.playedActions;
+                                    playedActions.push(this.getAction(3));
+                                    this.setState({playedActions: playedActions});
+                                }}/>
                         </Col>
                     </Row>
                 </div>
-                { this.state.currentAction ?
-                    <div>
-                        <Modal.Dialog className='actionModal'>
-                            <h1 className='actionTextZone upsideDown'>
-                                <span className='actionPlayer' style={{color: this.getPlayerColor(this.state.currentAction.player.position)}}>{this.state.currentAction.player.name}</span> a {this.getActionLabel(this.state.currentAction.action)}
-                            </h1>
-                            <div>
-                                <img className='gameCard actionCard' src={this.getActionImage(this.state.currentAction.action, this.state.currentAction.cardId)}/>
-                                <img className='gameCard actionCard upsideDown' src={this.getActionImage(this.state.currentAction.action, this.state.currentAction.cardId)}/>
-                            </div>
-                            <h1 className='actionTextZone'>
-                                <span className='actionPlayer' style={{color: this.getPlayerColor(this.state.currentAction.player.position)}}>{this.state.currentAction.player.name}</span> a {this.getActionLabel(this.state.currentAction.action)}
-                            </h1>
-                        </Modal.Dialog>
-                    </div>
-                    : null
-                }
+                <DiscardedCards
+                    discardedCards={this.props.discardedCards}
+                    actions={this.props.latestActions}
+                    playedActions={this.state.playedActions}/>
                 {this.state.currentBattle ?
                     <div>
                         <Modal.Dialog className='actionModal'>
@@ -94,8 +138,8 @@ class GameScreen extends Component {
                                             style={{color: this.getPlayerColor(this.state.currentBattle.loser.position)}}>{this.state.currentBattle.loser.name}</span>
                             </h1>
                             <div className='warHeader'>
-                                <img className='warImage warImageFirst' src={require("../../assets/swords.svg")}/>
-                                <img className='warImage upsideDown' src={require("../../assets/swords.svg")}/>
+                                <img alt="swords" className='warImage warImageFirst' src={require("../../assets/swords.svg")}/>
+                                <img alt="swords" className='warImage upsideDown' src={require("../../assets/swords.svg")}/>
                             </div>
                             <h1 className='actionTextZone'>
                                 <span className='actionPlayer'
@@ -123,26 +167,14 @@ class GameScreen extends Component {
         return null;
     }
 
-    getActionLabel(action){
-        switch (action) {
-            case 'building':
-                return 'construit';
-            case 'wonderStep':
-                return 'amélioré sa merveille';
-            case 'discarding':
-                return 'vendu une carte';
-            default:
-                return "utilisé une technique secrète qui n'est pas sensé exister";
-        }
-    }
-
-    getActionImage(action, cardId){
-        if(action === 'building')
-            return require(`../../assets/cards/${this.state.currentAction.cardId}.jpg`);
-        else{
-            const age = cardId.charAt(1);
-            return require(`../../assets/cards/back${age}.jpg`);
-        }
+    getAction(position){
+        if(this.props.latestActions)
+            for(let action of this.props.latestActions){
+                if(action.player.position === position)
+                    return action;
+            }
+        else
+            return null;
     }
 
     getPlayerColor(position){

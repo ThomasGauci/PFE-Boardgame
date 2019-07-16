@@ -1,10 +1,17 @@
 import React, { Component } from 'react';
 
 import './playerZone.css'
+import PlayerHand from "../playerHand/playerHand";
+import PlayerCardMin from "../playerCardMin/playerCardMin";
+import WonderStep from "../wonderStep/wonderStep";
+import Coins from "../coins/coins";
 
 class PlayerZone extends Component {
 
-    getCardImage = this.getCardImage.bind(this);
+    state={
+        animationPhase: 0
+    }
+    setAnimationPhase = this.setAnimationPhase.bind(this);
 
     render() {
         if(this.props.player) {
@@ -16,7 +23,9 @@ class PlayerZone extends Component {
             let sciences = [];
             let guilds = [];
 
-            this.props.player.playedCards.map(card => {
+            this.props.player.playedCards.forEach((card, index) => {
+                if(index === this.props.player.playedCards.length-1)
+                    card.isLast = true;
                 switch (card.type) {
                     case "resource":
                         resources.push(card);
@@ -39,6 +48,8 @@ class PlayerZone extends Component {
                     case "guild":
                         guilds.push(card);
                         break;
+                    default:
+                        break;
                 }
             });
 
@@ -49,13 +60,17 @@ class PlayerZone extends Component {
                             this.props.player.position === 1 || this.props.player.position === 3 ?
                                 <div className='playerMoney shadow'>
                                     <div>{this.props.player.money}</div>
+                                    <Coins
+                                        action={this.props.action}
+                                        player={this.props.player}
+                                        isAnimated={this.props.isAnimated}/>
                                 </div>
                                 : null
                         }
                         <div className="playerZoneWarPoints">
                             {this.props.player.warPointsDisplay.map(warPoint => {
                                 return (
-                                    <img className="playerZoneWarPoint" src={require(`../../assets/war${warPoint}.png`)}/>
+                                    <img alt="warPoint" className="playerZoneWarPoint" src={require(`../../assets/war${warPoint}.png`)}/>
                                 );
                             })}
                         </div>
@@ -63,6 +78,10 @@ class PlayerZone extends Component {
                             this.props.player.position === 2 || this.props.player.position === 4 ?
                                 <div className='playerMoney shadow'>
                                     <div>{this.props.player.money}</div>
+                                    <Coins
+                                        action={this.props.action}
+                                        player={this.props.player}
+                                        isAnimated={this.props.isAnimated}/>
                                 </div>
                                 : null
                         }
@@ -74,8 +93,11 @@ class PlayerZone extends Component {
                                     {
                                         economics.map((card, index) => {
                                             return (
-                                            <img id={card.id} className='gameCardMin playerCardMin shadow' key={`${this.props.player.position}${index}`}
-                                            src={this.getCardImage(card)}/>
+                                                <PlayerCardMin
+                                                    card={card}
+                                                    key={`${this.props.player.position}${index}`}
+                                                    animationPhase={this.state.animationPhase}
+                                                    action={this.props.action}/>
                                             );
                                         })
                                     }
@@ -87,9 +109,11 @@ class PlayerZone extends Component {
                                     {
                                         resources.map((card, index) => {
                                             return (
-                                                <img id={card.id} className='gameCardMin playerCardMin shadow'
-                                                     key={`${this.props.player.position}${index}`}
-                                                     src={this.getCardImage(card)}/>
+                                                <PlayerCardMin
+                                                    card={card}
+                                                    key={`${this.props.player.position}${index}`}
+                                                    animationPhase={this.state.animationPhase}
+                                                    action={this.props.action}/>
                                             );
                                         })
                                     }
@@ -102,9 +126,11 @@ class PlayerZone extends Component {
                                         {
                                             products.map((card, index) => {
                                                 return (
-                                                    <img id={card.id} className='gameCardMin playerCardMin shadow'
-                                                         key={`${this.props.player.position}${index}`}
-                                                         src={this.getCardImage(card)}/>
+                                                    <PlayerCardMin
+                                                        card={card}
+                                                        key={`${this.props.player.position}${index}`}
+                                                        animationPhase={this.state.animationPhase}
+                                                        action={this.props.action}/>
                                                 );
                                             })
                                         }
@@ -116,9 +142,11 @@ class PlayerZone extends Component {
                                         {
                                             guilds.map((card, index) => {
                                                 return (
-                                                    <img id={card.id} className='gameCardMin playerCardMin shadow'
-                                                         key={`${this.props.player.position}${index}`}
-                                                         src={this.getCardImage(card)}/>
+                                                    <PlayerCardMin
+                                                        card={card}
+                                                        key={`${this.props.player.position}${index}`}
+                                                        animationPhase={this.state.animationPhase}
+                                                        action={this.props.action}/>
                                                 );
                                             })
                                         }
@@ -130,16 +158,19 @@ class PlayerZone extends Component {
                                         {
                                             buildings.map((card, index) => {
                                                 return (
-                                                    <img id={card.id} className='gameCardMin playerCardMin shadow'
-                                                         key={`${this.props.player.position}${index}`}
-                                                         src={this.getCardImage(card)}/>
+                                                    <PlayerCardMin
+                                                        card={card}
+                                                        key={`${this.props.player.position}${index}`}
+                                                        animationPhase={this.state.animationPhase}
+                                                        action={this.props.action}/>
                                                 );
                                             })
                                         }
                                     </div>
                                     : null
                                 }
-                                <img className='gameBoard playerBoardImage shadow'
+                                <img alt="playerBoard"
+                                     className='gameBoard playerBoardImage shadow'
                                      src={require(`../../assets/boards/${this.props.player.city}A.jpg`)}/>
                             </div>
                             <div className='wonders'>
@@ -147,12 +178,12 @@ class PlayerZone extends Component {
                                     this.props.player.wonders ?
                                         this.props.player.wonders.map((card, index) => {
                                             return (
-                                                <div key={index}>
-                                                    <img
-                                                        className='shadow'
-                                                        alt="wonderImage"
-                                                        src={require(`../../assets/cards/back${card.age}_min.jpg`)}/>
-                                                </div>
+                                                <WonderStep
+                                                    key={index}
+                                                    age={card.age}
+                                                    action={this.props.action}
+                                                    animationPhase={this.state.animationPhase}
+                                                    isLast={index === this.props.player.wonders.length-1}/>
                                             );
                                         })
                                         : null
@@ -163,9 +194,11 @@ class PlayerZone extends Component {
                                     {
                                         sciences.map((card, index) => {
                                             return (
-                                                <img id={card.id} className='gameCardMin playerCardMin shadow'
-                                                     key={`${this.props.player.position}${index}`}
-                                                     src={this.getCardImage(card)}/>
+                                                <PlayerCardMin
+                                                    card={card}
+                                                    key={`${this.props.player.position}${index}`}
+                                                    animationPhase={this.state.animationPhase}
+                                                    action={this.props.action}/>
                                             );
                                         })
                                     }
@@ -179,8 +212,11 @@ class PlayerZone extends Component {
                                     {
                                         militarys.map((card, index) => {
                                             return (
-                                            <img id={card.id} className='gameCardMin playerCardMin shadow' key={`${this.props.player.position}${index}`}
-                                            src={this.getCardImage(card)}/>
+                                                <PlayerCardMin
+                                                    card={card}
+                                                    key={`${this.props.player.position}${index}`}
+                                                    animationPhase={this.state.animationPhase}
+                                                    action={this.props.action}/>
                                             );
                                         })
                                     }
@@ -189,20 +225,28 @@ class PlayerZone extends Component {
                             : null
                         }
                     </div>
+                    <PlayerHand
+                        position={this.props.player.position}
+                        age={this.props.age}
+                        turn={this.props.turn}
+                        isReady={this.props.isReady}
+                        action={this.props.action}
+                        isAnimated={this.props.isAnimated}
+                        callback={() => {
+                            this.setAnimationPhase(1);
+                            this.props.animationCallback();
+                        }}
+                        resetAnimation={() => {
+                            this.setAnimationPhase(0);
+                        }}/>
                 </div>
             );
         }
         else return null;
     }
 
-    getCardImage(card){
-        const cardType = card.id.charAt(0);
-        const cardAge = card.id.charAt(1);
-        if (cardType === 'A'){
-            return require(`../../assets/cards/${cardType}${cardAge}.jpg`);
-        } else
-            return require(`../../assets/cards/${card.id}_min.jpg`);
-
+    setAnimationPhase(phase){
+        this.setState({animationPhase: phase});
     }
 }
 

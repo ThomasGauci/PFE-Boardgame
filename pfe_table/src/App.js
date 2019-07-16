@@ -20,14 +20,19 @@ class App extends Component {
         connectionError: false,
         gamePhase: 0,
         players: [],
+        playerReady: [],
         latestActions: null,
         gameWidget: null,
         cardsOnBoard: [],
         war: null,
-        resultPoints: []
+        resultPoints: [],
+        age: 1,
+        turn: 1,
+        discardedCards: []
     }
     changeConfig = this.changeConfig.bind(this);
     setupSocket = this.setupSocket.bind(this);
+    resetLatestActions = this.resetLatestActions.bind(this);
 
     componentDidMount(){
         tuioManager.start();
@@ -55,7 +60,12 @@ class App extends Component {
                             players={this.state.players}
                             latestActions={this.state.latestActions}
                             socket={this.state.socket}
-                            war={this.state.war}/>
+                            war={this.state.war}
+                            age={this.state.age}
+                            turn={this.state.turn}
+                            playerReady={this.state.playerReady}
+                            discardedCards={this.state.discardedCards}
+                            resetLatestActions={this.resetLatestActions}/>
                         : this.state.gamePhase === 2 ?
                             <ResultScreen
                                 points={this.state.resultPoints}/>
@@ -71,6 +81,10 @@ class App extends Component {
         this.setState({socket: null, serverIp: newIp, gameSeed: newSeed}, () => {
             this.setupSocket();
         });
+    }
+
+    resetLatestActions(){
+        this.setState({latestActions: null});
     }
 
     setupSocket(){
@@ -97,9 +111,19 @@ class App extends Component {
                 });
                 socket.emit('readyAge');
             });
+            socket.on('playerPlayed', data => {
+                console.log("playerPlayed", data);
+                let playerReady = this.state.playerReady;
+                playerReady[data] = true;
+                this.setState({playerReady: playerReady});
+            });
+            socket.on('newTurn', data => {
+                console.log('newTurn');
+                this.setState({playerReady: [], age: data.gameState.age, turn: data.gameState.turn, discardedCards: data.gameState.discarded, latestActions: null, war: null});
+            })
             socket.on('endTurn', data => {
                 console.log("endTurn", data);
-                this.setState({players: data.gameState.players, latestActions: data.latestActions, war: null}, () => {
+                this.setState({players: data.gameState.players, discardedCards: data.gameState.discarded, latestActions: data.latestActions, war: null}, () => {
                     this.state.gameWidget.setPlayers(data.gameState.players);
                 });
             });
