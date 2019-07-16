@@ -1,3 +1,5 @@
+const JSON = require('circular-json');
+
 const Player = require('./model/player');
 const Board = require('./model/board');
 const Cards = require('./model/Data/cards');
@@ -100,4 +102,31 @@ io.on('connection', (client) => {
         }
         automate.fsm.startTurn(client,board);
     });
+
+    client.on('save', (data) => {
+        console.log("Sauvegarde");
+        //console.log("Donnée reçue : "+data);
+
+        d = new Date();
+        date = d.toLocaleDateString()+'_'+d.toLocaleTimeString()+"\n"; 
+        json = JSON.stringify(board.players);
+        fs.appendFile("save.txt",json,function(err){
+        //fs.appendFile("save:"+date+".txt",date+json,function(err){
+            if(err)
+                console.log(err);
+            else
+                console.log("Sauvegarde completée.");
+        })
+
+    });
+
+    client.on('load', (data) => {
+        console.log("Chargement");
+        //console.log("Donnée reçue : "+data);
+
+        let saveContent = fs.readFile("save.txt");
+        board.players = JSON.parse(saveContent);
+        console.log(players);
+    });
+
 });

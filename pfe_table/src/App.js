@@ -173,6 +173,27 @@ class App extends Component {
 
         return result;
     }
+
+    save(){
+        const socket = openSocket(this.state.serverIp, {transports: ['websocket', 'polling', 'flashsocket']});
+        //socket.send("save");
+        socket.emit('save', "testEnvoieDonnée", response => {
+            if (response.error)
+                console.error(response.error);
+            else
+                console.log(response.data);
+        })
+    }
+
+    load(){
+        const socket = openSocket(this.state.serverIp, {transports: ['websocket', 'polling', 'flashsocket']});
+        socket.emit('load', "testEnvoieDonnée", response => {
+            if (response.error)
+                console.error(response.error);
+            else
+                console.log(response.data);
+        })
+    }
 }
 
 export default App;

@@ -8,7 +8,6 @@
     "react-dom": "^16.6.3",
     "react-feather": "^1.1.4",
     "react-qr-reader": "^2.1.1",
-    "react-scripts": "2.1.1",
     "socket.io-client": "^2.1.1"
   },
   "scripts": {
@@ -25,5 +24,8 @@
     "not dead",
     "not ie <= 11",
     "not op_mini all"
-  ]
+  ],
+  "devDependencies": {
+    "react-scripts": "^2.1.1"
+  }
 }
