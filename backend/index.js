@@ -20,16 +20,63 @@ let table;
 let board;
 let played;
 
+let seedsList = {seeds:[]};
+
+if (!fs.existsSync('seeds.txt')) {
+    fs.writeFileSync('seeds.txt', JSON.stringify(seedsList));
+} else {
+    let seedsContent = fs.readFileSync('seeds.txt');
+    seedsList = JSON.parse(seedsContent);
+}
+
 io.on('connection', (client) => {
-    client.on('newGame', (gameSeed, callback) => {
-        console.log(`Starting new game with seed ${gameSeed}.`);
-        seedrandom(gameSeed, { global: true });
+    client.on('newGame', (infos, callback) => {
+        console.log(`Starting new game with seed ${infos.gameSeed} named '${infos.seedName}'.`);
+
+        if (infos.seedName !== '') {
+            let found = false;
+
+            let seeds = seedsList.seeds;
+            for (let key in seeds) {
+                for (let seedname in seeds[key]) {
+                    if (infos.seedName === seedname) {
+                        found = true;
+                    }
+                }
+            }
+
+            if (!found) {
+                let newSeed = {};
+                newSeed[infos.seedName] = infos.gameSeed;
+                console.log(`Adding seed ${infos.seedName} to seeds list`);
+                seedsList.seeds.push(newSeed);
+                fs.writeFileSync('seeds.txt', JSON.stringify(seedsList));
+            }
+        }
+        
+        seedrandom(infos.gameSeed, { global: true });
         //Create game
         board = new Board();
         numConnection = 0;
         automate.fsm.restart();
         table = client;
         callback({"data":"OK"});
+    });
+
+    client.on('searchSeed', (data, callback) => {
+        console.log(`Received searchSeed for ${data.search}`);
+
+        let seeds = seedsList.seeds;
+        let result = {seeds:[]};
+        for (let key in seeds) {
+            for (let seedname in seeds[key]) {
+                if (seedname.indexOf(data.search) != -1) {
+                    result.seeds.push(seeds[key]);
+                }
+            }
+        }
+
+        callback(result);
     });
 
     client.on('getPositions', (callback) => {

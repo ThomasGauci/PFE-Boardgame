@@ -14,7 +14,10 @@ const tuioManager = new TUIOManager();
 class App extends Component {
 
     state={
+        connected: false,
         serverIp: 'ws://127.0.0.1:8000',
+        searchingSeed: false,
+        seedName: '',
         gameSeed: this.randomSeed(10),
         socket: null,
         connectionError: false,
@@ -33,6 +36,7 @@ class App extends Component {
     changeConfig = this.changeConfig.bind(this);
     setupSocket = this.setupSocket.bind(this);
     resetLatestActions = this.resetLatestActions.bind(this);
+    searchSeed = this.searchSeed.bind(this);
 
     componentDidMount(){
         tuioManager.start();
@@ -51,10 +55,13 @@ class App extends Component {
                 {this.state.gamePhase === 0 ?
                     <StartScreen
                         serverIp={this.state.serverIp}
+                        searchingSeed={this.state.searchingSeed}
+                        seedName={this.state.seedName}
                         gameSeed={this.state.gameSeed}
                         connectionError={this.state.connectionError}
                         players={this.state.players}
-                        changeConfig={this.changeConfig}/>
+                        changeConfig={this.changeConfig}
+                        searchSeed={this.searchSeed}/>
                     : this.state.gamePhase === 1 ?
                         <GameScreen
                             players={this.state.players}
@@ -75,10 +82,12 @@ class App extends Component {
         );
     }
 
-    changeConfig(newIp, newSeed){
-        if(this.state.socket)
+    changeConfig(newIp, newName, newSeed){
+        if(this.state.socket) {
+            this.setState({connected: false});
             this.state.socket.close();
-        this.setState({socket: null, serverIp: newIp, gameSeed: newSeed}, () => {
+        }
+        this.setState({socket: null, serverIp: newIp, seedName: newName, gameSeed: newSeed}, () => {
             this.setupSocket();
         });
     }
@@ -86,11 +95,22 @@ class App extends Component {
     resetLatestActions(){
         this.setState({latestActions: null});
     }
+    
+    searchSeed(search, callback) {
+        if (this.state.socket) {
+            if (search.length >= 3) {
+                this.state.socket.emit('searchSeed', {search}, response => {
+                    callback(response);
+                });
+            }
+        }
+    }
 
     setupSocket(){
         const socket = openSocket(this.state.serverIp, {transports: ['websocket', 'polling', 'flashsocket']});
         socket.on('connect', () => {
-            socket.emit('newGame', this.state.gameSeed, response => {
+            this.setState({connected: true});
+            socket.emit('newGame', {seedName: this.state.seedName, gameSeed: this.state.gameSeed}, response => {
                 if (response.error)
                     console.error(response.error);
                 else
