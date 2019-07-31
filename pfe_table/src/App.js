@@ -15,9 +15,6 @@ class App extends Component {
 
     state={
         serverIp: 'ws://127.0.0.1:8000',
-        searchingSeed: false,
-        seedName: '',
-        gameSeed: this.randomSeed(10),
         socket: null,
         connectionError: false,
         gamePhase: 0,
@@ -35,7 +32,6 @@ class App extends Component {
     changeConfig = this.changeConfig.bind(this);
     setupSocket = this.setupSocket.bind(this);
     resetLatestActions = this.resetLatestActions.bind(this);
-    searchSeed = this.searchSeed.bind(this);
 
     componentDidMount(){
         tuioManager.start();
@@ -54,13 +50,9 @@ class App extends Component {
                 {this.state.gamePhase === 0 ?
                     <StartScreen
                         serverIp={this.state.serverIp}
-                        searchingSeed={this.state.searchingSeed}
-                        seedName={this.state.seedName}
-                        gameSeed={this.state.gameSeed}
                         connectionError={this.state.connectionError}
                         players={this.state.players}
-                        changeConfig={this.changeConfig}
-                        searchSeed={this.searchSeed}/>
+                        changeConfig={this.changeConfig}/>
                     : this.state.gamePhase === 1 ?
                         <GameScreen
                             players={this.state.players}
@@ -81,11 +73,11 @@ class App extends Component {
         );
     }
 
-    changeConfig(newIp, newName, newSeed){
+    changeConfig(newIp){
         if(this.state.socket) {
             this.state.socket.close();
         }
-        this.setState({socket: null, serverIp: newIp, seedName: newName, gameSeed: newSeed}, () => {
+        this.setState({socket: null, serverIp: newIp}, () => {
             this.setupSocket();
         });
     }
@@ -93,21 +85,11 @@ class App extends Component {
     resetLatestActions(){
         this.setState({latestActions: null});
     }
-    
-    searchSeed(search, callback) {
-        if (this.state.socket) {
-            if (search.length >= 3) {
-                this.state.socket.emit('searchSeed', {search}, response => {
-                    callback(response);
-                });
-            }
-        }
-    }
 
     setupSocket(){
         const socket = openSocket(this.state.serverIp, {transports: ['websocket', 'polling', 'flashsocket']});
         socket.on('connect', () => {
-            socket.emit('newGame', {seedName: this.state.seedName, gameSeed: this.state.gameSeed}, response => {
+            socket.emit('newGame', response => {
                 if (response.error)
                     console.error(response.error);
                 else
@@ -176,18 +158,6 @@ class App extends Component {
                 y2: card.getBoundingClientRect().y + 44
             });
         }
-        return result;
-    }
-
-    randomSeed(length) {
-        let result = '';
-        let chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-        let charsLength = chars.length;
-
-        for (let i = 0; i < length; i++) {
-            result += chars.charAt(Math.floor(Math.random() * charsLength));
-        }
-
         return result;
     }
 
