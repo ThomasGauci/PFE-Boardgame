@@ -19,6 +19,7 @@ let table;
 //game logic objects
 let board;
 let played;
+let seed;
 
 let seedsList = {seeds:[]};
 
@@ -33,8 +34,7 @@ io.on('connection', (client) => {
     client.on('newGame', callback => {
         console.log('Starting new game.');
 
-        if (infos.seedName !== '') {
-            let found = false;
+        seedrandom(seed, { global: true });
 
         //Create game
         board = new Board();
@@ -58,6 +58,34 @@ io.on('connection', (client) => {
         }
 
         callback(result);
+    });
+
+    client.on('configuration', (data, callback) => {
+        console.log(`Received configuration with seed ${data.seedName} => ${data.gameSeed}`);
+        seed = data.gameSeed;
+
+        if (data.seedName !== '') {
+            let found = false;
+
+            let seeds = seedsList.seeds;
+            for (let key in seeds) {
+                for (let seedname in seeds[key]) {
+                    if (data.seedName === seedname) {
+                        found = true;
+                    }
+                }
+            }
+
+            if (!found) {
+                let newSeed = {};
+                newSeed[data.seedName] = data.gameSeed;
+                console.log(`Adding seed ${data.seedName} to seeds list`);
+                seedsList.seeds.push(newSeed);
+                fs.writeFileSync('seeds.txt', JSON.stringify(seedsList));
+            }
+        }
+
+        callback({"data":"OK"});
     });
 
     client.on('getPositions', (callback) => {
