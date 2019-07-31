@@ -14,7 +14,6 @@ const tuioManager = new TUIOManager();
 class App extends Component {
 
     state={
-        connected: false,
         serverIp: 'ws://127.0.0.1:8000',
         searchingSeed: false,
         seedName: '',
@@ -84,7 +83,6 @@ class App extends Component {
 
     changeConfig(newIp, newName, newSeed){
         if(this.state.socket) {
-            this.setState({connected: false});
             this.state.socket.close();
         }
         this.setState({socket: null, serverIp: newIp, seedName: newName, gameSeed: newSeed}, () => {
@@ -109,7 +107,6 @@ class App extends Component {
     setupSocket(){
         const socket = openSocket(this.state.serverIp, {transports: ['websocket', 'polling', 'flashsocket']});
         socket.on('connect', () => {
-            this.setState({connected: true});
             socket.emit('newGame', {seedName: this.state.seedName, gameSeed: this.state.gameSeed}, response => {
                 if (response.error)
                     console.error(response.error);
