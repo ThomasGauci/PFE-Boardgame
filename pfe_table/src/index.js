@@ -20,8 +20,15 @@ function save() {
     app.save();
 }
 
+
+var selectedFile = document.getElementById('input').files[0];
 var btnLoad = document.querySelector('#load');
 btnLoad.addEventListener('click', load);
 function load(){
-    app.load();
+    if(selectedFile.type=="application/json"){
+        console.log("Chargement de la sauvegarde : "+selectedFile.name);
+        app.load();
+    }else{
+        console.log("Le fichier doit être un fichier JSON et non un fichier "+selectedFile.type);
+    }
 }
