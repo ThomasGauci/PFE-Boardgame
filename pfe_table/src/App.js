@@ -172,9 +172,9 @@ class App extends Component {
         })
     }
 
-    load(){
+    load(saveName){
         const socket = openSocket(this.state.serverIp, {transports: ['websocket', 'polling', 'flashsocket']});
-        socket.emit('load', "testEnvoieDonnée", response => {
+        socket.emit('load', saveName, response => {
             if (response.error)
                 console.error(response.error);
             else

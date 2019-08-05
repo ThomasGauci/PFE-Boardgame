@@ -27,7 +27,7 @@ btnLoad.addEventListener('click', load);
 function load(){
     if(selectedFile.type=="application/json"){
         console.log("Chargement de la sauvegarde : "+selectedFile.name);
-        app.load();
+        app.load(selectedFile.name);
     }else{
         console.log("Le fichier doit être un fichier JSON et non un fichier "+selectedFile.type);
     }

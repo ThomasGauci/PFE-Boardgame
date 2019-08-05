@@ -163,9 +163,9 @@ io.on('connection', (client) => {
         console.log("Sauvegarde");
 
         d = new Date();
-        date = d.toLocaleDateString()+'_'+d.toLocaleTimeString()+"\n"; 
+        date = d.toLocaleDateString()+'_'+d.toLocaleTimeString(); 
         json = JSON.stringify(board.players);
-        fs.writeFileSync("save.json",json,function(err){
+        fs.writeFileSync("save"+date+".json",json,function(err){
             if(err)
                 console.log(err);
             else
@@ -176,14 +176,15 @@ io.on('connection', (client) => {
     client.on('load', (data) => {
         console.log("Chargement");
 
-        let saveContent = fs.readFileSync('save.json', (err, data) => {
+        let saveContent = fs.readFileSync(data, (err, data) => {
             if (err) throw err;
             console.log(data);
           })
           
-        let myobj = JSON.parse(saveContent);
-        board.players = myobj;
-        automate.fsm.startTurn(client,board);
-        console.log(board.players);
+        //let myobj = JSON.parse(saveContent);
+        board.players = saveContent;
+        //automate.fsm.settingUp(client,board);
+        automate.fsm.restart();
+        //console.log(board.players);
     });
 });
