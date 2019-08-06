@@ -4,6 +4,7 @@ import * as utils from "../../utils"
 import {Label, Image, Button} from 'react-bootstrap';
 import CardDetails from "../CardDetails/CardDetails";
 import TradingScreen from "../TradingScreen/TradingScreen";
+
 import {Check, X} from "react-feather";
 import NeighborBoard from "../neighborBoard/neighborBoard";
 import Modal from "react-bootstrap/es/Modal";
@@ -245,6 +246,14 @@ class HandView extends Component {
                     trading: true,
                     modalText: "Vous n'avez pas assez de ressources mais vous pouvez en acheter"
                 });
+                // -------------------------------------------------------------------------------
+                let dataToSend = {
+                    cardId: this.state.currentCard.card.id,
+                    action: action,
+                    position: this.props.data.position
+                };
+                this.props.data.socket.emit('startPurchase',dataToSend);
+                // -------------------------------------------------------------------------------
             }
             //The user can't build the building
             else {

@@ -66,6 +66,7 @@ class PlayerZone extends Component {
                                         isAnimated={this.props.isAnimated}/>
                                 </div>
                                 : null
+                                // Création de son tas de pièce et de l'animation des pièces
                         }
                         <div className="playerZoneWarPoints">
                             {this.props.player.warPointsDisplay.map(warPoint => {

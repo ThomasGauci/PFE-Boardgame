@@ -21,6 +21,7 @@ class Coins extends Component {
             }
             this.state.currentCoinAnimated = -1;
             this.state.currentPurchase = -1;
+            //Animation pièce
         }
     }
 

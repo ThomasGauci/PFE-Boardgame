@@ -40,6 +40,7 @@ class GameScreen extends Component {
                 this.props.socket.emit('readyAge');
         }
     }
+    // {this.props.purchaseState!= null ? <ANIMATION/> : null}
 
     render() {
         return (
@@ -194,3 +195,4 @@ class GameScreen extends Component {
 }
 
 export default GameScreen;
+// rajouter dans game screen this.props.purchaseState8=nul alors lancer l'animation

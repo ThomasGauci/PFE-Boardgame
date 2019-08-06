@@ -43,6 +43,13 @@ io.on('connection', (client) => {
         table = client;
         callback({"data":"OK"});
     });
+    // -------------------------------------------
+    client.on('startPurchase', () => {
+        console.log(`Start purchase`);
+        table.emit('startpurchase');
+    });
+    // -------------------------------------------
+
 
     client.on('searchSeed', (data, callback) => {
         console.log(`Received searchSeed for ${data.search}`);

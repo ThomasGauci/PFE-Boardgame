@@ -27,7 +27,10 @@ class App extends Component {
         resultPoints: [],
         age: 1,
         turn: 1,
-        discardedCards: []
+        discardedCards: [],
+        //-----------------------------
+        startPurchase: 'purchase'
+        //-----------------------------
     }
     changeConfig = this.changeConfig.bind(this);
     setupSocket = this.setupSocket.bind(this);
@@ -63,7 +66,10 @@ class App extends Component {
                             turn={this.state.turn}
                             playerReady={this.state.playerReady}
                             discardedCards={this.state.discardedCards}
-                            resetLatestActions={this.resetLatestActions}/>
+                            resetLatestActions={this.resetLatestActions}
+                            // -----------------------------------------
+                            purchaseState={this.state.startPurchase}/>
+                            // -----------------------------------------
                         : this.state.gamePhase === 2 ?
                             <ResultScreen
                                 points={this.state.resultPoints}/>
@@ -136,9 +142,16 @@ class App extends Component {
                 console.log("result", data);
                 this.setState({gamePhase: 2, resultPoints: data});
             });
+            // -------------------------------------------------------------------------------
+            socket.on('startPurchase', data => {
+                console.log('Start purchase', data);
+                //this.state({startPurchase:purchase});
+            });
+            // -------------------------------------------------------------------------------
             this.setState({socket: socket, connectionError: false}, () => {
                 this.state.gameWidget.setSocket(socket);
             });
+            
         });
         socket.on('connect_error', () => {
             socket.close();
