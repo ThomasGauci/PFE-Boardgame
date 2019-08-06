@@ -29,7 +29,7 @@ class App extends Component {
         turn: 1,
         discardedCards: [],
         //-----------------------------
-        startPurchase: 'purchase'
+        startPurchase: null
         //-----------------------------
     }
     changeConfig = this.changeConfig.bind(this);
@@ -145,7 +145,7 @@ class App extends Component {
             // -------------------------------------------------------------------------------
             socket.on('startPurchase', data => {
                 console.log('Start purchase', data);
-                //this.state({startPurchase:purchase});
+                this.setstate({startPurchase:data});
             });
             // -------------------------------------------------------------------------------
             this.setState({socket: socket, connectionError: false}, () => {

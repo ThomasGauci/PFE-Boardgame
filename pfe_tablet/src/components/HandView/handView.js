@@ -4,7 +4,6 @@ import * as utils from "../../utils"
 import {Label, Image, Button} from 'react-bootstrap';
 import CardDetails from "../CardDetails/CardDetails";
 import TradingScreen from "../TradingScreen/TradingScreen";
-
 import {Check, X} from "react-feather";
 import NeighborBoard from "../neighborBoard/neighborBoard";
 import Modal from "react-bootstrap/es/Modal";

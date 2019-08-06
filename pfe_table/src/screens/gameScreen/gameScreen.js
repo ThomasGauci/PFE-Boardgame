@@ -40,7 +40,6 @@ class GameScreen extends Component {
                 this.props.socket.emit('readyAge');
         }
     }
-    // {this.props.purchaseState!= null ? <ANIMATION/> : null}
 
     render() {
         return (
@@ -71,6 +70,8 @@ class GameScreen extends Component {
                                     let playedActions = this.state.playedActions;
                                     playedActions.push(this.getAction(1));
                                     this.setState({playedActions: playedActions});
+                                    
+                                // this.props.purchaseState!= null ? <ANIMATION/> : null
                                 }}/>
                         </Col>
                         <Col md={6} className='territory upsideDown'>
