@@ -20,6 +20,7 @@ let table;
 let board;
 let played;
 let seed;
+let bots = [];
 
 let seedsList = {seeds:[]};
 
@@ -153,6 +154,9 @@ io.on('connection', (client) => {
         automate.fsm.playerPlayed(board,data,table);
 
         if(automate.ifGoNextTurn()){
+            // Play for the bots
+            automate.fsm.botPlayed(board, data, table);
+
             automate.fsm.playTurn(client,board);
         }
     });

@@ -8,6 +8,8 @@ let playerPlayed = [];
 let currentActions = new Map();
 let m_board;
 
+let playersNb = 4;
+
 let fsm = new StateMachine({
     init: 'wait',
     transitions: [
@@ -17,6 +19,7 @@ let fsm = new StateMachine({
         { name: 'startAge', from: 'setUp', to: 'newAge'},
         { name: 'start', from: 'newAge', to: 'turn'},
         { name: 'playerPlayed', from: 'turn', to: 'turn'},
+        { name: 'botPlayed', from: 'turn', to: 'turn' },
         { name: 'playTurn', from: 'turn', to: 'endTurn'},
         { name: 'startTurn', from: 'endTurn', to: 'turn'},
         { name: 'battle', from: 'endTurn', to: 'endAge'},
@@ -113,6 +116,21 @@ let fsm = new StateMachine({
                 currentActions.set(data.position,action);
                 if(table != null){
                     table.emit("playerPlayed",data.position);
+                }
+            }
+        },
+        onBotPlayed: function(lifecycle, board, data, table) {
+            console.log('Bot played');
+            let player = board.findPlayer(data.position);
+
+            if (player === -1) {
+                console.log('erreur: player not found');
+            } else {
+                let action = new Action(data.action, data.cardId, null, board, data.purchases);
+                currentActions.set(data.position, action);
+    
+                if (table != null) {
+                    table.emit('playerPlayed');
                 }
             }
         },
@@ -228,7 +246,7 @@ let fsm = new StateMachine({
 });
 
  function ifGoNextTurn(){
-    return (playerPlayed.length === 4);
+    return (playerPlayed.length === playersNb);
 }
 
 function ifGoNextAge(board){
